@@ -1,0 +1,5 @@
+virtual-area
+__pycache__
+*.pyc
+.git
+.gitignore

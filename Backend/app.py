@@ -1,0 +1,148 @@
+from flask import Flask, jsonify, request
+import time
+import numpy as np
+import psutil
+
+from tensorflow.keras.models import load_model
+from sklearn.preprocessing import MinMaxScaler
+
+from collector_buffer import SlidingWindowBuffer
+
+app = Flask(__name__)
+
+# -----------------------------
+# GLOBAL STATE
+# -----------------------------
+MODEL_PATH = "/models/model.h5"
+SEQUENCE_LENGTH = 10
+
+MODEL_LOADED = False
+LAST_PREDICTION = None
+
+buffer = SlidingWindowBuffer(window_size=SEQUENCE_LENGTH)
+
+# Load model at startup
+try:
+    model = load_model(MODEL_PATH, compile=False)
+    MODEL_LOADED = True
+except Exception as e:
+    print("Model load failed:", e)
+    model = None
+
+# Scaler (same logic as training)
+scaler = MinMaxScaler()
+# Fit scaler with dummy range (will be updated with live data)
+scaler.fit([[0,0,0,0,0,0], [100,100,100,100,50,50]])
+
+# -----------------------------
+# ROUTES
+# -----------------------------
+
+@app.route("/status", methods=["GET"])
+def status():
+    return jsonify({
+        "status": "ok",
+        "model_loaded": MODEL_LOADED
+    })
+
+@app.route("/system", methods=["GET"])
+def system():
+    return jsonify({
+        "server_cpu_usage": psutil.cpu_percent(),
+        "server_memory_usage": psutil.virtual_memory().percent,
+        "server_uptime_minutes": int(time.time() / 60),
+        "server_status": "Stable"
+    })
+
+@app.route("/analyze", methods=["POST"])
+def analyze():
+    global LAST_PREDICTION
+
+    if not MODEL_LOADED:
+        return jsonify({"status": "error", "message": "Model not loaded"}), 500
+
+    data = request.get_json()
+    if not data:
+        return jsonify({"status": "error", "message": "No data received"}), 400
+
+    try:
+        raw_features = [
+            float(data["cpu_usage"]),
+            float(data["memory_usage"]),
+            float(data["screen_brightness"]),
+            float(data["battery_percent"]),
+            int(data["keyboard_activity"]),
+            int(data["mouse_activity"])
+        ]
+    except KeyError as e:
+        return jsonify({
+            "status": "error",
+            "message": f"Missing field: {str(e)}"
+        }), 400
+
+    # Normalize
+    scaled_features = scaler.transform([raw_features])[0]
+
+    # Add to sliding window
+    buffer.add(scaled_features.tolist())
+
+    # Run prediction only if buffer ready
+    if buffer.is_ready():
+        sequence = np.array(buffer.get_sequence()).reshape(
+            1, SEQUENCE_LENGTH, len(raw_features)
+        )
+
+        idle_prob = float(model.predict(sequence)[0][0])
+
+        # Decision Engine (simple v1)
+        if idle_prob > 0.7:
+            state = "Likely Idle"
+            confidence = "High"
+            recommendations = [
+                "Reduce screen brightness by 20%",
+                "Switch CPU to power saver mode",
+                "Pause unused background applications"
+            ]
+            gain = 35
+        elif idle_prob > 0.4:
+            state = "Uncertain"
+            confidence = "Medium"
+            recommendations = [
+                "Lower screen brightness slightly",
+                "Monitor background applications"
+            ]
+            gain = 15
+        else:
+            state = "Active"
+            confidence = "High"
+            recommendations = ["System running optimally"]
+            gain = 0
+
+        LAST_PREDICTION = {
+            "idle_probability": round(idle_prob, 2),
+            "user_state": state,
+            "confidence": confidence,
+            "recommendations": recommendations,
+            "estimated_battery_gain_minutes": gain
+        }
+
+    return jsonify({
+        "status": "received",
+        "buffer_size": len(buffer.buffer)
+    })
+
+@app.route("/predicted", methods=["GET"])
+def predicted():
+    if LAST_PREDICTION is None:
+        return jsonify({
+            "status": "warming_up",
+            "message": "Collecting sufficient data for prediction"
+        })
+
+    return jsonify(LAST_PREDICTION)
+
+# -----------------------------
+# RUN SERVER
+# -----------------------------
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
