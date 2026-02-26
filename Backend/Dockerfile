@@ -1,5 +1,5 @@
-# Use Python 3.10 for TensorFlow 2.15 compatibility
-FROM python:3.10-slim
+# Use Python 3.12 with TensorFlow/Keras versions compatible with this model format
+FROM python:3.12-slim
 
 WORKDIR /app
 

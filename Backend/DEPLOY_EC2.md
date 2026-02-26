@@ -42,7 +42,9 @@ Allow inbound TCP `5000` from your client IP (or load balancer).
 ## Why errors happened
 
 - Library version/build errors:
-  - TensorFlow `2.15.0` in this project is safest on Python `3.10` and `linux/amd64`.
+  - The saved model was created with newer Keras metadata (includes `optional` and `batch_shape` fields).
+  - Old runtime (`tensorflow==2.15.0`) cannot deserialize that format.
+  - This project now uses `tensorflow==2.20.0` on Python `3.12`.
   - On many EC2 ARM instances (`t4g`, `m7g`) you can hit wheel incompatibility.
 
 - Model not loading:

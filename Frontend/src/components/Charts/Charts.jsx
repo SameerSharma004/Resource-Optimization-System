@@ -4,7 +4,6 @@ import {
   AreaChart,
   CartesianGrid,
   Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -14,9 +13,7 @@ function Charts({Type, Attribute1, Attribute2, history}) {
   return (
     <>
       <div className="mb-3 flex items-center justify-between gap-3">
-        <h2 className="text-base font-semibold text-white">
-          {Type}
-        </h2>
+        <h2 className="text-base font-semibold text-white">{Type}</h2>
         <span className="text-xs text-white">Trend stream</span>
       </div>
       <ResponsiveContainer width="100%" height={220}>
@@ -50,7 +47,7 @@ function Charts({Type, Attribute1, Attribute2, history}) {
           <Line
             type="monotone"
             dataKey={Attribute2}
-            stroke="#ffffff"
+            stroke="#808080"
             strokeWidth={2.2}
             dot={false}
           />

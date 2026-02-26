@@ -35,6 +35,8 @@ const toHistoryPoint = (metrics) => ({
   time: new Date().toLocaleTimeString([], { hour12: false, minute: "2-digit", second: "2-digit" }),
   cpu: metrics.cpu,
   ram: metrics.ram,
+  disk: metrics.disk,
+  network: metrics.network,
   temperature: metrics.temperature,
   power: metrics.power,
 });
@@ -282,7 +284,7 @@ const Dashboard = () => {
           <Motion.article
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.35}}
+            transition={{ duration: 0.4, delay: 0.35 }}
             viewport={{ once: true, amount: 0.2 }}
             className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-gray-100/5"
           >
@@ -294,7 +296,13 @@ const Dashboard = () => {
             />
           </Motion.article>
 
-          <Motion.article className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-gray-100/5">
+          <Motion.article
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.4 }}
+            viewport={{ once: true, amount: 0.2 }}
+            className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-gray-100/5"
+          >
             <Charts
               Type={"Temperature (°C) & Power (W)"}
               Attribute1={"temperature"}
@@ -302,10 +310,30 @@ const Dashboard = () => {
               history={history}
             />
           </Motion.article>
+          <Motion.article
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.35 }}
+            viewport={{ once: true, amount: 0.2 }}
+            className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-gray-100/5"
+          >
+            <Charts
+              Type={"Disk & Network (%)"}
+              Attribute1={"disk"}
+              Attribute2={"network"}
+              history={history}
+            />
+          </Motion.article>
         </div>
 
         <aside className="grid gap-3">
-          <article className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-emerald-100/5">
+          <Motion.article
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.35 }}
+            viewport={{ once: true, amount: 0.2 }}
+            className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-emerald-100/5"
+          >
             <div className="mb-3 flex items-center justify-between gap-3">
               <h2 className="inline-flex items-center gap-2 text-base font-semibold text-white">
                 <Brain size={18} /> AI Suggestion Engine
@@ -333,9 +361,15 @@ const Dashboard = () => {
                 </li>
               ))}
             </ul>
-          </article>
+          </Motion.article>
 
-          <article className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-emerald-100/5">
+          <Motion.article
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.35 }}
+            viewport={{ once: true, amount: 0.2 }}
+            className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-emerald-100/5"
+          >
             <h2 className="text-base font-semibold text-emerald-50">
               Environment Snapshot
             </h2>
@@ -353,7 +387,7 @@ const Dashboard = () => {
                 <dd className="mt-1 text-white">{systemInfo.platform}</dd>
               </div>
             </dl>
-          </article>
+          </Motion.article>
         </aside>
       </section>
     </main>
