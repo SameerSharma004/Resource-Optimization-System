@@ -1,28 +1,8 @@
 import { motion as Motion } from "framer-motion";
-import {
-  Activity,
-  ArrowLeft,
-  Brain,
-  Cpu,
-  Gauge,
-  HardDrive,
-  MemoryStick,
-  Thermometer,
-  Zap,
-} from "lucide-react";
+import {Activity,ArrowLeft,Brain,Cpu,Gauge,HardDrive,MemoryStick,Thermometer,Zap,} from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import Charts from "../../components/Charts/Charts";
 
 const LSTM_API_URL = import.meta.env.VITE_LSTM_API_URL;
 
@@ -234,8 +214,8 @@ const Dashboard = () => {
   }, [metrics, tick]);
 
   return (
-    <main className="relative min-h-screen bg-gradient-to-br from-[#03150d] to-[#082417] px-4 pb-6 pt-5 text-emerald-100">
-      <div className="pointer-events-none absolute inset-0" style={pageGlowStyle} aria-hidden="true" />
+    <main className="relative min-h-screen  px-4 pb-6 pt-5 text-emerald-100">
+      <div className="pointer-events-none absolute inset-0"  />
 
       <header className="relative z-10 mx-auto mt-2 flex w-full max-w-7xl flex-col justify-between gap-4 lg:flex-row lg:items-start">
         <div>
@@ -254,7 +234,7 @@ const Dashboard = () => {
           to="/"
         >
           <ArrowLeft size={16} />
-          Landing Page
+          Home
         </Link>
       </header>
 
@@ -297,61 +277,11 @@ const Dashboard = () => {
 
         <div className="grid min-w-0 gap-3 xl:col-span-2">
           <article className="rounded-2xl border border-emerald-300/20 bg-gradient-to-br from-emerald-900/55 to-emerald-950/70 p-4 shadow-inner shadow-emerald-100/5">
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <h2 className="text-base font-semibold text-emerald-50">CPU vs RAM (%)</h2>
-              <span className="text-xs text-emerald-200/70">Last 24 sec</span>
-            </div>
-            <ResponsiveContainer width="100%" height={220}>
-              <LineChart data={history}>
-                <CartesianGrid strokeDasharray="4 4" stroke="rgba(125, 246, 182, 0.14)" />
-                <XAxis dataKey="time" tick={{ fill: "#9fcaaf", fontSize: 11 }} />
-                <YAxis domain={[0, 100]} tick={{ fill: "#9fcaaf", fontSize: 11 }} width={32} />
-                <Tooltip
-                  contentStyle={{
-                    borderRadius: "12px",
-                    border: "1px solid rgba(124, 245, 181, 0.25)",
-                    background: "rgba(7, 34, 21, 0.95)",
-                  }}
-                />
-                <Line type="monotone" dataKey="cpu" stroke="#80f7b8" strokeWidth={2.5} dot={false} />
-                <Line type="monotone" dataKey="ram" stroke="#b4ffd3" strokeWidth={2.5} dot={false} />
-              </LineChart>
-            </ResponsiveContainer>
+            <Charts Type={"CPU & RAM (%)"} Attribute1={"cpu"} Attribute2={"ram"} history={history}/>
           </article>
 
           <article className="rounded-2xl border border-emerald-300/20 bg-gradient-to-br from-emerald-900/55 to-emerald-950/70 p-4 shadow-inner shadow-emerald-100/5">
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <h2 className="text-base font-semibold text-emerald-50">Thermal & Power Profile</h2>
-              <span className="text-xs text-emerald-200/70">Trend stream</span>
-            </div>
-            <ResponsiveContainer width="100%" height={220}>
-              <AreaChart data={history}>
-                <defs>
-                  <linearGradient id="tempGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#8fffc8" stopOpacity={0.55} />
-                    <stop offset="95%" stopColor="#8fffc8" stopOpacity={0.05} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="4 4" stroke="rgba(125, 246, 182, 0.14)" />
-                <XAxis dataKey="time" tick={{ fill: "#9fcaaf", fontSize: 11 }} />
-                <YAxis tick={{ fill: "#9fcaaf", fontSize: 11 }} width={32} />
-                <Tooltip
-                  contentStyle={{
-                    borderRadius: "12px",
-                    border: "1px solid rgba(124, 245, 181, 0.25)",
-                    background: "rgba(7, 34, 21, 0.95)",
-                  }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="temperature"
-                  stroke="#8fffc8"
-                  strokeWidth={2}
-                  fill="url(#tempGradient)"
-                />
-                <Line type="monotone" dataKey="power" stroke="#e1ffe9" strokeWidth={2.2} dot={false} />
-              </AreaChart>
-            </ResponsiveContainer>
+            <Charts Type={"Temperature (°C) & Power (W)"} Attribute1={"temperature"} Attribute2={"power"} history={history}/>
           </article>
         </div>
 
