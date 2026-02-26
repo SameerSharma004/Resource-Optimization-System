@@ -132,11 +132,6 @@ const priorityStyles = {
   Low: "bg-emerald-200/20 text-emerald-100 border border-emerald-300/30",
 };
 
-const pageGlowStyle = {
-  background:
-    "radial-gradient(circle at 12% 8%, rgba(79, 245, 159, 0.22), transparent 36%), radial-gradient(circle at 88% 2%, rgba(138, 255, 198, 0.15), transparent 28%)",
-};
-
 const Dashboard = () => {
   const [metrics, setMetrics] = useState(createInitialMetrics);
   const [history, setHistory] = useState(() => [toHistoryPoint(createInitialMetrics())]);
@@ -214,23 +209,21 @@ const Dashboard = () => {
   }, [metrics, tick]);
 
   return (
-    <main className="relative min-h-screen  px-4 pb-6 pt-5 text-emerald-100">
+    <main className="relative min-h-screen  px-4 pb-6 pt-5 ">
       <div className="pointer-events-none absolute inset-0"  />
 
       <header className="relative z-10 mx-auto mt-2 flex w-full max-w-7xl flex-col justify-between gap-4 lg:flex-row lg:items-start">
         <div>
-          <p className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-300/25 bg-emerald-900/45 px-3 py-1 text-xs uppercase tracking-wider text-emerald-200">
+          <p className="inline-flex w-fit items-center gap-2 rounded-full bg-gray-900 px-3 py-1 text-xs uppercase tracking-wider text-white">
             <Gauge size={14} />
             Live Resource Console
           </p>
-          <h1 className="mt-3 text-3xl font-semibold text-emerald-50 md:text-4xl">EnergySaver Dashboard</h1>
-          <p className="mt-2 text-emerald-200/70">
-            Real-time resource telemetry with LSTM-powered optimization insights.
-          </p>
+          <h1 className="mt-3 text-3xl font-semibold text-white md:text-4xl">Dashboard</h1>
+          
         </div>
 
         <Link
-          className="inline-flex w-fit items-center gap-2 rounded-xl border border-emerald-300/25 bg-emerald-900/40 px-4 py-2 font-medium text-emerald-100"
+          className="inline-flex w-fit items-center gap-2 rounded-xl bg-gray-900 border border-gray-600 px-4 py-2 font-medium text-white"
           to="/"
         >
           <ArrowLeft size={16} />
@@ -247,15 +240,15 @@ const Dashboard = () => {
             return (
               <Motion.article
                 key={item.key}
-                className="rounded-2xl border border-emerald-300/20 bg-gradient-to-br from-emerald-900/55 to-emerald-950/70 p-4 shadow-inner shadow-emerald-100/5"
+                className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-gray-100/5"
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, delay: index * 0.06 }}
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <span className="text-xs text-emerald-200/70">{item.label}</span>
-                    <strong className="mt-1 block text-2xl font-semibold text-emerald-50">
+                    <span className="text-xs text-white/75">{item.label}</span>
+                    <strong className="mt-1 block text-2xl font-semibold text-white">
                       {value}
                       {item.unit}
                     </strong>
@@ -264,9 +257,9 @@ const Dashboard = () => {
                     <Icon size={18} />
                   </span>
                 </div>
-                <div className="mt-3 h-2 overflow-hidden rounded-full bg-emerald-300/20" role="img" aria-label={`${item.label} ${value}${item.unit}`}>
+                <div className="mt-3 h-2 overflow-hidden rounded-full bg-gray-700" role="img" aria-label={`${item.label} ${value}${item.unit}`}>
                   <span
-                    className="block h-full rounded-full bg-gradient-to-r from-emerald-300 to-emerald-100 transition-all duration-500"
+                    className="block h-full rounded-full bg-white transition-all duration-500"
                     style={{ width: `${Math.min(value, 100)}%` }}
                   />
                 </div>
@@ -275,27 +268,27 @@ const Dashboard = () => {
           })}
         </div>
 
-        <div className="grid min-w-0 gap-3 xl:col-span-2">
-          <article className="rounded-2xl border border-emerald-300/20 bg-gradient-to-br from-emerald-900/55 to-emerald-950/70 p-4 shadow-inner shadow-emerald-100/5">
+        <div className="grid min-w-0 gap-3 ">
+          <article className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-gray-100/5">
             <Charts Type={"CPU & RAM (%)"} Attribute1={"cpu"} Attribute2={"ram"} history={history}/>
           </article>
 
-          <article className="rounded-2xl border border-emerald-300/20 bg-gradient-to-br from-emerald-900/55 to-emerald-950/70 p-4 shadow-inner shadow-emerald-100/5">
+          <article className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-gray-100/5">
             <Charts Type={"Temperature (°C) & Power (W)"} Attribute1={"temperature"} Attribute2={"power"} history={history}/>
           </article>
         </div>
 
         <aside className="grid gap-3">
-          <article className="rounded-2xl border border-emerald-300/20 bg-gradient-to-br from-emerald-900/55 to-emerald-950/70 p-4 shadow-inner shadow-emerald-100/5">
+          <article className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-emerald-100/5">
             <div className="mb-3 flex items-center justify-between gap-3">
-              <h2 className="inline-flex items-center gap-2 text-base font-semibold text-emerald-50">
+              <h2 className="inline-flex items-center gap-2 text-base font-semibold text-white">
                 <Brain size={18} /> AI Suggestion Engine
               </h2>
-              <span className="text-xs text-emerald-200/70">
+              <span className="text-xs text-white/75">
                 {modelSource} • {lastInference.toLocaleTimeString()}
               </span>
             </div>
-            <p className="text-sm text-emerald-200/70">
+            <p className="text-sm text-white">
               Predictions from your LSTM model are evaluated continuously to recommend the next best
               optimization action.
             </p>
@@ -303,34 +296,34 @@ const Dashboard = () => {
               {suggestions.map((item) => (
                 <li
                   key={item.title}
-                  className="rounded-xl border border-emerald-300/20 bg-emerald-900/40 p-3"
+                  className="rounded-xl bg-gray-800 p-3"
                 >
                   <p className="mb-2 flex items-center justify-between gap-2">
-                    <strong className="text-sm text-emerald-50">{item.title}</strong>
+                    <strong className="text-sm text-white">{item.title}</strong>
                     <span className={`rounded-full px-2 py-0.5 text-xs font-semibold uppercase ${priorityStyles[item.priority] || priorityStyles.Medium}`}>
                       {item.priority}
                     </span>
                   </p>
-                  <p className="text-sm text-emerald-200/75">{item.detail}</p>
+                  <p className="text-sm text-white">{item.detail}</p>
                 </li>
               ))}
             </ul>
           </article>
 
-          <article className="rounded-2xl border border-emerald-300/20 bg-gradient-to-br from-emerald-900/55 to-emerald-950/70 p-4 shadow-inner shadow-emerald-100/5">
+          <article className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-emerald-100/5">
             <h2 className="text-base font-semibold text-emerald-50">Environment Snapshot</h2>
-            <dl className="mt-3 grid gap-3">
+            <dl className="mt-3 grid gap-">
               <div>
-                <dt className="text-xs text-emerald-200/70">Logical CPU Cores</dt>
-                <dd className="mt-1 text-sm text-emerald-100">{systemInfo.cores}</dd>
+                <dt className="text-2xl text-white">Logical CPU Cores</dt>
+                <dd className="mt-1 text-white">{systemInfo.cores}</dd>
               </div>
               <div>
-                <dt className="text-xs text-emerald-200/70">Device Memory</dt>
-                <dd className="mt-1 text-sm text-emerald-100">{systemInfo.memory}</dd>
+                <dt className="text-2xl text-white">Device Memory</dt>
+                <dd className="mt-1 text-white">{systemInfo.memory}</dd>
               </div>
               <div>
-                <dt className="text-xs text-emerald-200/70">Platform</dt>
-                <dd className="mt-1 text-sm text-emerald-100">{systemInfo.platform}</dd>
+                <dt className="text-2xl text-white">Platform</dt>
+                <dd className="mt-1 text-white">{systemInfo.platform}</dd>
               </div>
             </dl>
           </article>
