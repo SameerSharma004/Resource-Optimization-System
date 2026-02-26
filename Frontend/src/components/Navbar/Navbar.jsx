@@ -11,7 +11,7 @@ function Navbar() {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
-      className="flex w-full max-w-7xl justify-between items-center px-10 border-gray-300/25 bg-gray-900/20 border rounded-full backdrop-blur-lg"
+      className="flex w-full max-w-7xl justify-between items-center px-10 border-gray-300/25 bg-gray-300/20 border rounded-full backdrop-blur-lg"
     >
       <Motion.div
         initial={{ opacity: 0, y: 16 }}
