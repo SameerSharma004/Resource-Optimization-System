@@ -103,10 +103,20 @@ const Home = () => {
             backgroundColor="#000000"
           />
           <div className="absolute inset-0 flex flex-col justify-center items-center z-20">
-            <h1 className="text-5xl max-w-3xl font-bold  text-center">
+            <Motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.35 }}
+              className="text-5xl max-w-3xl font-bold  text-center"
+            >
               AI Based Resource Optimization System using LSTM model
-            </h1>
-            <div className="flex justify-center items-center gap-10">
+            </Motion.h1>
+            <Motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.4 }}
+              className="flex justify-center items-center gap-10"
+            >
               <NavLink
                 to="/dashboard"
                 className="mt-8 inline-flex w-50 justify-center items-center gap-3 rounded-full bg-white px-6 py-3 text-lg font-semibold text-black transition "
@@ -116,7 +126,7 @@ const Home = () => {
               <NavLink className="mt-8 inline-flex w-50 justify-center items-center gap-3 rounded-full bg-gray-900 px-6 py-3 text-lg border border-gray-600 font-semibold text-gray-600 transition ">
                 Documentation
               </NavLink>
-            </div>
+            </Motion.div>
           </div>
         </div>
       </section>
@@ -164,7 +174,15 @@ const Home = () => {
       </section>
       <section className="p-10 bg-black rounded-2xl flex flex-col gap-20">
         <div className="flex justify-center">
-          <h1 className="text-5xl font-bold">Project Team Details </h1>
+          <Motion.h1
+            initial={{ opacity: 0, y: 36 }}
+            animate={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.4, delay: 0.50 }}
+            className="text-5xl font-bold"
+          >
+            Project Team Details{" "}
+          </Motion.h1>
         </div>
         <div style={{ height: "600px", position: "relative" }}>
           <ChromaGrid

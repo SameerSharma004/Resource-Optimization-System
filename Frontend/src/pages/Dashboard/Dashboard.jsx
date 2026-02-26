@@ -210,7 +210,7 @@ const Dashboard = () => {
 
   return (
     <main className="relative min-h-screen  px-4 pb-6 pt-5 ">
-      <div className="pointer-events-none absolute inset-0"  />
+      <div className="pointer-events-none absolute inset-0" />
 
       <header className="relative z-10 mx-auto mt-2 flex w-full max-w-7xl flex-col justify-between gap-4 lg:flex-row lg:items-start">
         <div>
@@ -218,8 +218,9 @@ const Dashboard = () => {
             <Gauge size={14} />
             Live Resource Console
           </p>
-          <h1 className="mt-3 text-3xl font-semibold text-white md:text-4xl">Dashboard</h1>
-          
+          <h1 className="mt-3 text-3xl font-semibold text-white md:text-4xl">
+            Dashboard
+          </h1>
         </div>
 
         <Link
@@ -231,7 +232,10 @@ const Dashboard = () => {
         </Link>
       </header>
 
-      <section className="relative z-10 mx-auto mt-5 grid w-full max-w-7xl gap-4 xl:grid-cols-3" aria-label="Resource details">
+      <section
+        className="relative z-10 mx-auto mt-5 grid w-full max-w-7xl gap-4 xl:grid-cols-3"
+        aria-label="Resource details"
+      >
         <div className="xl:col-span-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {metricCards.map((item, index) => {
             const Icon = item.icon;
@@ -253,11 +257,17 @@ const Dashboard = () => {
                       {item.unit}
                     </strong>
                   </div>
-                  <span className={`inline-flex h-8 w-8 items-center justify-center rounded-lg ${toneStyles[item.tone]}`}>
+                  <span
+                    className={`inline-flex h-8 w-8 items-center justify-center rounded-lg ${toneStyles[item.tone]}`}
+                  >
                     <Icon size={18} />
                   </span>
                 </div>
-                <div className="mt-3 h-2 overflow-hidden rounded-full bg-gray-700" role="img" aria-label={`${item.label} ${value}${item.unit}`}>
+                <div
+                  className="mt-3 h-2 overflow-hidden rounded-full bg-gray-700"
+                  role="img"
+                  aria-label={`${item.label} ${value}${item.unit}`}
+                >
                   <span
                     className="block h-full rounded-full bg-white transition-all duration-500"
                     style={{ width: `${Math.min(value, 100)}%` }}
@@ -269,13 +279,29 @@ const Dashboard = () => {
         </div>
 
         <div className="grid min-w-0 gap-3 ">
-          <article className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-gray-100/5">
-            <Charts Type={"CPU & RAM (%)"} Attribute1={"cpu"} Attribute2={"ram"} history={history}/>
-          </article>
+          <Motion.article
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.35}}
+            viewport={{ once: true, amount: 0.2 }}
+            className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-gray-100/5"
+          >
+            <Charts
+              Type={"CPU & RAM (%)"}
+              Attribute1={"cpu"}
+              Attribute2={"ram"}
+              history={history}
+            />
+          </Motion.article>
 
-          <article className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-gray-100/5">
-            <Charts Type={"Temperature (°C) & Power (W)"} Attribute1={"temperature"} Attribute2={"power"} history={history}/>
-          </article>
+          <Motion.article className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-gray-100/5">
+            <Charts
+              Type={"Temperature (°C) & Power (W)"}
+              Attribute1={"temperature"}
+              Attribute2={"power"}
+              history={history}
+            />
+          </Motion.article>
         </div>
 
         <aside className="grid gap-3">
@@ -289,18 +315,17 @@ const Dashboard = () => {
               </span>
             </div>
             <p className="text-sm text-white">
-              Predictions from your LSTM model are evaluated continuously to recommend the next best
-              optimization action.
+              Predictions from your LSTM model are evaluated continuously to
+              recommend the next best optimization action.
             </p>
             <ul className="mt-3 grid list-none gap-2 p-0">
               {suggestions.map((item) => (
-                <li
-                  key={item.title}
-                  className="rounded-xl bg-gray-800 p-3"
-                >
+                <li key={item.title} className="rounded-xl bg-gray-800 p-3">
                   <p className="mb-2 flex items-center justify-between gap-2">
                     <strong className="text-sm text-white">{item.title}</strong>
-                    <span className={`rounded-full px-2 py-0.5 text-xs font-semibold uppercase ${priorityStyles[item.priority] || priorityStyles.Medium}`}>
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-xs font-semibold uppercase ${priorityStyles[item.priority] || priorityStyles.Medium}`}
+                    >
                       {item.priority}
                     </span>
                   </p>
@@ -311,7 +336,9 @@ const Dashboard = () => {
           </article>
 
           <article className="rounded-2xl bg-gray-900 p-4 shadow-inner shadow-emerald-100/5">
-            <h2 className="text-base font-semibold text-emerald-50">Environment Snapshot</h2>
+            <h2 className="text-base font-semibold text-emerald-50">
+              Environment Snapshot
+            </h2>
             <dl className="mt-3 grid gap-">
               <div>
                 <dt className="text-2xl text-white">Logical CPU Cores</dt>

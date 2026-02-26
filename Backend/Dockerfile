@@ -1,20 +1,21 @@
-# Lightweight Python image
+# Use Python 3.10 for TensorFlow 2.15 compatibility
 FROM python:3.10-slim
 
-# Set working directory inside container
 WORKDIR /app
 
-# Copy requirements first (better caching)
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    MODEL_PATH=/app/model/model.h5 \
+    PORT=5000
+
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel \
+    && pip install --no-cache-dir -r requirements.txt
 
-# Copy entire backend code
 COPY . .
 
-# Expose Flask port
 EXPOSE 5000
 
-# Start Flask app
-CMD ["python", "app.py"]
+# Start without Flask debug/reloader
+CMD ["python", "-c", "import os, app; app.app.run(host='0.0.0.0', port=int(os.getenv('PORT', '5000')), debug=False)"]

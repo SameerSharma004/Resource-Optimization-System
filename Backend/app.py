@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 import time
+import os
 import numpy as np
 import psutil
 
@@ -13,19 +14,32 @@ app = Flask(__name__)
 # -----------------------------
 # GLOBAL STATE
 # -----------------------------
-MODEL_PATH = "/models/model.h5"
+DEFAULT_MODEL_CANDIDATES = [
+    "/models/model.h5",  # container mount path
+    os.path.join(os.path.dirname(__file__), "model", "model.h5"),  # local repo path
+]
 SEQUENCE_LENGTH = 10
 
 MODEL_LOADED = False
+MODEL_LOAD_ERROR = None
 LAST_PREDICTION = None
 
 buffer = SlidingWindowBuffer(window_size=SEQUENCE_LENGTH)
 
 # Load model at startup
+MODEL_PATH = None
 try:
+    env_model_path = os.getenv("MODEL_PATH")
+    candidate_paths = [env_model_path] if env_model_path else DEFAULT_MODEL_CANDIDATES
+    MODEL_PATH = next((path for path in candidate_paths if path and os.path.exists(path)), None)
+    if not MODEL_PATH:
+        raise FileNotFoundError(
+            f"Model file not found. Checked: {', '.join([p for p in candidate_paths if p])}"
+        )
     model = load_model(MODEL_PATH, compile=False)
     MODEL_LOADED = True
 except Exception as e:
+    MODEL_LOAD_ERROR = str(e)
     print("Model load failed:", e)
     model = None
 
@@ -42,7 +56,9 @@ scaler.fit([[0,0,0,0,0,0], [100,100,100,100,50,50]])
 def status():
     return jsonify({
         "status": "ok",
-        "model_loaded": MODEL_LOADED
+        "model_loaded": MODEL_LOADED,
+        "model_path": MODEL_PATH,
+        "model_error": MODEL_LOAD_ERROR
     })
 
 @app.route("/system", methods=["GET"])
@@ -145,4 +161,5 @@ def predicted():
 # RUN SERVER
 # -----------------------------
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    debug_mode = os.getenv("FLASK_DEBUG", "false").lower() == "true"
+    app.run(host="0.0.0.0", port=5000, debug=debug_mode)
