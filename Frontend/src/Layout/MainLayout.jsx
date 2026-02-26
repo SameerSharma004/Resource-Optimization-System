@@ -16,9 +16,11 @@ function MainLayout() {
       <div>
         <Outlet />
       </div>
-      <div>
-        <Footer/>
-      </div>
+      {isDashboard ? (
+        null
+      ) : <div className="">
+          <Footer />
+        </div>}
     </div>
   );
 }
