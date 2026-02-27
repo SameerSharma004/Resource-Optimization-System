@@ -14,32 +14,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Charts from "../../components/Charts/Charts";
 import Systeminfo from "@/components/Systeminfo/Systeminfo";
 
-const LSTM_API_URL = import.meta.env.VITE_LSTM_API_URL;
+const API = import.meta.env.VITE_API_URL;
 
-const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-
-const createInitialMetrics = () => ({
-  cpu: 34,
-  ram: 47,
-  disk: 43,
-  network: 31,
-  temperature: 58,
-  power: 68,
-});
-
-const nextMetricValue = (current, min, max, movement = 4) => {
-  const drift = (Math.random() - 0.5) * movement * 2;
-  return clamp(Number((current + drift).toFixed(1)), min, max);
-};
-
-const nextMetrics = (previous) => ({
-  cpu: nextMetricValue(previous.cpu, 8, 95, 6),
-  ram: nextMetricValue(previous.ram, 15, 98, 5),
-  disk: nextMetricValue(previous.disk, 20, 96, 4),
-  network: nextMetricValue(previous.network, 4, 92, 8),
-  temperature: nextMetricValue(previous.temperature, 36, 89, 2.2),
-  power: nextMetricValue(previous.power, 38, 180, 7),
-});
 
 const toHistoryPoint = (metrics) => ({
   time: new Date().toLocaleTimeString([], {
@@ -176,86 +152,76 @@ const priorityStyles = {
 };
 
 const Dashboard = () => {
-  const [metrics, setMetrics] = useState(createInitialMetrics);
-  const [history, setHistory] = useState(() => [
-    toHistoryPoint(createInitialMetrics()),
-  ]);
-  const [lastInference, setLastInference] = useState(() => new Date());
-  const [suggestions, setSuggestions] = useState(() =>
-    computeLstmSuggestions(createInitialMetrics()),
-  );
-  const [modelSource, setModelSource] = useState(() =>
-    LSTM_API_URL ? "LSTM API" : "Fallback Rules",
-  );
-  const [tick, setTick] = useState(0);
+  const [metrics, setMetrics] = useState({
+    cpu: 0,
+    ram: 0,
+    disk: 0,
+    network: 0,
+    temperature: 0,
+    power: 0,
+  });
+
+  const [history, setHistory] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
+  const [lastInference, setLastInference] = useState(new Date());
+  const [modelSource, setModelSource] = useState("LSTM Model");
+
   const systemInfo = useMemo(() => getSystemInfo(), []);
-  const requestPendingRef = useRef(false);
+  useEffect(() => {
+    console.log("METRICS CHANGED:", metrics);
+  }, [metrics]);
 
   useEffect(() => {
-    const id = window.setInterval(() => {
-      setMetrics((prev) => {
-        const next = nextMetrics(prev);
-        setHistory((prevHistory) => {
-          const updated = [...prevHistory, toHistoryPoint(next)];
-          return updated.slice(-24);
-        });
-        return next;
-      });
-      setTick((prev) => prev + 1);
-    }, 1000);
-
-    return () => window.clearInterval(id);
-  }, []);
-
-  useEffect(() => {
-    if (!LSTM_API_URL) {
-      setSuggestions(computeLstmSuggestions(metrics));
-      setLastInference(new Date());
-      return;
-    }
-
-    if (tick % 5 !== 0 || requestPendingRef.current) {
-      return;
-    }
-
-    const controller = new AbortController();
-    requestPendingRef.current = true;
-
-    const run = async () => {
+    const interval = setInterval(async () => {
       try {
-        const response = await fetch(LSTM_API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ metrics }),
-          signal: controller.signal,
-        });
+        const [systemRes, predictionRes] = await Promise.all([
+          fetch(`${API}/client-system`),
+          fetch(`${API}/predicted`),
+        ]);
 
-        if (!response.ok) {
-          throw new Error(`LSTM API returned ${response.status}`);
+        const systemData = await systemRes.json();
+        const predictionData = await predictionRes.json();
+        console.log("SYSTEM DATA:", systemData);
+        if (systemData && !systemData.status) {
+          const mappedMetrics = {
+            cpu: Number(systemData.cpu_usage),
+            ram: Number(systemData.memory_usage),
+            disk: 0,
+            network: 0,
+            temperature: 0,
+            power: Number(systemData.battery_percent),
+          };
+
+          console.log("SETTING METRICS:", mappedMetrics);
+
+          setMetrics(mappedMetrics);
+
+          setHistory((prev) => {
+            const updated = [...prev, toHistoryPoint(mappedMetrics)];
+            return updated.slice(-24);
+          });
         }
 
-        const data = await response.json();
-        const normalized = normalizeSuggestions(data);
+        if (predictionData && predictionData.user_state) {
+          const formattedSuggestions =
+            predictionData.recommendations?.map((rec) => ({
+              title: rec,
+              detail: "AI-generated optimization recommendation.",
+              priority: predictionData.confidence || "Medium",
+            })) || [];
 
-        if (!normalized) {
-          throw new Error("Invalid LSTM payload");
+          setSuggestions(formattedSuggestions);
+          setModelSource("LSTM Model");
         }
 
-        setSuggestions(normalized);
-        setModelSource("LSTM API");
-      } catch {
-        setSuggestions(computeLstmSuggestions(metrics));
-        setModelSource("Fallback Rules");
-      } finally {
-        requestPendingRef.current = false;
         setLastInference(new Date());
+      } catch (error) {
+        console.error("Backend fetch error:", error);
       }
-    };
-
-    run();
-
-    return () => controller.abort();
-  }, [metrics, tick]);
+    }, 3000);
+    console.log("METRICS STATE:", metrics);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <main className="min-h-screenflex flex-col items-center justify-center bg-white px-4 pb-6 pt-5 ">
@@ -263,7 +229,7 @@ const Dashboard = () => {
 
       <header className="relative z-10 mt-2 flex w-full flex-col justify-between lg:flex-row lg:items-start px-4 pb-6 pt-5">
         <div>
-          <p className="text-3xl ">AI Resource Intelligence Platform</p>
+          <p className="text-3xl text-blue-500">AI Resource Intelligence Platform</p>
         </div>
         <NavLink
           className="inline-flex w-fit items-center gap-2 rounded-xl  px-4 py-2 font-medium text-black"
@@ -273,14 +239,50 @@ const Dashboard = () => {
           Home
         </NavLink>
       </header>
-      <section className=" max-w-[95%] w-full"></section>
+      <hr />
       <section
         className="z-10 mx-auto mt-5 flex flex-col gap-4 "
         aria-label="Resource details"
       >
-        <Systeminfo metricCards={metricCards} metrics={metrics} />
+        <div className="grid grid-cols-4 gap-3">
+          <Systeminfo
+            label="CPU Usage"
+            value={metrics?.cpu}
+            unit="%"
+            icon={Cpu}
+            tone="strong"
+            index={0}
+          />
 
-        <div className="grid grid-cols-3 gap-3 ">
+          <Systeminfo
+            label="Memory Usage"
+            value={metrics?.ram}
+            unit="%"
+            icon={MemoryStick}
+            tone="strong"
+            index={1}
+          />
+
+          <Systeminfo
+            label="Screen Brightness"
+            value={metrics?.screen_brightness}
+            unit="%"
+            icon={Activity}
+            tone="normal"
+            index={2}
+          />
+
+          <Systeminfo
+            label="Battery Percent"
+            value={metrics?.power}
+            unit="%"
+            icon={Zap}
+            tone="warning"
+            index={3}
+          />
+        </div>
+
+        <div className="grid grid-cols-2  gap-3 ">
           <Motion.article
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -295,31 +297,16 @@ const Dashboard = () => {
               history={history}
             />
           </Motion.article>
-
-          <Motion.article
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.4 }}
-            viewport={{ once: true, amount: 0.2 }}
-            className="rounded-2xl  p-4 border border-gray-200"
-          >
-            <Charts
-              Type={"Temperature (°C) & Power (W)"}
-              Attribute1={"temperature"}
-              Attribute2={"power"}
-              history={history}
-            />
-          </Motion.article>
           <Motion.article
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.35 }}
             viewport={{ once: true, amount: 0.2 }}
-            className="rounded-2xl border border-gray-200 p-4 "
+            className="rounded-2xl  p-4 border border-gray-200"
           >
             <Charts
-              Type={"Disk & Network (%)"}
-              Attribute1={"disk"}
+              Type={"Battery (%)"}
+              Attribute1={"power"}
               Attribute2={"network"}
               history={history}
             />

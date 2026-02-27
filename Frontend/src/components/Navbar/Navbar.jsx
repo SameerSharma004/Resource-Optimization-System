@@ -22,7 +22,7 @@ function Navbar() {
           to="/"
           className="text-xl font-bold hover:opacity-80 transition text-white"
         >
-          Energy Optimization System
+          Resource Optimization System
         </Link>
       </Motion.div>
       <Motion.div

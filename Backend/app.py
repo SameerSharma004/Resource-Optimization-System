@@ -3,14 +3,14 @@ import time
 import os
 import numpy as np
 import psutil
-
+from flask_cors import CORS
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
 
 from collector_buffer import SlidingWindowBuffer
 
 app = Flask(__name__)
-
+CORS(app)
 # -----------------------------
 # GLOBAL STATE
 # -----------------------------
@@ -28,6 +28,7 @@ buffer = SlidingWindowBuffer(window_size=SEQUENCE_LENGTH)
 
 # Load model at startup
 MODEL_PATH = None
+LAST_SYSTEM_DATA = None
 try:
     env_model_path = os.getenv("MODEL_PATH")
     candidate_paths = [env_model_path] if env_model_path else DEFAULT_MODEL_CANDIDATES
@@ -72,7 +73,7 @@ def system():
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
-    global LAST_PREDICTION
+    global LAST_PREDICTION, LAST_SYSTEM_DATA
 
     if not MODEL_LOADED:
         return jsonify({"status": "error", "message": "Model not loaded"}), 500
@@ -90,6 +91,17 @@ def analyze():
             int(data["keyboard_activity"]),
             int(data["mouse_activity"])
         ]
+
+        # Store latest client system data
+        LAST_SYSTEM_DATA = {
+            "cpu_usage": raw_features[0],
+            "memory_usage": raw_features[1],
+            "screen_brightness": raw_features[2],
+            "battery_percent": raw_features[3],
+            "keyboard_activity": raw_features[4],
+            "mouse_activity": raw_features[5]
+        }
+
     except KeyError as e:
         return jsonify({
             "status": "error",
@@ -110,7 +122,6 @@ def analyze():
 
         idle_prob = float(model.predict(sequence)[0][0])
 
-        # Decision Engine (simple v1)
         if idle_prob > 0.7:
             state = "Likely Idle"
             confidence = "High"
@@ -141,11 +152,19 @@ def analyze():
             "recommendations": recommendations,
             "estimated_battery_gain_minutes": gain
         }
+        print("UPDATED SYSTEM DATA:", LAST_SYSTEM_DATA)
 
     return jsonify({
         "status": "received",
         "buffer_size": len(buffer.buffer)
     })
+    
+
+@app.route("/client-system", methods=["GET"])
+def client_system():
+    if LAST_SYSTEM_DATA is None:
+        return jsonify({"status": "warming_up"})
+    return jsonify(LAST_SYSTEM_DATA)
 
 @app.route("/predicted", methods=["GET"])
 def predicted():
@@ -156,6 +175,8 @@ def predicted():
         })
 
     return jsonify(LAST_PREDICTION)
+
+
 
 # -----------------------------
 # RUN SERVER

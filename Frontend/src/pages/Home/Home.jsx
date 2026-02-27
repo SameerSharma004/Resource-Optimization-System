@@ -10,7 +10,7 @@ const featureCards = [
   {
     title: "Live Telemetry",
     description:
-      "Track CPU, memory, thermal, and network behavior with second-by-second refresh.",
+      "Track CPU, memory, thermal, and network behavior with every 3 seconds refresh.",
     icon: Activity,
   },
   {
@@ -27,57 +27,9 @@ const featureCards = [
   },
 ];
 
-const items = [
-  {
-    image: "https://i.pravatar.cc/300?img=1",
-    title: "Sagar Bhati",
-    subtitle: "ML Model Developer",
-    handle: "@sagarbhati",
-    borderColor: "#3B82F6",
-    gradient: "linear-gradient(145deg, #3B82F6, #000)",
-    url: "https://github.com/sagarbhati",
-  },
-  {
-    image: SameerProfile ,
-    title: "Sameer Sharma",
-    subtitle: "Frontend Developer",
-    handle: "@sameersharma",
-    borderColor: "#10B981",
-    gradient: "linear-gradient(180deg, #10B981, #000)",
-    url: "https://linkedin.com/in/sameersharma",
-  },
-  {
-    image: "https://i.pravatar.cc/300?img=2",
-    title: "Sagar Saini",
-    subtitle: "Frontend Developer",
-    handle: "@sagarsaini",
-    borderColor: "#FFFF00",
-    gradient: "linear-gradient(180deg, #FFFF00, #000)",
-    url: "https://linkedin.com/in/sagarsaini",
-  },
-  {
-    image: SachitProfile,
-    title: "Sachit Kohli",
-    subtitle: "Backend Developer",
-    handle: "@sachitkohli",
-    borderColor: "#F410D2",
-    gradient: "linear-gradient(180deg, #F410D2, #000)",
-    url: "https://linkedin.com/in/sachitkohli",
-  },
-  {
-    image: "https://i.pravatar.cc/300?img=2",
-    title: "Ravi Kumar",
-    subtitle: "Backend Developer",
-    handle: "@ravikumar",
-    borderColor: "#FFB103",
-    gradient: "linear-gradient(180deg, #FFB103, #000)",
-    url: "https://linkedin.com/in/ravikumar",
-  },
-];
-
 const stats = [
   { label: "Avg. Power Saved", value: "18%" },
-  { label: "Sampling Rate", value: "1s" },
+  { label: "Sampling Rate", value: "3s" },
   { label: "Insight Latency", value: "< 300ms" },
 ];
 
@@ -119,9 +71,9 @@ const Home = () => {
             >
               <NavLink
                 to="/dashboard"
-                className="mt-8 inline-flex w-50 justify-center items-center gap-3 rounded-full bg-white px-6 py-3 text-lg font-semibold text-black transition "
+                className="mt-8 inline-flex w-55 justify-center items-center gap-3 rounded-full bg-white px-6 py-3 text-lg font-semibold text-black transition "
               >
-                Get started
+                Explore Dashboard
               </NavLink>
               <NavLink className="mt-8 inline-flex w-50 justify-center items-center gap-3 rounded-full bg-gray-900 px-6 py-3 text-lg border border-gray-600 font-semibold text-gray-600 transition ">
                 Documentation
@@ -170,28 +122,6 @@ const Home = () => {
               </Motion.article>
             );
           })}
-        </div>
-      </section>
-      <section className="p-10 bg-black rounded-2xl flex flex-col gap-20">
-        <div className="flex justify-center">
-          <Motion.h1
-            initial={{ opacity: 0, y: 36 }}
-            animate={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.4, delay: 0.50 }}
-            className="text-5xl font-bold"
-          >
-            Project Team Details{" "}
-          </Motion.h1>
-        </div>
-        <div style={{ height: "600px", position: "relative" }}>
-          <ChromaGrid
-            items={items}
-            radius={300}
-            damping={0.45}
-            fadeOut={0.6}
-            ease="power3.out"
-          />
         </div>
       </section>
     </main>
