@@ -244,7 +244,7 @@ const Dashboard = () => {
         className="z-10 mx-auto mt-5 flex flex-col gap-4 "
         aria-label="Resource details"
       >
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-3 gap-3">
           <Systeminfo
             label="CPU Usage"
             value={metrics?.cpu}
@@ -261,15 +261,6 @@ const Dashboard = () => {
             icon={MemoryStick}
             tone="strong"
             index={1}
-          />
-
-          <Systeminfo
-            label="Screen Brightness"
-            value={metrics?.screen_brightness}
-            unit="%"
-            icon={Activity}
-            tone="normal"
-            index={2}
           />
 
           <Systeminfo
