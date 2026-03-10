@@ -7,7 +7,8 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, Dropout
+from tensorflow.keras.layers import LSTM, Dense, Dropout, Bidirectional
+from tensorflow.keras.callbacks import EarlyStopping
 
 # -----------------------------
 # 1. LOAD DATA
@@ -23,24 +24,17 @@ print("Data loaded:", df.shape)
 FEATURE_COLUMNS = [
     "cpu_usage",
     "memory_usage",
-    "screen_brightness",
-    "battery_percent",
-    "keyboard_activity",
-    "mouse_activity"
+    "net_upload_mbps",
+    "net_download_mbps",
+    "disk_read_mbps",
+    "disk_write_mbps"
 ]
 
 features = df[FEATURE_COLUMNS]
 
 # -----------------------------
 # 3. CREATE TARGET (LABEL)
-# Idle = no keyboard + no mouse
 # -----------------------------
-df["idle"] = np.where(
-    (df["keyboard_activity"] == 0) & (df["mouse_activity"] == 0),
-    1,
-    0
-)
-
 target = df["idle"]
 
 # -----------------------------
@@ -78,8 +72,11 @@ X_train, X_test, y_train, y_test = train_test_split(
 # 7. BUILD LSTM MODEL
 # -----------------------------
 model = Sequential([
-    LSTM(64, return_sequences=False, input_shape=(SEQUENCE_LENGTH, X.shape[2])),
+    Bidirectional(LSTM(64, return_sequences=True), input_shape=(SEQUENCE_LENGTH, X.shape[2])),
     Dropout(0.3),
+    LSTM(32, return_sequences=False),
+    Dropout(0.3),
+    Dense(16, activation="relu"),
     Dense(1, activation="sigmoid")
 ])
 
@@ -94,12 +91,15 @@ model.summary()
 # -----------------------------
 # 8. TRAIN MODEL
 # -----------------------------
+early_stopping = EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
+
 history = model.fit(
     X_train,
     y_train,
-    epochs=10,
+    epochs=15,
     batch_size=32,
-    validation_split=0.2
+    validation_split=0.2,
+    callbacks=[early_stopping]
 )
 
 # -----------------------------

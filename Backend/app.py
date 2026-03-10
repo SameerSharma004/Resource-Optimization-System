@@ -63,7 +63,7 @@ except Exception as e:
     model = None
 
 scaler = MinMaxScaler()
-scaler.fit([[0,0,0,0,0,0], [100,100,100,100,50,50]])
+scaler.fit([[0,0,0,0,0,0], [100,100,100,100,100,100]])
 
 LAST_SYSTEM_DATA = None
 SYSTEM_HISTORY = []
@@ -206,10 +206,10 @@ def analyze():
         raw_features = [
             float(data.get("cpu_usage", 0)),
             float(data.get("memory_usage", 0)),
-            float(data.get("screen_brightness", 70)),
-            float(data.get("battery_percent", 100)),
-            int(data.get("keyboard_activity", 0)),
-            int(data.get("mouse_activity", 0))
+            float(data.get("net_upload_mbps", 0)),
+            float(data.get("net_download_mbps", 0)),
+            float(data.get("disk_read_mbps", 0)),
+            float(data.get("disk_write_mbps", 0))
         ]
 
         scaled = scaler.transform([raw_features])[0]
