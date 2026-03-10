@@ -6,8 +6,8 @@ import time
 import threading
 import logging
 
-LOGIN_URL = "http://13.205.188.251:5000/login"
-BACKEND_URL = "http://13.205.188.251:5000/analyze"
+LOGIN_URL = "https://ai-powered-resource-optimization-system.onrender.com/login"
+BACKEND_URL = "https://ai-powered-resource-optimization-system.onrender.com/analyze"
 
 TOKEN = None
 
