@@ -13,8 +13,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 CORS(app)
 
-SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey")
-MONGO_URI = os.getenv("MONGO_URI")
+SECRET_KEY = os.getenv("SECRET_KEY")
+MONGO_URI = os.getenv("MONGO_URI","mongodb+srv://sam18112k4_db_user:lfZ3QKvlgznCpmTU@rosuserdata.pio2vka.mongodb.net/?appName=rosuserdata")
 DOWNLOAD_FOLDER = os.path.join(os.getcwd(), "downloads")
 
 users_collection = None

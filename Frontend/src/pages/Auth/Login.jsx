@@ -26,8 +26,7 @@ const Login = () => {
       if (!response.ok) {
         throw new Error(data.message || "Failed to login");
       }
-
-      // Login successful
+      
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       navigate("/");
