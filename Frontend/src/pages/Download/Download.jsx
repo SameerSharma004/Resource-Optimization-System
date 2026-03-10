@@ -31,15 +31,18 @@ const Download = () => {
               Windows 10, 11 (64-bit)
             </p>
 
-            <button className="mt-auto w-full bg-blue-500/10 text-blue-400 border border-blue-500/30 font-bold py-4 rounded-xl group-hover:bg-blue-500 group-hover:text-white transition-all flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]">
+            <a
+              href={`${API}/download/ai-optimizer-agent-1.0.exe`}
+              className="mt-auto w-full bg-blue-500/10 text-blue-400 border border-blue-500/30 font-bold py-4 rounded-xl group-hover:bg-blue-500 group-hover:text-white transition-all flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]"
+            >
               <span className="material-symbols-outlined text-xl">
                 download
               </span>
               Download .exe
-            </button>
+            </a>
 
             <div className="mt-6 text-xs text-slate-600 font-mono tracking-wider">
-              v1.0.0 • 24 MB
+              v1.0.0 • 15 MB
             </div>
           </div>
           <div className="group bg-slate-900/40 border border-white/10 rounded-[2rem] p-8 hover:border-primary/50 hover:bg-slate-900/80 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden shadow-2xl">
@@ -74,7 +77,7 @@ const Download = () => {
             </p>
 
             <a
-              href={`${API}/download/agent_1.0-1_amd64.deb`}
+              href={`${API}/download/ai-optimizer-agent-1.0.deb`}
               className="mt-auto w-full bg-orange-500/10 text-orange-400 border border-orange-500/30 font-bold py-4 rounded-xl group-hover:bg-orange-500 group-hover:text-white transition-all flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(249,115,22,0.4)]"
             >
               <span className="material-symbols-outlined text-xl">
