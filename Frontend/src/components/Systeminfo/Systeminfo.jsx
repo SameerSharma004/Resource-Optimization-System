@@ -21,7 +21,7 @@ function Systeminfo({
 
   return (
     <Motion.article
-      className="rounded-2xl p-4 border border-gray-200"
+      className="rounded-2xl p-4 border bg-white border-gray-200 shadow-sm"
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: index * 0.06 }}

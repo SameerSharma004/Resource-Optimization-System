@@ -7,13 +7,11 @@ function MainLayout() {
   const isDashboard = location.pathname === "/dashboard";
 
   return (
-    <div className="">
+    <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
       {!isDashboard && (
-        <div className="fixed top-5 left-0 right-0 z-50 bg-none flex justify-center py-4">
-          <Navbar />
-        </div>
+        <Navbar />
       )}
-      <div>
+      <div className="pt-24 min-h-[calc(100vh-100px)]">
         <Outlet />
       </div>
       {isDashboard ? (
