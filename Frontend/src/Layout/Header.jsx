@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 const navItems = [
@@ -12,6 +12,28 @@ const navItems = [
 
 function Header() {
   const location = useLocation();
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("theme");
+      if (stored) return stored === "dark";
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    return true;
+  });
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDark]);
+
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+  };
 
   return (
     <header className="h-16 flex items-center justify-between px-8 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark z-10 w-full">
@@ -20,10 +42,19 @@ function Header() {
             {navItems.find(i => i.path === location.pathname)?.label || 'MANAGEMENT'}
         </h2>
         <div className="flex items-center gap-4 text-[11px] font-medium text-slate-500 uppercase tracking-wider border-l border-slate-200 dark:border-slate-800 pl-6">
-          
+          <button 
+            onClick={toggleTheme}
+            className="flex items-center justify-center p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors focus:ring-2 focus:ring-primary/20 outline-none"
+            aria-label="Toggle Theme"
+          >
+            {isDark ? (
+              <span className="material-symbols-outlined text-xl">light_mode</span>
+            ) : (
+              <span className="material-symbols-outlined text-xl">dark_mode</span>
+            )}
+          </button>
         </div>
       </div>
-      
     </header>
   );
 }

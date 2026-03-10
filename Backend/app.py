@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 import os
 import numpy as np
 import datetime
@@ -10,26 +10,12 @@ from sklearn.preprocessing import MinMaxScaler
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
-# -------------------------------------------------
-# APP INITIALIZATION
-# -------------------------------------------------
-
 app = Flask(__name__)
 CORS(app)
 
-
-# -------------------------------------------------
-# CONFIGURATION
-# -------------------------------------------------
-
 SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey")
-MONGO_URI = os.getenv("MONGO_URI")
-
-
-# -------------------------------------------------
-# DATABASE CONNECTION
-# -------------------------------------------------
+MONGO_URI = os.getenv("MONGO_URI","mongodb+srv://sam18112k4_db_user:lfZ3QKvlgznCpmTU@rosuserdata.pio2vka.mongodb.net/?appName=rosuserdata")
+DOWNLOAD_FOLDER = os.path.join(os.getcwd(), "downloads")
 
 users_collection = None
 
@@ -44,11 +30,6 @@ try:
 
 except Exception as e:
     print("MongoDB connection failed:", e)
-
-
-# -------------------------------------------------
-# MODEL LOADING
-# -------------------------------------------------
 
 DEFAULT_MODEL_CANDIDATES = [
     "/models/model.h5",
@@ -81,27 +62,12 @@ except Exception as e:
     print("Model load failed:", e)
     model = None
 
-
-# -------------------------------------------------
-# DATA SCALER
-# -------------------------------------------------
-
 scaler = MinMaxScaler()
 scaler.fit([[0,0,0,0,0,0], [100,100,100,100,50,50]])
-
-
-# -------------------------------------------------
-# CLIENT SYSTEM MEMORY STORE
-# -------------------------------------------------
 
 LAST_SYSTEM_DATA = None
 SYSTEM_HISTORY = []
 LAST_PREDICTION = None
-
-
-# -------------------------------------------------
-# AUTHENTICATION DECORATOR
-# -------------------------------------------------
 
 def token_required(f):
 
@@ -128,10 +94,15 @@ def token_required(f):
 
     return decorated
 
+@app.route("/download/<filename>")
+def download_file(filename):
 
-# -------------------------------------------------
-# AUTH ROUTES
-# -------------------------------------------------
+    file_path = os.path.join(DOWNLOAD_FOLDER, filename)
+
+    if not os.path.exists(file_path):
+        abort(404)
+
+    return send_from_directory(DOWNLOAD_FOLDER, filename, as_attachment=True)
 
 @app.route("/signup", methods=["POST"])
 def signup():
@@ -201,11 +172,6 @@ def login():
             "email": user.get("email")
         }
     })
-
-
-# -------------------------------------------------
-# AI ANALYSIS ROUTE
-# -------------------------------------------------
 
 @app.route("/analyze", methods=["POST"])
 @token_required
@@ -294,11 +260,6 @@ def analyze():
 
         return jsonify({"error": str(e)}), 400
 
-
-# -------------------------------------------------
-# CLIENT SYSTEM DATA
-# -------------------------------------------------
-
 @app.route("/client-system", methods=["GET"])
 @token_required
 def client_system():
@@ -311,11 +272,6 @@ def client_system():
         "history": SYSTEM_HISTORY
     })
 
-
-# -------------------------------------------------
-# SERVER STATUS ROUTE
-# -------------------------------------------------
-
 @app.route("/status")
 def status():
 
@@ -325,10 +281,6 @@ def status():
         "model_path": MODEL_PATH,
         "model_error": MODEL_LOAD_ERROR
     })
-
-# -------------------------------------------------
-# LAST AI PREDICTION
-# -------------------------------------------------
 
 @app.route("/predicted", methods=["GET"])
 @token_required
@@ -341,9 +293,6 @@ def predicted():
         })
 
     return jsonify(LAST_PREDICTION)
-# -------------------------------------------------
-# SERVER START
-# -------------------------------------------------
 
 if __name__ == "__main__":
 

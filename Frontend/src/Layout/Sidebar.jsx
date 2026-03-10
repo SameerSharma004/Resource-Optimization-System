@@ -7,7 +7,6 @@ const navItems = [
   { path: "/dashboard/processes", label: "Processes", icon: "memory" },
   { path: "/dashboard/network", label: "Network", icon: "lan" },
   { path: "/dashboard/insights", label: "AI Insights", icon: "psychology" },
-  { path: "/dashboard/alerts", label: "Alerts", icon: "notifications" },
 ];
 
 function Sidebar() {
@@ -33,14 +32,18 @@ function Sidebar() {
   };
 
   return (
-    <aside className="w-64 flex-shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark flex flex-col">
+    <aside className="w-64 shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark flex flex-col">
       <div className="p-6 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800">
         <div className="bg-primary p-1.5 rounded-lg flex items-center justify-center">
-          <span className="material-symbols-outlined text-white text-2xl">auto_awesome</span>
+          <span className="material-symbols-outlined text-white text-2xl">
+            auto_awesome
+          </span>
         </div>
         <div>
           <h1 className="font-bold text-sm tracking-tight">AI OPTIMIZER</h1>
-          <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">v1.0.1</p>
+          <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">
+            v1.0.0
+          </p>
         </div>
       </div>
       <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
@@ -61,12 +64,6 @@ function Sidebar() {
             </NavLink>
           );
         })}
-        <div className="pt-4 mt-4 border-t border-slate-200 dark:border-slate-800">
-          <a className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
-            <span className="material-symbols-outlined">settings</span>
-            <span className="text-sm">Settings</span>
-          </a>
-        </div>
       </nav>
       <div className="p-4 border-t border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-3 bg-slate-100 dark:bg-slate-800/50 p-2 rounded-xl">
@@ -78,8 +75,13 @@ function Sidebar() {
               {user ? user.email : "Not logged in"}
             </p>
           </div>
-          <button onClick={handleLogout} className="p-1 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-            <span className="material-symbols-outlined text-slate-400 text-sm hover:text-red-500 transition-colors flex justify-center items-center">logout</span>
+          <button
+            onClick={handleLogout}
+            className="p-1 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 flex justify-center items-center cursor-pointer transition-colors"
+          >
+            <span className="material-symbols-outlined text-slate-400 text-sm hover:text-red-500 transition-colors ">
+              logout
+            </span>
           </button>
         </div>
       </div>

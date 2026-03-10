@@ -12,15 +12,18 @@ import Metrics from "./pages/Dashboard/Metrics";
 import Processes from "./pages/Dashboard/Processes";
 import Network from "./pages/Dashboard/Network";
 import Insights from "./pages/Dashboard/Insights";
-import Alerts from "./pages/Dashboard/Alerts";
+import PageLoader from "./components/Loader/PageLoader";
+import Documentation from "./pages/Documentation/Documentation";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 
 const App = () => {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<PageLoader><Home /></PageLoader>} />
+        <Route path="/login" element={<PageLoader><Login /></PageLoader>} />
+        <Route path="/signup" element={<PageLoader><Signup /></PageLoader>} />
         
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Overview />} />
@@ -28,11 +31,11 @@ const App = () => {
           <Route path="processes" element={<Processes />} />
           <Route path="network" element={<Network />} />
           <Route path="insights" element={<Insights />} />
-          <Route path="alerts" element={<Alerts />} />
         </Route>
 
         <Route element={<MainLayout />}>
           <Route path="/about" element={<About />} />
+          <Route path="/documentation" element={<Documentation />} />
           <Route path="/download" element={<Download />} />
         </Route>
       </Routes>

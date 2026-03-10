@@ -39,19 +39,17 @@ const Processes = () => {
   return (
     <>
       <div className="mx-auto space-y-6">
-        {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div className="space-y-1">
             <h2 className="text-slate-900 dark:text-slate-100 text-3xl font-black leading-tight tracking-tight">
               Processes Management
             </h2>
             <p className="text-slate-500 dark:text-slate-400 text-base font-normal">
-              Monitor and optimize active system processes in real-time.
+              Monitor active system processes in real-time.
             </p>
           </div>
           
         </div>
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
           <div className="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-slate-200 dark:border-primary/20 shadow-sm">
             <div className="flex justify-between items-start">
@@ -114,7 +112,6 @@ const Processes = () => {
             </div>
           </div>
         </div>
-        {/* Data Table Container */}
         <div className="bg-white dark:bg-background-dark rounded-xl border border-slate-200 dark:border-primary/20 overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">

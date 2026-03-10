@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import PageLoader from "../components/Loader/PageLoader";
 
 function DashboardLayout() {
   return (
@@ -10,7 +11,9 @@ function DashboardLayout() {
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Header />
         <main className="flex-1 overflow-y-auto p-8 bg-slate-50 dark:bg-slate-950/50">
-          <Outlet />
+          <PageLoader>
+            <Outlet />
+          </PageLoader>
         </main>
       </div>
     </div>

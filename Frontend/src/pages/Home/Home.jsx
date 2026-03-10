@@ -4,6 +4,8 @@ import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 
 const Home = () => {
+
+  
   return (
     <div className="dark bg-black text-white selection:bg-primary/30 min-h-screen">
       <Navbar />
@@ -355,7 +357,7 @@ const Home = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8 cursor-pointer relative z-20">
               <Link
-                to="/dashboard"
+                to="/download"
                 className="bg-white text-primary font-bold px-10 py-5 rounded-2xl hover:bg-slate-100 transition-all text-lg shadow-2xl inline-block"
               >
                 Download Agent Now

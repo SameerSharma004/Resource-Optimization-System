@@ -105,7 +105,7 @@ const Overview = () => {
           tone="normal"
           index={2}
         />
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div className="bg-white dark:bg-background-dark p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
           <div className="flex justify-between items-start mb-4">
             <div>
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest">
@@ -133,7 +133,7 @@ const Overview = () => {
         </div>
       </div>
       <div className="grid grid-cols-12 gap-6">
-        <div className="col-span-12 lg:col-span-8 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 overflow-hidden">
+        <div className="col-span-12 lg:col-span-8 bg-white dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 overflow-hidden">
           <Charts
             Type="CPU & RAM Usage History"
             Attribute1="cpu"
@@ -141,7 +141,7 @@ const Overview = () => {
             history={metrics.history}
           />
         </div>
-        <div className="col-span-12 lg:col-span-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+        <div className="col-span-12 lg:col-span-4 bg-white dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
           <h4 className="font-bold text-lg mb-6">RAM Composition</h4>
           <div className="space-y-6">
             <div className="flex h-12 w-full rounded-lg overflow-hidden border border-slate-200 dark:border-slate-800">
@@ -222,18 +222,13 @@ const Overview = () => {
             </div>
           </div>
         </div>
-        <div className="col-span-12  bg-white  rounded-xl p-6 shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-8 opacity-5">
-            <span className="material-symbols-outlined text-[120px]">
-              psychology
-            </span>
-          </div>
+        <div className="col-span-12 bg-white dark:bg-background-dark border border-slate-200 dark:border-primary/20 rounded-xl p-6 shadow-sm relative overflow-hidden">
           <div className="flex items-center gap-3 mb-6 relative z-10">
-            <div className="bg-primary/20 p-2 rounded-lg text-primary">
+            <div className="bg-primary/20 p-2 rounded-lg flex justify-center items-center text-primary">
               <span className="material-symbols-outlined">lightbulb</span>
             </div>
             <div>
-              <h4 className="text-lg font-bold text-black">
+              <h4 className="text-lg font-bold text-black dark:text-white">
                 AI Assistant Insights
               </h4>
             </div>
@@ -243,14 +238,14 @@ const Overview = () => {
               suggestions.map((sug, i) => (
                 <div
                   key={i}
-                  className="bg-white border-l-4 border-amber-500 p-4 rounded-r-lg mb-2"
+                  className="bg-white dark:bg-slate-800/50 border-l-4 border-t border-r border-b border-amber-500 dark:border-amber-400 p-4 rounded-r-lg mb-2"
                 >
                   <div className="flex items-start gap-3">
                     <span className="material-symbols-outlined text-amber-500">
                       warning
                     </span>
                     <div>
-                      <p className="text-sm font-bold text-black">
+                      <p className="text-sm font-bold text-black dark:text-white">
                         {sug.title}
                       </p>
                       <p className="text-xs text-slate-400 mt-1">
@@ -261,13 +256,13 @@ const Overview = () => {
                 </div>
               ))
             ) : (
-              <div className="bg-swhite border-l-4 border-primary p-4 rounded-r-lg">
+              <div className="bg-slate-50 dark:bg-slate-800/50 border-l-4 border-primary p-4 rounded-r-lg">
                 <div className="flex items-start gap-3">
                   <span className="material-symbols-outlined text-primary">
                     check_circle
                   </span>
                   <div>
-                    <p className="text-sm font-bold text-black">
+                    <p className="text-sm font-bold text-black dark:text-white">
                       System Optimal
                     </p>
                     <p className="text-xs text-slate-400 mt-1">
@@ -277,71 +272,6 @@ const Overview = () => {
                 </div>
               </div>
             )}
-          </div>
-        </div>
-        <div className="col-span-12 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-            <h4 className="font-bold">Top Processes</h4>
-            <div className="flex gap-2">
-              <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
-                <span className="material-symbols-outlined text-lg">
-                  filter_list
-                </span>
-              </button>
-              <button className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
-                <span className="material-symbols-outlined text-lg">
-                  more_vert
-                </span>
-              </button>
-            </div>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 uppercase text-[10px] font-bold">
-                <tr>
-                  <th className="px-6 py-3">PID</th>
-                  <th className="px-6 py-3">Process Name</th>
-                  <th className="px-6 py-3">CPU Usage</th>
-                  <th className="px-6 py-3">Memory</th>
-                  <th className="px-6 py-3 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                {metrics.top_processes &&
-                  metrics.top_processes.map((proc, idx) => (
-                    <tr
-                      key={idx}
-                      className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors"
-                    >
-                      <td className="px-6 py-4 font-mono text-xs text-slate-500">
-                        {proc.pid}
-                      </td>
-                      <td className="px-6 py-4 font-medium">{proc.name}</td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-2">
-                          <div className="w-16 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full">
-                            <div
-                              className={`bg-${proc.cpu_percent > 20 ? "rose" : "primary"} h-full`}
-                              style={{
-                                width: `${Math.min(proc.cpu_percent, 100)}%`,
-                              }}
-                            ></div>
-                          </div>
-                          <span>{proc.cpu_percent.toFixed(1)}%</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">{proc.memory_mb} MB</td>
-                      <td className="px-6 py-4 text-right">
-                        <button className="text-primary hover:bg-primary/10 p-1 rounded">
-                          <span className="material-symbols-outlined text-lg">
-                            close
-                          </span>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
           </div>
         </div>
       </div>

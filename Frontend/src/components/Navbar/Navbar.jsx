@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 
 function Navbar() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -26,31 +27,46 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">
-            ResourceAI
+            AI Optimizer
           </span>
         </div>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-400">
-          <a
-            className="hover:text-primary transition-colors"
-            href="#features"
-          >
-            Features
-          </a>
-          <a
-            className="hover:text-primary transition-colors"
-            href="#how-it-works"
-          >
-            How It Works
-          </a>
-          <NavLink to="/documantation" className="hover:text-primary transition-colors">
-            Documentation
-          </NavLink>
+          {location.pathname === "/" ? (
+            <>
+              <a
+                className="hover:text-primary transition-colors"
+                href="#features"
+              >
+                Features
+              </a>
+              <a
+                className="hover:text-primary transition-colors"
+                href="#how-it-works"
+              >
+                How It Works
+              </a>
+              <NavLink
+                to="/documentation"
+                className="hover:text-primary transition-colors"
+              >
+                Documentation
+              </NavLink>
+            </>
+          ) : (
+            <NavLink
+              to="/"
+              className="hover:text-primary transition-colors"
+            >
+              Home
+            </NavLink>
+          )}
         </div>
         <div className="flex items-center gap-3">
           {user ? (
             <div className="flex items-center gap-4">
               <span className="text-sm font-medium text-slate-300">
-                Welcome, <span className="text-white font-bold">{user.name}</span>
+                Welcome,{" "}
+                <span className="text-white font-bold">{user.name}</span>
               </span>
               <NavLink
                 to="/dashboard"

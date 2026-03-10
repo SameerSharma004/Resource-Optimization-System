@@ -25,10 +25,10 @@ const Metrics = () => {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(`${API}/client-system`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const systemData = await res.json();
 
         if (systemData && systemData.current) {
@@ -75,20 +75,6 @@ const Metrics = () => {
               diagnostics.
             </p>
           </div>
-          <div className="flex gap-2">
-            <button className="flex items-center gap-2 px-4 py-2 bg-slate-200 dark:bg-primary/20 text-slate-900 dark:text-white text-sm font-bold rounded-lg border border-primary/20">
-              <span className="material-symbols-outlined text-lg">
-                calendar_today
-              </span>
-              Last 24 Hours
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:brightness-110 transition-all">
-              <span className="material-symbols-outlined text-lg">
-                download
-              </span>
-              Export Data
-            </button>
-          </div>
         </div>
         <section className="space-y-4">
           <div className="flex items-center justify-between">
@@ -107,7 +93,7 @@ const Metrics = () => {
               metrics.per_core.map((coreUtil, idx) => (
                 <div
                   key={idx}
-                  className="bg-background-light dark:bg-primary/5 border border-primary/20 rounded-xl p-4 flex flex-col gap-3"
+                  className="bg-background-light dark:bg-background-dark border border-primary/20 rounded-xl p-4 flex flex-col gap-3"
                 >
                   <div className="flex justify-between items-center">
                     <span className="text-xs font-bold uppercase text-slate-500">
@@ -121,7 +107,7 @@ const Metrics = () => {
                   </div>
                   <div className="h-24 w-full relative flex items-end gap-1">
                     <div
-                      className={`absolute inset-0 bg-gradient-to-t ${coreUtil > 80 ? "from-red-500/5" : coreUtil > 50 ? "from-amber-500/5" : "from-primary/5"} to-transparent rounded`}
+                      className={`absolute inset-0 bg-linear-to-t ${coreUtil > 80 ? "from-red-500/5" : coreUtil > 50 ? "from-amber-500/5" : "from-primary/5"} to-transparent rounded`}
                     ></div>
                     {Array.from({ length: 10 }).map((_, barIdx) => {
                       let h =
@@ -142,7 +128,7 @@ const Metrics = () => {
         </section>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <section className="lg:col-span-2 space-y-4">
-            <div className="bg-background-light dark:bg-primary/5 border border-primary/20 rounded-xl p-6">
+            <div className="bg-background-light dark:bg-background-dark border border-primary/20 rounded-xl p-6">
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-xl font-bold flex items-center gap-2">
                   <span className="material-symbols-outlined text-primary">
@@ -184,15 +170,7 @@ const Metrics = () => {
                     </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-4 rounded-lg bg-slate-100 dark:bg-white/5 border border-primary/10">
-                    <p className="text-xs font-bold text-slate-500 uppercase mb-1">
-                      Swap Used
-                    </p>
-                    <p className="text-lg font-bold text-slate-900 dark:text-slate-100">
-                      -
-                    </p>
-                  </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="p-4 rounded-lg bg-slate-100 dark:bg-white/5 border border-primary/10">
                     <p className="text-xs font-bold text-slate-500 uppercase mb-1">
                       Active Processes
@@ -215,7 +193,7 @@ const Metrics = () => {
             </div>
           </section>
           <section className="space-y-4">
-            <div className="bg-background-light dark:bg-primary/5 border border-primary/20 rounded-xl p-6 h-full">
+            <div className="bg-background-light dark:bg-background-dark border border-primary/20 rounded-xl p-6 h-full">
               <h2 className="text-xl font-bold flex items-center gap-2 mb-6">
                 <span className="material-symbols-outlined text-primary">
                   storage
@@ -242,10 +220,15 @@ const Metrics = () => {
                   <div className="text-right">
                     {metrics.disk_read > 0 ? (
                       <span className="text-emerald-500 text-sm font-bold flex items-center gap-1">
-                        <span className="material-symbols-outlined text-xs">arrow_upward</span> Active
+                        <span className="material-symbols-outlined text-xs">
+                          arrow_upward
+                        </span>{" "}
+                        Active
                       </span>
                     ) : (
-                      <span className="text-slate-400 text-sm font-bold">Idle</span>
+                      <span className="text-slate-400 text-sm font-bold">
+                        Idle
+                      </span>
                     )}
                   </div>
                 </div>
@@ -266,10 +249,15 @@ const Metrics = () => {
                   <div className="text-right">
                     {metrics.disk_write > 0 ? (
                       <span className="text-primary text-sm font-bold flex items-center gap-1">
-                        <span className="material-symbols-outlined text-xs">arrow_upward</span> Active
+                        <span className="material-symbols-outlined text-xs">
+                          arrow_upward
+                        </span>{" "}
+                        Active
                       </span>
                     ) : (
-                      <span className="text-slate-400 text-sm font-bold">Idle</span>
+                      <span className="text-slate-400 text-sm font-bold">
+                        Idle
+                      </span>
                     )}
                   </div>
                 </div>
@@ -280,7 +268,10 @@ const Metrics = () => {
                   <div className="space-y-3">
                     {metrics.disk_iops && metrics.disk_iops.length > 0 ? (
                       metrics.disk_iops.map((disk, idx) => (
-                        <div key={idx} className="flex items-center justify-between text-sm">
+                        <div
+                          key={idx}
+                          className="flex items-center justify-between text-sm"
+                        >
                           <span className="text-slate-500 dark:text-slate-400 font-medium">
                             {disk.device.toUpperCase()}
                           </span>
@@ -290,7 +281,9 @@ const Metrics = () => {
                         </div>
                       ))
                     ) : (
-                       <div className="text-sm text-slate-400 italic">No significant disk activity</div>
+                      <div className="text-sm text-slate-400 italic">
+                        No significant disk activity
+                      </div>
                     )}
                   </div>
                 </div>
@@ -298,7 +291,6 @@ const Metrics = () => {
             </div>
           </section>
         </div>
-        
       </div>
     </>
   );
