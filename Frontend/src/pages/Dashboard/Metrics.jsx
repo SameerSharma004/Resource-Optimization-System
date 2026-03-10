@@ -22,8 +22,9 @@ const Metrics = () => {
 
   useEffect(() => {
     const interval = setInterval(async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
       try {
-        const token = localStorage.getItem("token");
         const res = await fetch(`${API}/client-system`, {
           headers: {
             Authorization: `Bearer ${token}`,

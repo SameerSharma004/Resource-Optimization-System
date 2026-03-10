@@ -8,8 +8,9 @@ const Insights = () => {
 
   useEffect(() => {
     const interval = setInterval(async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
       try {
-        const token = localStorage.getItem("token");
         const [sysRes, predRes] = await Promise.all([
           fetch(`${API}/client-system`, {
             headers: {
