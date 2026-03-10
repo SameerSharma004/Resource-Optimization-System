@@ -68,6 +68,7 @@ scaler.fit([[0,0,0,0,0,0], [100,100,100,100,100,100]])
 LAST_SYSTEM_DATA = None
 SYSTEM_HISTORY = []
 LAST_PREDICTION = None
+FEATURE_BUFFER = []
 
 def token_required(f):
 
@@ -177,7 +178,7 @@ def login():
 @token_required
 def analyze():
 
-    global LAST_SYSTEM_DATA, SYSTEM_HISTORY, LAST_PREDICTION
+    global LAST_SYSTEM_DATA, SYSTEM_HISTORY, LAST_PREDICTION, FEATURE_BUFFER
 
     if not MODEL_LOADED:
         return jsonify({"error": "Model not loaded"}), 500
@@ -203,18 +204,30 @@ def analyze():
 
     try:
 
+        cpu_val = float(data.get("cpu_usage", 0))
+        mem_val = float(data.get("memory_usage", 0))
+
         raw_features = [
-            float(data.get("cpu_usage", 0)),
-            float(data.get("memory_usage", 0)),
+            cpu_val,
+            mem_val,
             float(data.get("net_upload_mbps", 0)),
             float(data.get("net_download_mbps", 0)),
             float(data.get("disk_read_mbps", 0)),
             float(data.get("disk_write_mbps", 0))
         ]
 
-        scaled = scaler.transform([raw_features])[0]
+        FEATURE_BUFFER.append(raw_features)
+        if len(FEATURE_BUFFER) > SEQUENCE_LENGTH:
+            FEATURE_BUFFER.pop(0)
 
-        sequence = np.array([scaled] * SEQUENCE_LENGTH).reshape(
+        if len(FEATURE_BUFFER) < SEQUENCE_LENGTH:
+            padded_features = [FEATURE_BUFFER[0]] * (SEQUENCE_LENGTH - len(FEATURE_BUFFER)) + FEATURE_BUFFER
+        else:
+            padded_features = FEATURE_BUFFER
+
+        scaled_features = scaler.transform(padded_features)
+
+        sequence = np.array(scaled_features).reshape(
             1, SEQUENCE_LENGTH, len(raw_features)
         )
 
@@ -240,7 +253,13 @@ def analyze():
         else:
 
             state = "Active"
-            recommendations = ["System running optimally"]
+            recommendations = []
+            if cpu_val > 75:
+                recommendations.append("High CPU usage. Consider closing heavy applications.")
+            if mem_val > 75:
+                recommendations.append("High memory usage. Close unused tabs or programs.")
+            if not recommendations:
+                recommendations.append("System running optimally")
 
         LAST_PREDICTION = {
             "time": datetime.datetime.utcnow().strftime("%H:%M:%S"),
