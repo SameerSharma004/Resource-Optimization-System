@@ -27,8 +27,13 @@ const Login = () => {
         throw new Error(data.message || "Failed to login");
       }
       
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      if (remember) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+      } else {
+        sessionStorage.setItem("token", data.token);
+        sessionStorage.setItem("user", JSON.stringify(data.user));
+      }
       navigate("/");
     } catch (err) {
       setError(err.message);

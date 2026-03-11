@@ -8,7 +8,7 @@ const Insights = () => {
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
       if (!token) return;
       try {
         const [sysRes, predRes] = await Promise.all([
@@ -23,6 +23,13 @@ const Insights = () => {
             },
           }),
         ]);
+        if (sysRes.status === 401 || (predRes && predRes.status === 401)) {
+          localStorage.removeItem("token");
+          sessionStorage.removeItem("token");
+          window.location.href = "/login";
+          return;
+        }
+
         const systemData = await sysRes.json();
         const predData = await predRes.json();
 

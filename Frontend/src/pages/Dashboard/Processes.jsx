@@ -12,7 +12,7 @@ const Processes = () => {
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
       if (!token) return;
       try {
         const res = await fetch(`${API}/client-system`, {
@@ -20,6 +20,13 @@ const Processes = () => {
               Authorization: `Bearer ${token}`,
             },
           })
+        if (res.status === 401) {
+          localStorage.removeItem("token");
+          sessionStorage.removeItem("token");
+          window.location.href = "/login";
+          return;
+        }
+
         const systemData = await res.json();
         if (systemData && systemData.current) {
           setMetrics({

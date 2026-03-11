@@ -19,7 +19,7 @@ const Overview = () => {
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
       if (!token) return;
       try {
 
@@ -35,6 +35,13 @@ const Overview = () => {
             },
           }),
         ]);
+
+        if (systemRes.status === 401 || predictionRes.status === 401) {
+          localStorage.removeItem("token");
+          sessionStorage.removeItem("token");
+          window.location.href = "/login";
+          return;
+        }
 
         const systemData = await systemRes.json();
         const predictionData = await predictionRes.json();
