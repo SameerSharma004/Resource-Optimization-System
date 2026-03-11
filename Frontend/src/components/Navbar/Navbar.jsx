@@ -7,7 +7,7 @@ function Navbar() {
   const location = useLocation();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("user") || sessionStorage.getItem("user");
     if (storedUser && storedUser !== "undefined") {
       try {
         setUser(JSON.parse(storedUser));
@@ -19,6 +19,9 @@ function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("token");
     setUser(null);
     navigate("/");
   };
