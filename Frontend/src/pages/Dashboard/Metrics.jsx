@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-const API = import.meta.env.VITE_API_URL || "http://127.0.0.1:5000";
-
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const Metrics = () => {
   const [metrics, setMetrics] = useState({
     cpu: 0,
@@ -19,7 +17,6 @@ const Metrics = () => {
     mem_free: 0,
     disk_iops: [],
   });
-
   useEffect(() => {
     const interval = setInterval(async () => {
       const token = localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -36,9 +33,7 @@ const Metrics = () => {
           window.location.href = "/login";
           return;
         }
-
         const systemData = await res.json();
-
         if (systemData && systemData.current) {
           setMetrics({
             ...systemData.current,
@@ -63,7 +58,6 @@ const Metrics = () => {
     }, 2000);
     return () => clearInterval(interval);
   }, []);
-
   return (
     <>
       <div className=" mx-auto space-y-8">
@@ -92,7 +86,7 @@ const Metrics = () => {
               </span>
               Per-Core CPU Distribution
             </h2>
-            <span className="text-xs font-mono bg-primary/10 text-primary px-2 py-1 rounded">
+            <span className="text-xs font-mono bg-blue-500/10 text-blue-500 px-2 py-1 rounded">
               8 Cores Active
             </span>
           </div>
@@ -101,21 +95,21 @@ const Metrics = () => {
               metrics.per_core.map((coreUtil, idx) => (
                 <div
                   key={idx}
-                  className="bg-background-light dark:bg-background-dark border border-primary/20 rounded-xl p-4 flex flex-col gap-3"
+                  className="bg-background-light dark:bg-background-dark border border-blue-500/20 rounded-xl p-4 flex flex-col gap-3"
                 >
                   <div className="flex justify-between items-center">
                     <span className="text-xs font-bold uppercase text-slate-500">
                       Core {idx}
                     </span>
                     <span
-                      className={`text-sm font-mono ${coreUtil > 80 ? "text-red-500" : coreUtil > 50 ? "text-amber-500" : "text-primary"}`}
+                      className={`text-sm font-mono ${coreUtil > 80 ? "text-red-500" : coreUtil > 50 ? "text-amber-500" : "text-blue-500"}`}
                     >
                       {coreUtil.toFixed(1)}%
                     </span>
                   </div>
                   <div className="h-24 w-full relative flex items-end gap-1">
                     <div
-                      className={`absolute inset-0 bg-linear-to-t ${coreUtil > 80 ? "from-red-500/5" : coreUtil > 50 ? "from-amber-500/5" : "from-primary/5"} to-transparent rounded`}
+                      className={`absolute inset-0 bg-linear-to-t ${coreUtil > 80 ? "from-red-500/5" : coreUtil > 50 ? "from-amber-500/5" : "from-blue-500/5"} to-transparent rounded`}
                     ></div>
                     {Array.from({ length: 10 }).map((_, barIdx) => {
                       let h =
@@ -124,7 +118,7 @@ const Metrics = () => {
                       return (
                         <div
                           key={barIdx}
-                          className={`flex-1 ${coreUtil > 80 ? "bg-red-500/50" : coreUtil > 50 ? "bg-amber-500/50" : "bg-primary/50"} rounded-t-sm transition-all duration-300`}
+                          className={`flex-1 ${coreUtil > 80 ? "bg-red-500/50" : coreUtil > 50 ? "bg-amber-500/50" : "bg-blue-500/50"} rounded-t-sm transition-all duration-300`}
                           style={{ height: `${Math.max(5, h)}%` }}
                         ></div>
                       );
@@ -303,5 +297,4 @@ const Metrics = () => {
     </>
   );
 };
-
 export default Metrics;

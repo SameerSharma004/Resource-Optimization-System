@@ -1,5 +1,4 @@
 import React from "react";
-
 export default function ProjectDocumentation() {
   return (
     <div className="min-h-screen bg-black text-white px-6 py-10">
@@ -22,7 +21,6 @@ export default function ProjectDocumentation() {
             improve power efficiency and performance.
           </p>
         </section>
-
         <section>
           <h2 className="text-2xl font-semibold mb-4">System Architecture</h2>
           <div className="bg-black p-6 rounded-xl text-center shadow-sm border">
@@ -33,7 +31,6 @@ export default function ProjectDocumentation() {
             <p className="text-2xl">React Dashboard (Live Monitoring)</p>
           </div>
         </section>
-
         <section>
           <h2 className="text-2xl font-semibold mb-4">Technologies Used</h2>
           <ul className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -57,7 +54,6 @@ export default function ProjectDocumentation() {
             </li>
           </ul>
         </section>
-
         <section>
           <h2 className="text-2xl font-semibold mb-4">Backend API Endpoints</h2>
           <div className="overflow-x-auto">
@@ -94,7 +90,6 @@ export default function ProjectDocumentation() {
             </table>
           </div>
         </section>
-
         <section>
           <h2 className="text-2xl font-semibold mb-4">
             Machine Learning Model

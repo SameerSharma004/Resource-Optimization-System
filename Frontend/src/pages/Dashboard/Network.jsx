@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
-
 const API = import.meta.env.VITE_API_URL;
-
 const Network = () => {
   const [metrics, setMetrics] = useState({
     net_down: 0,
     net_up: 0,
     history: [],
   });
-
   useEffect(() => {
     const interval = setInterval(async () => {
       const token = localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -25,7 +22,6 @@ const Network = () => {
           window.location.href = "/login";
           return;
         }
-
         const systemData = await res.json();
         if (systemData && systemData.current) {
           setMetrics({
@@ -40,7 +36,6 @@ const Network = () => {
     }, 2000);
     return () => clearInterval(interval);
   }, []);
-
   return (
     <>
       <div className="mx-auto space-y-8">
@@ -91,7 +86,6 @@ const Network = () => {
               live polling
             </p>
           </div>
-          
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="rounded-xl border border-slate-200 dark:border-primary/20 bg-white dark:bg-primary/5 p-6">
@@ -143,10 +137,8 @@ const Network = () => {
             </div>
           </div>
         </div>
-        
       </div>
     </>
   );
 };
-
 export default Network;

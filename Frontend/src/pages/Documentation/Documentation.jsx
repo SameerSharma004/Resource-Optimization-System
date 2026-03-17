@@ -1,165 +1,132 @@
 import React from "react";
-
 const Documentation = () => {
   return (
-    <div className="bg-black text-white min-h-[calc(100vh-100px)] w-full">
-      <section className="relative pt-24 pb-16 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.05)_1px,transparent_0)] bg-size-[40px_40px] pointer-events-none"></div>
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-linear-to-b from-primary/5 via-transparent to-transparent pointer-events-none"></div>
-        
-        <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
-          <div className="inline-flex items-center justify-center p-2 bg-primary/10 rounded-xl text-primary mb-6 border border-primary/20">
-            <span className="material-symbols-outlined mr-2 text-xl">book_4</span>
-            <span className="text-sm font-bold uppercase tracking-widest">Documentation</span>
+    <div className="bg-black text-white pt-32 pb-20 min-h-screen w-full selection:bg-primary/30 selection:text-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-24 space-y-8 pt-10 relative">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[radial-gradient(circle_at_center,rgba(255,59,59,0.05)_0%,transparent_70%)] pointer-events-none"></div>
+          <div className="inline-flex items-center gap-2 text-primary px-5 py-2 mb-4 text-xs font-black tracking-widest uppercase bg-primary/10 rounded-full border border-primary/20">
+            <span className="material-symbols-outlined text-sm">menu_book</span>
+            Knowledge Base
           </div>
-          <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6">
-            Platform <br className="hidden md:block"/>
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-blue-400">
-              Reference Guide
-            </span>
+          <h1 className="text-6xl md:text-8xl font-black tracking-tight leading-[0.9] text-white">
+            Technical <br />
+            <span className="text-primary italic font-serif font-normal">Documentation</span>
           </h1>
-          <p className="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
-            Real-Time AI-Based System Monitoring & Optimization Platform
+          <p className="text-gray-400 max-w-2xl mx-auto text-xl font-medium leading-relaxed">
+            A comprehensive guide to the AI Resource Intelligence Platform. Explore the architecture, neural engine, and API integration.
           </p>
         </div>
-      </section>
-
-      <section className="max-w-7xl mx-auto px-6 pb-24 relative z-10 space-y-24">
-        {/* Grids section */}
-        <div className="grid md:grid-cols-2 gap-8">
-          
-          {/* Project Overview */}
-          <div className="group bg-slate-900/40 border border-white/10 rounded-[2rem] p-8 hover:border-primary/50 hover:bg-slate-900/80 transition-all duration-300 relative overflow-hidden shadow-2xl">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-500"></div>
-            <span className="material-symbols-outlined text-4xl text-primary mb-6">info</span>
-            <h3 className="text-2xl font-bold mb-4">Project Overview</h3>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              The AI Resource Intelligence Platform is a real-time system monitoring solution that collects device-level telemetry data. It analyzes user activity patterns using an LSTM-based deep learning model and provides intelligent optimization recommendations to improve power efficiency and performance.
-            </p>
+        <div className="space-y-6">
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-[40px] p-12 text-background-dark shadow-2xl relative overflow-hidden group">
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-black/5 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
+              <div className="size-16 rounded-2xl bg-black flex items-center justify-center mb-8 shadow-xl">
+                <span className="material-symbols-outlined text-3xl text-primary">analytics</span>
+              </div>
+              <h3 className="text-3xl font-black mb-6 tracking-tight">Project Overview</h3>
+              <p className="text-gray-500 font-bold leading-relaxed text-lg">
+                The platform is a real-time system monitoring solution that collects device-level telemetry. It analyzes user activity patterns using an LSTM-based deep learning model and provides intelligent optimization recommendations to improve power efficiency.
+              </p>
+            </div>
+            <div className="bg-background-dark rounded-[40px] p-12 text-white shadow-2xl border border-white/5 relative overflow-hidden group">
+               <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
+               <div className="size-16 rounded-2xl bg-primary flex items-center justify-center mb-8 shadow-xl">
+                 <span className="material-symbols-outlined text-3xl text-white">psychology</span>
+               </div>
+               <h3 className="text-3xl font-black mb-6 tracking-tight">Neural Engine</h3>
+               <ul className="space-y-4 text-gray-400 font-bold">
+                 {[
+                   "LSTM (Long Short-Term Memory) Architecture",
+                   "Sliding window sequence input processing",
+                   "Real-time idle probability forecasting",
+                   "Dynamic resource reallocation logic"
+                 ].map((item, i) => (
+                   <li key={i} className="flex items-center gap-3">
+                     <span className="size-1.5 rounded-full bg-primary"></span>
+                     {item}
+                   </li>
+                 ))}
+               </ul>
+            </div>
           </div>
-
-          {/* Machine Learning Model */}
-          <div className="group bg-slate-900/40 border border-white/10 rounded-[2rem] p-8 hover:border-blue-500/50 hover:bg-slate-900/80 transition-all duration-300 relative overflow-hidden shadow-2xl">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-all duration-500"></div>
-            <span className="material-symbols-outlined text-4xl text-blue-400 mb-6">neurology</span>
-            <h3 className="text-2xl font-bold mb-4">Machine Learning Engine</h3>
-            <ul className="space-y-3 text-slate-400 text-sm">
-              <li className="flex items-start gap-3">
-                <span className="material-symbols-outlined text-blue-400 text-lg">check_circle</span>
-                LSTM (Long Short-Term Memory) Neural Network
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="material-symbols-outlined text-blue-400 text-lg">check_circle</span>
-                Uses sliding window sequence input
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="material-symbols-outlined text-blue-400 text-lg">check_circle</span>
-                Predicts user idle probability
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="material-symbols-outlined text-blue-400 text-lg">check_circle</span>
-                Generates optimization recommendations
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="material-symbols-outlined text-blue-400 text-lg">check_circle</span>
-                Estimates battery gain improvement
-              </li>
-            </ul>
+          <div className="bg-white rounded-[40px] p-12 md:p-16 text-background-dark shadow-2xl relative overflow-hidden">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-16">
+              <div>
+                <h3 className="text-4xl font-black tracking-tight mb-2">System Architecture</h3>
+                <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">End-to-End Data Flow</p>
+              </div>
+              <div className="bg-black text-white px-6 py-3 rounded-full font-black text-xs uppercase tracking-widest">
+                Distributed System
+              </div>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8 relative">
+              <div className="hidden md:block absolute top-1/2 left-1/3 -translate-y-1/2 w-1/3 h-px border-t-2 border-dashed border-gray-200"></div>
+              {[
+                { label: "Telemetry Agent", tech: "Python / psutil", icon: "terminal", tech_desc: "Collects kernel metrics and streams to backend." },
+                { label: "Neural API", tech: "Flask / LSTM", icon: "dns", tech_desc: "Centralized engine processing real-time telemetry." },
+                { label: "Control Hub", tech: "React / Vite", icon: "dashboard", tech_desc: "High-fidelity visualization and optimization UI." }
+              ].map((step, i) => (
+                <div key={i} className="relative z-10 bg-gray-50 rounded-[32px] p-8 border border-black/5 hover:border-primary/20 transition-all group">
+                  <div className="size-14 rounded-xl bg-background-dark flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
+                    <span className="material-symbols-outlined text-white text-2xl">{step.icon}</span>
+                  </div>
+                  <h4 className="text-xl font-black mb-2">{step.label}</h4>
+                  <p className="text-xs font-black text-primary uppercase tracking-widest mb-4">{step.tech}</p>
+                  <p className="text-gray-500 font-bold text-sm leading-relaxed">{step.tech_desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
-          
-          {/* System Architecture */}
-          <div className="group bg-slate-900/40 border border-white/10 rounded-[2rem] p-8 hover:border-purple-500/50 hover:bg-slate-900/80 transition-all duration-300 relative overflow-hidden shadow-2xl md:col-span-2">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl group-hover:bg-purple-500/20 transition-all duration-500"></div>
-            <span className="material-symbols-outlined text-4xl text-purple-400 mb-6">architecture</span>
-            <h3 className="text-2xl font-bold mb-8">System Architecture</h3>
-            
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <div className="flex-1 bg-black/50 border border-white/5 rounded-xl p-6 text-center w-full">
-                 <span className="material-symbols-outlined text-3xl text-purple-400 mb-3">laptop_mac</span>
-                 <p className="font-bold">User Device</p>
-                 <p className="text-xs text-slate-500 mt-1">Telemetry Agent</p>
+          <div className="grid lg:grid-cols-1 gap-6">
+            <div className="bg-background-dark rounded-[40px] p-12 text-white border border-white/5 shadow-2xl">
+              <div className="flex items-center gap-4 mb-12">
+                <div className="size-12 rounded-xl bg-primary flex items-center justify-center">
+                  <span className="material-symbols-outlined text-white">api</span>
+                </div>
+                <h3 className="text-3xl font-black tracking-tight">API Reference</h3>
               </div>
-              <div className="flex items-center text-slate-600">
-                <span className="material-symbols-outlined hidden md:block text-3xl">arrow_right_alt</span>
-                <span className="material-symbols-outlined md:hidden text-3xl">arrow_downward</span>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left">
+                  <thead className="border-b border-white/10 uppercase tracking-[0.2em] text-[10px] text-gray-500">
+                    <tr>
+                      <th className="pb-6">Endpoint</th>
+                      <th className="pb-6">Method</th>
+                      <th className="pb-6">Scope</th>
+                    </tr>
+                  </thead>
+                  <tbody className="font-bold divide-y divide-white/5">
+                    {[
+                      { path: "/status", method: "GET", scope: "Backend health pulse" },
+                      { path: "/analyze", method: "POST", scope: "Primary telemetry ingestion" },
+                      { path: "/client-system", method: "GET", scope: "Real-time hardware metrics" },
+                      { path: "/predicted", method: "GET", scope: "Neural engine forecasting" }
+                    ].map((row, i) => (
+                      <tr key={i} className="group hover:bg-white/5 transition-colors">
+                        <td className="py-6 font-mono text-primary text-sm">{row.path}</td>
+                        <td className="py-6">
+                          <span className="px-3 py-1 bg-white/10 rounded-lg text-[10px] font-black uppercase tracking-widest">
+                            {row.method}
+                          </span>
+                        </td>
+                        <td className="py-6 text-gray-400 text-sm">{row.scope}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-              <div className="flex-1 bg-black/50 border border-white/5 rounded-xl p-6 text-center w-full">
-                 <span className="material-symbols-outlined text-3xl text-purple-400 mb-3">dns</span>
-                 <p className="font-bold">Flask Backend</p>
-                 <p className="text-xs text-slate-500 mt-1">Docker + AWS EC2</p>
-              </div>
-              <div className="flex items-center text-slate-600">
-                <span className="material-symbols-outlined hidden md:block text-3xl">arrow_right_alt</span>
-                <span className="material-symbols-outlined md:hidden text-3xl">arrow_downward</span>
-              </div>
-              <div className="flex-1 bg-black/50 border border-white/5 rounded-xl p-6 text-center w-full">
-                 <span className="material-symbols-outlined text-3xl text-purple-400 mb-3">dashboard</span>
-                 <p className="font-bold">React Dashboard</p>
-                 <p className="text-xs text-slate-500 mt-1">Live Monitoring (Vite)</p>
-              </div>
+            </div>
+            <div className="flex flex-wrap gap-3 pt-6 justify-center">
+               {["Python", "Flask", "TensorFlow", "LSTM", "React", "Tailwind", "Docker", "AWS EC2"].map(tech => (
+                 <span key={tech} className="px-6 py-3 bg-white/5 border border-white/10 rounded-full text-xs font-black uppercase tracking-widest text-gray-400 hover:text-white hover:border-primary transition-all cursor-default">
+                   {tech}
+                 </span>
+               ))}
             </div>
           </div>
         </div>
-
-        {/* Tech Stack */}
-        <div>
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
-             <span className="material-symbols-outlined text-orange-400">integration_instructions</span>
-             Technology Stack
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-             {["Python", "Flask", "TensorFlow (LSTM)", "Scikit-learn", "React (Vite)", "Tailwind CSS", "Docker", "AWS EC2"].map(tech => (
-               <div key={tech} className="bg-slate-900/40 border border-white/10 rounded-xl p-6 flex justify-center items-center text-sm font-semibold text-slate-300 hover:border-white/30 hover:text-white transition-colors cursor-default">
-                  {tech}
-               </div>
-             ))}
-          </div>
-        </div>
-
-        {/* Endpoints */}
-        <div>
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
-             <span className="material-symbols-outlined text-green-400">api</span>
-             Backend API Endpoints
-          </h2>
-          <div className="rounded-2xl border border-white/10 bg-slate-900/40 overflow-hidden shadow-2xl">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-slate-800/80 text-slate-300 uppercase text-xs font-bold border-b border-white/10">
-                <tr>
-                  <th className="px-6 py-4">Endpoint</th>
-                  <th className="px-6 py-4">Method</th>
-                  <th className="px-6 py-4">Description</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/10">
-                <tr className="hover:bg-white/5 transition-colors">
-                  <td className="px-6 py-4 font-mono text-primary">/status</td>
-                  <td className="px-6 py-4"><span className="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2 py-1 rounded text-xs font-bold">GET</span></td>
-                  <td className="px-6 py-4 text-slate-400">Backend health check</td>
-                </tr>
-                <tr className="hover:bg-white/5 transition-colors">
-                  <td className="px-6 py-4 font-mono text-primary">/analyze</td>
-                  <td className="px-6 py-4"><span className="bg-green-500/20 text-green-300 border border-green-500/30 px-2 py-1 rounded text-xs font-bold">POST</span></td>
-                  <td className="px-6 py-4 text-slate-400">Receives telemetry data</td>
-                </tr>
-                <tr className="hover:bg-white/5 transition-colors">
-                  <td className="px-6 py-4 font-mono text-primary">/client-system</td>
-                  <td className="px-6 py-4"><span className="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2 py-1 rounded text-xs font-bold">GET</span></td>
-                  <td className="px-6 py-4 text-slate-400">Returns latest system metrics</td>
-                </tr>
-                <tr className="hover:bg-white/5 transition-colors">
-                  <td className="px-6 py-4 font-mono text-primary">/predicted</td>
-                  <td className="px-6 py-4"><span className="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2 py-1 rounded text-xs font-bold">GET</span></td>
-                  <td className="px-6 py-4 text-slate-400">Returns AI prediction results</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </section>
+      </div>
     </div>
   );
 };
-
 export default Documentation;

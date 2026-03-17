@@ -15,7 +15,6 @@ import Insights from "./pages/Dashboard/Insights";
 import PageLoader from "./components/Loader/PageLoader";
 import Documentation from "./pages/Documentation/Documentation";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
-
 const App = () => {
   return (
     <Router>
@@ -24,7 +23,6 @@ const App = () => {
         <Route path="/" element={<PageLoader><Home /></PageLoader>} />
         <Route path="/login" element={<PageLoader><Login /></PageLoader>} />
         <Route path="/signup" element={<PageLoader><Signup /></PageLoader>} />
-        
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Overview />} />
           <Route path="metrics" element={<Metrics />} />
@@ -32,7 +30,6 @@ const App = () => {
           <Route path="network" element={<Network />} />
           <Route path="insights" element={<Insights />} />
         </Route>
-
         <Route element={<MainLayout />}>
           <Route path="/about" element={<About />} />
           <Route path="/documentation" element={<Documentation />} />
@@ -42,5 +39,4 @@ const App = () => {
     </Router>
   );
 };
-
 export default App;

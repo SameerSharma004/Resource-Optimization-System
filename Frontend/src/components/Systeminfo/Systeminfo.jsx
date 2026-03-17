@@ -1,5 +1,4 @@
 import React from "react";
-
 function Systeminfo({
   label,
   value,
@@ -13,11 +12,9 @@ function Systeminfo({
     normal: "text-emerald-500 bg-emerald-300/10",
     warning: "text-amber-500 bg-amber-300/15",
   };
-
   console.log(label, value);
   const numericValue = Number(value ?? 0);
   const displayValue = isNaN(numericValue) ? 0 : Math.round(numericValue);
-
   return (
     <article
       className="rounded-2xl p-4 border bg-white dark:bg-background-dark border-gray-200 dark:border-primary/20 shadow-sm"
@@ -32,7 +29,6 @@ function Systeminfo({
             {unit}
           </strong>
         </div>
-
         <span
           className={`inline-flex h-8 w-8 items-center justify-center rounded-lg ${
             toneStyles[tone]
@@ -41,7 +37,6 @@ function Systeminfo({
           {Icon && <Icon size={18} />}
         </span>
       </div>
-
       <div
         className="mt-3 h-2 overflow-hidden rounded-full bg-gray-300 dark:bg-slate-800"
         role="img"
@@ -57,5 +52,4 @@ function Systeminfo({
     </article>
   );
 }
-
 export default Systeminfo;

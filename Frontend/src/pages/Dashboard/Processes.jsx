@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-
 const API = import.meta.env.VITE_API_URL;
-
 const Processes = () => {
   const [metrics, setMetrics] = useState({
     top_processes: [],
@@ -9,7 +7,6 @@ const Processes = () => {
     ram: 0,
     mem_total: 0,
   });
-
   useEffect(() => {
     const interval = setInterval(async () => {
       const token = localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -26,7 +23,6 @@ const Processes = () => {
           window.location.href = "/login";
           return;
         }
-
         const systemData = await res.json();
         if (systemData && systemData.current) {
           setMetrics({
@@ -43,7 +39,6 @@ const Processes = () => {
     }, 2000);
     return () => clearInterval(interval);
   }, []);
-
   return (
     <>
       <div className="mx-auto space-y-6">
@@ -56,7 +51,6 @@ const Processes = () => {
               Monitor active system processes in real-time.
             </p>
           </div>
-          
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
           <div className="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-background-dark border border-slate-200 dark:border-primary/20 shadow-sm">
@@ -153,7 +147,6 @@ const Processes = () => {
                   <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     Status
                   </th>
-                 
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-primary/10">
@@ -211,12 +204,9 @@ const Processes = () => {
               </tbody>
             </table>
           </div>
-        
         </div>
-        
       </div>
     </>
   );
 };
-
 export default Processes;

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-
 const navItems = [
   { path: "/dashboard", label: "Dashboard", icon: "dashboard" },
   { path: "/dashboard/metrics", label: "System Metrics", icon: "monitoring" },
@@ -9,7 +8,6 @@ const navItems = [
   { path: "/dashboard/insights", label: "AI Insights", icon: "psychology" },
   { path: "/dashboard/alerts", label: "Alerts", icon: "notifications" },
 ];
-
 function Header() {
   const location = useLocation();
   const [isDark, setIsDark] = useState(() => {
@@ -20,7 +18,6 @@ function Header() {
     }
     return true;
   });
-
   useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add("dark");
@@ -30,11 +27,9 @@ function Header() {
       localStorage.setItem("theme", "light");
     }
   }, [isDark]);
-
   const toggleTheme = () => {
     setIsDark(!isDark);
   };
-
   return (
     <header className="h-16 flex items-center justify-between px-8 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark z-10 w-full">
       <div className="flex items-center gap-6">
@@ -58,5 +53,4 @@ function Header() {
     </header>
   );
 }
-
 export default Header;

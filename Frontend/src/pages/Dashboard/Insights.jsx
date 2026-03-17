@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-
 const API = import.meta.env.VITE_API_URL;
-
 const Insights = () => {
   const [prediction, setPrediction] = useState(null);
   const [metrics, setMetrics] = useState({ cpu: 0, ram: 0 });
-
   useEffect(() => {
     const interval = setInterval(async () => {
       const token = localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -29,17 +26,14 @@ const Insights = () => {
           window.location.href = "/login";
           return;
         }
-
         const systemData = await sysRes.json();
         const predData = await predRes.json();
-
         if (systemData && systemData.current) {
           setMetrics({
             cpu: Number(systemData.current.cpu_usage) || 0,
             ram: Number(systemData.current.memory_usage) || 0,
           });
         }
-
         if (predData && predData.status !== "warming_up") {
           setPrediction(predData);
         }
@@ -49,12 +43,10 @@ const Insights = () => {
     }, 2000);
     return () => clearInterval(interval);
   }, []);
-
   const optScore = prediction
     ? Math.max(0, 100 - (metrics.cpu * 0.5 + metrics.ram * 0.5))
     : 0;
   const gain = prediction ? (prediction.idle_probability * 45).toFixed(0) : 0;
-
   return (
     <>
       <div className="flex flex-col gap-5">
@@ -142,7 +134,6 @@ const Insights = () => {
             </p>
           </div>
         </div>
-
         <div className="grid grid-cols-1 gap-8">
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between">
@@ -196,5 +187,4 @@ const Insights = () => {
     </>
   );
 };
-
 export default Insights;

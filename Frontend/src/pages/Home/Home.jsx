@@ -1,307 +1,208 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
-
 const Home = () => {
-
-  
+  const howItWorksRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: howItWorksRef,
+    offset: ["start center", "end center"],
+  });
+  const timelineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
   return (
-    <div className="dark bg-black text-white selection:bg-primary/30 min-h-screen">
+    <div className="bg-black min-h-screen p-4 md:p-6 selection:bg-primary/30 selection:text-white">
       <Navbar />
-
-      <section className="relative pt-32 pb-20 overflow-hidden min-h-screen flex items-center">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.05)_1px,transparent_0)] bg-[length:40px_40px] pointer-events-none"></div>
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-primary/10 via-transparent to-transparent pointer-events-none"></div>
-        <div className="max-w-7xl mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8">
-            <h1 className="text-5xl lg:text-7xl font-black leading-tight tracking-tighter dark:text-white">
-              AI-Powered <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">
-                Resource Optimization
-              </span>
-            </h1>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-xl leading-relaxed">
-              Eliminate system bottlenecks with predictive AI. Monitor
-              kernel-level performance in real-time and let our neural engine
-              suggest optimizations before they become critical.
-            </p>
-            <div className="flex flex-wrap gap-4">
+      <section className="bg-white rounded-[40px] min-h-[90vh] flex flex-col items-center justify-center text-center px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-linear-to-br from-red-50 via-white to-orange-50 opacity-70"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-[radial-gradient(circle_at_center,rgba(255,59,59,0.03)_0%,transparent_70%)] pointer-events-none"></div>
+        <div className="relative z-10 max-w-4xl pt-10">
+          <div className="inline-flex items-center gap-2 text-black px-4 py-1.5 mb-8 text-sm font-medium bg-gray-100/80 backdrop-blur-sm border border-black/5 rounded-full shadow-sm">
+            <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+            AI-Driven Optimization Now Available ✦
+          </div>
+          <h1 className="text-5xl md:text-7xl lg:text-8xl text-background-dark font-black leading-[1.1] tracking-tight">
+            Build Faster <br />
+            Optimize with{" "}
+            <span className="text-primary italic font-serif">Confidence</span>
+          </h1>
+          <p className="text-gray-500 mt-8 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+            Eliminate system bottlenecks with predictive AI. Monitor
+            kernel-level performance and let our neural engine suggest
+            optimizations before they become critical.
+          </p>
+          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex rounded-full overflow-hidden shadow-2xl shadow-primary/20 group hover:scale-105 transition-transform duration-300">
               <Link
                 to="/dashboard"
-                className="bg-primary text-white font-bold px-8 py-4 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-3 shadow-xl shadow-primary/20"
+                className="bg-background-dark  text-white text-base font-bold flex items-center"
               >
-                <span className="material-symbols-outlined">rocket_launch</span>
-                Get Started Free
-              </Link>
-              <NavLink to="/download" className="bg-white/5 border cursor-pointer border-white/10 dark:text-white font-bold px-8 py-4 rounded-xl hover:bg-white/10 transition-all flex items-center gap-3">
-                Download Agent
-              </NavLink>
-            </div>
-          </div>
-          <div className="relative">
-            <div className="relative rounded-2xl border border-white/10 bg-slate-900/50 p-4 shadow-2xl backdrop-blur-sm">
-              <div className="flex items-center justify-between mb-4 px-2">
-                <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/50"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/50"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/50"></div>
+                <div className="px-8 py-4 bg-primary rounded-full">
+                  Get Started
                 </div>
-                <div className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">
-                  System Monitor v1.0.1
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-black/40 rounded-lg p-4 border border-white/5">
-                  <div className="text-xs text-slate-500 mb-1">CPU LOAD</div>
-                  <div className="text-2xl font-mono text-primary font-bold">
-                    14.2%
-                  </div>
-                  <div className="mt-4 h-12 w-full bg-primary/5 rounded relative overflow-hidden">
-                    <div className="absolute inset-0 bg-primary/20 h-full w-1/3 blur-sm"></div>
-                    <div className="flex items-end h-full gap-0.5 px-1">
-                      <div className="flex-1 bg-primary/40 h-[20%]"></div>
-                      <div className="flex-1 bg-primary/40 h-[40%]"></div>
-                      <div className="flex-1 bg-primary/40 h-[35%]"></div>
-                      <div className="flex-1 bg-primary/40 h-[60%]"></div>
-                      <div className="flex-1 bg-primary/60 h-[80%]"></div>
-                      <div className="flex-1 bg-primary/40 h-[45%]"></div>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-black/40 rounded-lg p-4 border border-white/5">
-                  <div className="text-xs text-slate-500 mb-1">MEMORY</div>
-                  <div className="text-2xl font-mono text-blue-400 font-bold">
-                    4.8 GB
-                  </div>
-                  <div className="mt-4 h-2 w-full bg-white/5 rounded-full overflow-hidden">
-                    <div className="h-full bg-blue-400 w-3/4"></div>
-                  </div>
-                  <div className="mt-2 text-[10px] text-slate-500">
-                    75% capacity reached
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 p-4 bg-primary/10 border border-primary/30 rounded-lg">
-                <div className="flex gap-3 items-start">
-                  <span className="material-symbols-outlined text-primary text-xl">
-                    auto_awesome
+                <div className="px-5 py-4 flex items-center group-hover:brightness-110 transition-all">
+                  <span className="material-symbols-outlined text-white text-lg group-hover:translate-x-1 transition-transform">
+                    arrow_right_alt
                   </span>
-                  <div>
-                    <div className="text-xs font-bold text-primary uppercase">
-                      AI Suggestion
-                    </div>
-                    <div className="text-sm text-slate-300 mt-1">
-                      Found zombie process "indexer_v3". Terminating could free
-                      1.2GB RAM.
-                    </div>
-                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
-            <div className="absolute -z-10 -bottom-10 -right-10 w-64 h-64 bg-primary/20 blur-[100px] rounded-full"></div>
+            <NavLink
+              to="/download"
+              className="px-8 py-4 text-base font-bold text-background-dark border border-black/5 rounded-full hover:bg-gray-50 transition-colors"
+            >
+              Download Agent
+            </NavLink>
           </div>
         </div>
       </section>
-
-      <section className="py-24 relative bg-slate-900/20" id="features">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold dark:text-white mb-4">
-              Intelligent Optimization
+      <section
+        className="mt-6 bg-white rounded-[40px] py-24 px-6 md:px-12"
+        id="features"
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-black text-background-dark mb-6">
+              Features Built for Scale
             </h2>
-            <p className="text-slate-500 max-w-2xl">
-              Advanced tools built for high-performance cloud infrastructure and
-              edge computing.
+            <div className="w-24 h-1.5 bg-primary mx-auto rounded-full"></div>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-black">
+            {[
+              {
+                icon: "developer_board",
+                title: "Kernel Monitoring",
+                desc: "Granular real-time tracking of every core and byte allocated with zero-overhead collection.",
+              },
+              {
+                icon: "psychology",
+                title: "Neural Prediction",
+                desc: "AI analysis of your system patterns to identify leaks and runaway threads before they crash.",
+              },
+              {
+                icon: "bar_chart",
+                title: "Deep Analysis",
+                desc: "Deep-dive into stack traces of hungry applications. Know exactly what line drains your power.",
+              },
+              {
+                icon: "timeline",
+                title: "Predictive Load",
+                desc: "ML-based forecasting that predicts usage spikes based on historical trends and triggers.",
+              },
+              {
+                icon: "notifications_active",
+                title: "Instant Alerts",
+                desc: "Configurable triggers that push to Slack, Discord, or Webhooks when thresholds are crossed.",
+              },
+              {
+                icon: "dashboard_customize",
+                title: "Live Dashboard",
+                desc: "Customizable high-fidelity visualization panels that give you the full picture of health.",
+              },
+            ].map((f, i) => (
+              <div
+                key={i}
+                className="group p-10 rounded-[32px] bg-gray-50 border border-black/5 hover:border-primary/30 hover:bg-white hover:shadow-2xl transition-all duration-300"
+              >
+                <div className="size-14 bg-background-dark rounded-2xl flex items-center justify-center mb-8 group-hover:bg-primary transition-colors">
+                  <span className="material-symbols-outlined text-white transition-colors text-3xl">
+                    {f.icon}
+                  </span>
+                </div>
+                <h3 className="text-2xl font-bold mb-4">{f.title}</h3>
+                <p className="text-gray-500 leading-relaxed">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section
+        ref={howItWorksRef}
+        className="bg-background-dark text-white rounded-[40px] px-8 md:px-20 py-32 mt-6 relative overflow-hidden"
+        id="how-it-works"
+      >
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(circle_at_center,rgba(255,59,59,0.03)_0%,transparent_70%)] pointer-events-none"></div>
+        <div className="grid lg:grid-cols-2 gap-16 md:gap-24 max-w-7xl mx-auto">
+          <div className="sticky top-32 h-fit">
+            <div className="inline-flex items-center gap-2 text-primary px-4 py-1.5 mb-6 text-xs font-black tracking-widest uppercase bg-primary/10 rounded-full border border-primary/20">
+              <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+              Workflow
+            </div>
+            <h2 className="text-5xl md:text-7xl font-black mb-8 leading-[0.9] tracking-tight">
+              How it{" "}
+              <span className="text-primary italic font-serif font-normal">
+                Works
+              </span>
+            </h2>
+            <p className="text-gray-400 mb-10 text-xl font-medium leading-relaxed max-w-md">
+              Our system bridges the gap between raw hardware data and
+              actionable AI intelligence.
             </p>
+            <Link
+              to="/dashboard"
+              className="inline-flex items-center bg-white text-black px-10 py-4 rounded-full font-black uppercase tracking-widest text-xs hover:scale-105 transition-transform shadow-xl shadow-white/5"
+            >
+              Launch Platform
+            </Link>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="group p-8 rounded-2xl border border-white/5 bg-slate-900/40 hover:border-primary/50 hover:bg-primary/5 transition-all">
-              <span className="material-symbols-outlined text-primary mb-6 text-3xl">
-                developer_board
-              </span>
-              <h3 className="text-xl font-bold dark:text-white mb-3">
-                CPU/Memory Monitoring
-              </h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Granular real-time tracking of every core, cache hit, and byte
-                allocated with zero-overhead collection.
-              </p>
-            </div>
-            <div className="group p-8 rounded-2xl border border-white/5 bg-slate-900/40 hover:border-primary/50 hover:bg-primary/5 transition-all">
-              <span className="material-symbols-outlined text-primary mb-6 text-3xl">
-                psychology
-              </span>
-              <h3 className="text-xl font-bold dark:text-white mb-3">
-                AI Recommendations
-              </h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Neural analysis of your system patterns to identify memory leaks
-                and runaway threads before they cause a crash.
-              </p>
-            </div>
-            <div className="group p-8 rounded-2xl border border-white/5 bg-slate-900/40 hover:border-primary/50 hover:bg-primary/5 transition-all">
-              <span className="material-symbols-outlined text-primary mb-6 text-3xl">
-                bar_chart
-              </span>
-              <h3 className="text-xl font-bold dark:text-white mb-3">
-                Process Analysis
-              </h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Deep-dive into the stack traces of resource-hungry applications.
-                Know exactly what line of code is draining power.
-              </p>
-            </div>
-            <div className="group p-8 rounded-2xl border border-white/5 bg-slate-900/40 hover:border-primary/50 hover:bg-primary/5 transition-all">
-              <span className="material-symbols-outlined text-primary mb-6 text-3xl">
-                timeline
-              </span>
-              <h3 className="text-xl font-bold dark:text-white mb-3">
-                Predictive Load
-              </h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                ML-based forecasting that predicts usage spikes based on
-                historical trends and external triggers.
-              </p>
-            </div>
-            <div className="group p-8 rounded-2xl border border-white/5 bg-slate-900/40 hover:border-primary/50 hover:bg-primary/5 transition-all">
-              <span className="material-symbols-outlined text-primary mb-6 text-3xl">
-                notifications_active
-              </span>
-              <h3 className="text-xl font-bold dark:text-white mb-3">
-                Smart Alerts
-              </h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Configurable triggers that push to Slack, Discord, or Webhooks
-                when critical thresholds are crossed.
-              </p>
-            </div>
-            <div className="group p-8 rounded-2xl border border-white/5 bg-slate-900/40 hover:border-primary/50 hover:bg-primary/5 transition-all">
-              <span className="material-symbols-outlined text-primary mb-6 text-3xl">
-                dashboard_customize
-              </span>
-              <h3 className="text-xl font-bold dark:text-white mb-3">
-                Interactive Dashboard
-              </h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Customizable high-fidelity visualization panels that give you
-                the full picture of your infrastructure health.
-              </p>
+          <div className="relative pt-4">
+            <div className="absolute left-[19px] top-[20px] bottom-[115px] w-[2px] bg-white/10 hidden md:block"></div>
+            <motion.div
+              style={{ height: timelineHeight, top: "20px" }}
+              className="absolute left-[19px] w-[2px] bg-primary origin-top shadow-[0_0_15px_rgba(255,59,59,0.5)] max-h-[calc(100%-135px)] hidden md:block"
+            />
+            <div className="space-y-24 relative">
+              {[
+                {
+                  step: 1,
+                  title: "Agent Deployment",
+                  desc: "Install our lightweight Python-based agent on your local or remote systems. It securely collects hardware telemetry including CPU thermals, memory allocation, and disk I/O throughput with near-zero system overhead.",
+                },
+                {
+                  step: 2,
+                  title: "Neural Processing",
+                  desc: "Data is streamed to our centralized engine where the LSTM (Long Short-Term Memory) models process historical trends. The AI identifies performance anomalies and predicts potential system failures before they occur.",
+                },
+                {
+                  step: 3,
+                  title: "Optimization Logic",
+                  desc: "Receive proactive alerts and AI-driven recommendations via the high-fidelity dashboard. Reallocate resources dynamically or manage runaway processes to maintain peak system efficiency automatically.",
+                },
+                {
+                  step: 4,
+                  title: "Enterprise Scaling",
+                  desc: "Deploy across massive server clusters with ease. Our architecture supports horizontal scaling, allowing you to manage thousands of nodes while maintaining ultra-low latency in monitoring and AI feedback loops.",
+                },
+              ].map((item) => (
+                <div key={item.step} className="relative flex gap-10">
+                  <div className="relative z-10 size-10 min-w-10 rounded-full bg-primary flex items-center justify-center font-black text-white shadow-[0_0_20px_rgba(255,59,59,0.3)]">
+                    {item.step}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-black mb-4 uppercase tracking-tight">
+                      {item.title}
+                    </h3>
+                    <p className="text-gray-400 font-bold leading-relaxed text-balance">
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
-
-      <section className="py-24" id="how-it-works">
-        <div className="max-w-5xl mx-auto px-6">
+      <section className="py-24 px-6">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold dark:text-white mb-4">
-              How It Works
-            </h2>
-            <div className="w-20 h-1 bg-primary mx-auto"></div>
-          </div>
-          <div className="relative">
-            <div className="absolute left-1/2 top-0 bottom-0 w-px hidden md:block"></div>
-            <div className="space-y-24">
-              <div className="flex flex-col md:flex-row items-center gap-12 group">
-                <div className="md:w-1/2 text-center md:text-right">
-                  <h3 className="text-2xl font-bold dark:text-white mb-4">
-                    Data Collection
-                  </h3>
-                  <p className="text-slate-400">
-                    Our lightweight binary agent gathers low-level telemetry
-                    from the kernel without affecting performance.
-                  </p>
-                </div>
-                <div className="relative z-10 flex-shrink-0 size-12 rounded-full bg-slate-900 border-4 border-primary/20 flex items-center justify-center text-primary font-bold shadow-lg shadow-primary/40 group-hover:scale-110 transition-transform">
-                  1
-                </div>
-                <div className="">
-                  <div className="bg-slate-900/50 p-6  flex justify-center items-center rounded-xl border border-white/5">
-                    <span className="material-symbols-outlined text-primary text-4xl">
-                      cloud_download
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col md:flex-row-reverse items-center gap-12 group">
-                <div className="md:w-1/2 text-center md:text-left">
-                  <h3 className="text-2xl font-bold dark:text-white mb-4">
-                    Stream Processing
-                  </h3>
-                  <p className="text-slate-400">
-                    Data is streamed to our edge nodes for low-latency cleanup
-                    and normalization before the AI kicks in.
-                  </p>
-                </div>
-                <div className="relative z-10 flex-shrink-0 size-12 rounded-full bg-slate-900 border-4 border-primary/20 flex items-center justify-center text-primary font-bold shadow-lg shadow-primary/40 group-hover:scale-110 transition-transform">
-                  2
-                </div>
-                <div className="md:w-1/2 flex justify-end">
-                  <div className="bg-slate-900/50 p-6  flex justify-center items-center rounded-xl border border-white/5 w-full md:w-auto">
-                    <span className="material-symbols-outlined text-primary text-4xl">
-                      sync_alt
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col md:flex-row items-center gap-12 group">
-                <div className="md:w-1/2 text-center md:text-right">
-                  <h3 className="text-2xl font-bold dark:text-white mb-4">
-                    AI Analysis Engine
-                  </h3>
-                  <p className="text-slate-400">
-                    Our proprietary neural engine identifies anomalies and
-                    cross-references them with million-point datasets.
-                  </p>
-                </div>
-                <div className="relative z-10 flex-shrink-0 size-12 rounded-full bg-slate-900 border-4 border-primary/20 flex items-center justify-center text-primary font-bold shadow-lg shadow-primary/40 group-hover:scale-110 transition-transform">
-                  3
-                </div>
-                <div className="">
-                  <div className="bg-slate-900/50 p-6  flex justify-center items-center rounded-xl border border-white/5">
-                    <span className="material-symbols-outlined text-primary text-4xl">
-                      neurology
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col md:flex-row-reverse items-center gap-12 group">
-                <div className="md:w-1/2 text-center md:text-left">
-                  <h3 className="text-2xl font-bold dark:text-white mb-4">
-                    Actionable Insights
-                  </h3>
-                  <p className="text-slate-400">
-                    Receive precise optimization commands that can be executed
-                    manually or automatically via CI/CD.
-                  </p>
-                </div>
-                <div className="relative z-10 flex-shrink-0 size-12 rounded-full bg-slate-900 border-4 border-primary/20 flex items-center justify-center text-primary font-bold shadow-lg shadow-primary/40 group-hover:scale-110 transition-transform">
-                  4
-                </div>
-                <div className="md:w-1/2 flex justify-end">
-                  <div className="bg-slate-900/50  flex justify-center items-center p-6 rounded-xl border border-white/5 w-full md:w-auto">
-                    <span className="material-symbols-outlined text-primary text-4xl">
-                      auto_fix_high
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      
-
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="mb-16 text-center">
-            <h2 className="text-3xl font-bold dark:text-white mb-4">
+            <h2 className="text-3xl font-bold text-white mb-4">
               Meet the Project Team
             </h2>
+            <p className="text-gray-500">
+              The minds behind the optimization engine.
+            </p>
           </div>
-          <div className="grid md:grid-cols-5 gap-8">
+          <div className="flex flex-wrap justify-center gap-8 md:gap-12">
             {[
               {
                 name: "Sachit Kohli",
@@ -328,52 +229,28 @@ const Home = () => {
                 role: "LSTM Model Developer",
                 img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBlwFvYiI_3lRUozp6fFAimHtRR3aiyTcP8HTYTgMXZg7rxRoSaqPk2MftnvuUuSLPFWY-j4HsQe3vy1qhqYUy_4r5F68y9Cpol1UOjrY_BxUXTeoTa-YZrXQIXP71XIFkoWypeQZQbST9OsdfmZmaTIlO2zft_0fjBdtSj1TFENmXNjLpSGF9LFLD_f3YVvKcgrBxxjX-nTzgMZpQvyPfiVMQUk3Jm27jL26-N-pkua7Rcafuj2nvUFifwWTSUk8RFmx68qsOIVfc",
               },
-            ].map((person) => (
-              <div key={person.name} className="text-center space-y-4">
-                <div className="size-24 bg-slate-800 rounded-full mx-auto overflow-hidden relative border-2 border-primary/20">
+            ].map((p, i) => (
+              <div key={i} className="text-center group">
+                <div className="size-20 md:size-24 bg-[#1a1c25] rounded-full mx-auto overflow-hidden border-2 border-white/10 group-hover:border-primary transition-colors duration-300">
                   <img
-                    alt={person.name}
-                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all"
-                    src={person.img}
+                    src={p.img}
+                    alt={p.name}
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-110"
                   />
                 </div>
-                <div>
-                  <div className="font-bold text-white">{person.name}</div>
-                  <div className="text-xs text-slate-500">{person.role}</div>
+                <div className="mt-4">
+                  <div className="text-white font-bold">{p.name}</div>
+                  <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">
+                    {p.role}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </section>
-
-      <section className="py-24 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="bg-primary p-12 lg:p-20 rounded-[3rem] text-center space-y-8 relative overflow-hidden">
-            <div className="absolute inset-0 bg-white/5 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.05)_1px,transparent_0)] bg-[length:40px_40px]"></div>
-            <h2 className="text-4xl lg:text-6xl font-black text-white leading-tight">
-              Optimize Your System <br /> with Artificial Intelligence
-            </h2>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8 cursor-pointer relative z-20">
-              <Link
-                to="/download"
-                className="bg-white text-primary font-bold px-10 py-5 rounded-2xl hover:bg-slate-100 transition-all text-lg shadow-2xl inline-block"
-              >
-                Download Agent Now
-              </Link>
-              <Link to="/signup" className="bg-primary/50 text-white border border-white/20 font-bold px-10 py-5 rounded-2xl hover:bg-primary/60 transition-all text-lg backdrop-blur-md">
-                Register Now
-              </Link>
-            </div>
-          </div>
-        </div>
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200%] h-1/2 bg-primary/20 blur-[120px] rounded-[100%] -z-0"></div>
-      </section>
-
       <Footer />
     </div>
   );
 };
-
 export default Home;

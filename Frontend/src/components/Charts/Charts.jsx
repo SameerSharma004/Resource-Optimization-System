@@ -9,24 +9,19 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-
 function Charts({Type, Attribute1, Attribute2, history}) {
   const [isDark, setIsDark] = useState(false);
-
   useEffect(() => {
     const checkTheme = () => setIsDark(document.documentElement.classList.contains("dark"));
     checkTheme();
-    
     const observer = new MutationObserver(checkTheme);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
     return () => observer.disconnect();
   }, []);
-
   const textColor = isDark ? "#94a3b8" : "#000000";
   const tooltipBg = isDark ? "#0f172a" : "#ffffff";
   const tooltipText = isDark ? "#f1f5f9" : "#000000";
   const gridColor = isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(125, 246, 182, 0.14)";
-
   return (
     <>
       <div className="mb-3 flex items-center justify-between gap-3 text-slate-900 dark:text-slate-100">
@@ -75,5 +70,4 @@ function Charts({Type, Attribute1, Attribute2, history}) {
     </>
   );
 }
-
 export default Charts;

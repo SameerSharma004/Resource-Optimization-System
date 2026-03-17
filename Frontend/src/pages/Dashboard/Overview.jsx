@@ -3,7 +3,6 @@ import Charts from "../../components/Charts/Charts";
 import Systeminfo from "../../components/Systeminfo/Systeminfo";
 import { Cpu, MemoryStick, Zap } from "lucide-react";
 const API = import.meta.env.VITE_API_URL;
-
 const Overview = () => {
   const [metrics, setMetrics] = useState({
     cpu: 0,
@@ -16,13 +15,11 @@ const Overview = () => {
     top_processes: [],
   });
   const [suggestions, setSuggestions] = useState([]);
-
   useEffect(() => {
     const interval = setInterval(async () => {
       const token = localStorage.getItem("token") || sessionStorage.getItem("token");
       if (!token) return;
       try {
-
         const [systemRes, predictionRes] = await Promise.all([
           fetch(`${API}/client-system`, {
             headers: {
@@ -35,17 +32,14 @@ const Overview = () => {
             },
           }),
         ]);
-
         if (systemRes.status === 401 || predictionRes.status === 401) {
           localStorage.removeItem("token");
           sessionStorage.removeItem("token");
           window.location.href = "/login";
           return;
         }
-
         const systemData = await systemRes.json();
         const predictionData = await predictionRes.json();
-
         if (systemData && systemData.current) {
           setMetrics({
             cpu: Number(systemData.current.cpu_usage) || 0,
@@ -64,7 +58,6 @@ const Overview = () => {
             top_processes: systemData.current.top_processes || [],
           });
         }
-
         if (
           predictionData &&
           predictionData.state &&
@@ -82,10 +75,8 @@ const Overview = () => {
         console.error("Fetch error:", error);
       }
     }, 2000);
-
     return () => clearInterval(interval);
   }, []);
-
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -286,5 +277,4 @@ const Overview = () => {
     </>
   );
 };
-
 export default Overview;

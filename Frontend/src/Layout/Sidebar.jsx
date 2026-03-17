@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-
 const navItems = [
   { path: "/dashboard", label: "Dashboard", icon: "dashboard" },
   { path: "/dashboard/metrics", label: "System Metrics", icon: "monitoring" },
@@ -8,12 +7,10 @@ const navItems = [
   { path: "/dashboard/network", label: "Network", icon: "lan" },
   { path: "/dashboard/insights", label: "AI Insights", icon: "psychology" },
 ];
-
 function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-
   useEffect(() => {
     const storedUser = localStorage.getItem("user") || sessionStorage.getItem("user");
     if (storedUser && storedUser !== "undefined") {
@@ -24,7 +21,6 @@ function Sidebar() {
       }
     }
   }, []);
-
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
@@ -33,7 +29,6 @@ function Sidebar() {
     setUser(null);
     navigate("/");
   };
-
   return (
     <aside className="w-64 shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark flex flex-col">
       <div className="p-6 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800">
@@ -91,5 +86,4 @@ function Sidebar() {
     </aside>
   );
 }
-
 export default Sidebar;
