@@ -5,8 +5,10 @@ import requests
 import time
 import threading
 import logging
-LOGIN_URL = "https://ai-powered-resource-optimization-system.onrender.com/login"
-BACKEND_URL = "https://ai-powered-resource-optimization-system.onrender.com/analyze"
+# LOGIN_URL = "https://ai-powered-resource-optimization-system.onrender.com/login"
+# BACKEND_URL = "https://ai-powered-resource-optimization-system.onrender.com/analyze"
+LOGIN_URL = "http://localhost:5000/login"
+BACKEND_URL = "http://localhost:5000/analyze"
 TOKEN = None
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
@@ -134,15 +136,20 @@ def run_agent():
                 "Authorization": f"Bearer {TOKEN}"
             }
             response = requests.post(BACKEND_URL, json=data, headers=headers)
+            
             logging.info(
                 f"Data sent (Status {response.status_code}) "
-                f"| CPU {data['cpu_usage']}% | RAM {data['memory_usage']}%"
+                f"| CPU {data['cpu_usage']}% | RAM {data['memory_usage']}% "
             )
+            time.sleep(2)
+
         except requests.exceptions.ConnectionError:
             logging.warning("Connection failed, waiting for backend...")
+            time.sleep(2)
         except Exception as e:
             logging.error(f"Error: {e}")
-        time.sleep(2)
+            time.sleep(2)
+
 def ask_permission():
     response = messagebox.askyesno(
         "Permission Required",

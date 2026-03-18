@@ -14,6 +14,16 @@ export default function Navbar() {
       }
     }
   }, []);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
@@ -23,120 +33,123 @@ export default function Navbar() {
     navigate("/");
   };
   const isHomePage = location.pathname === "/";
+  const isAuthPage = location.pathname === "/login" || location.pathname === "/signup";
   return (
     <nav
-      className="fixed top-8 left-1/2 -translate-x-1/2 z-50
-      w-[1100px] max-w-[95%] bg-background-dark backdrop-blur-2xl text-white
-      px-10 py-4 rounded-full flex justify-between items-center border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+      className={`fixed top-0 left-0 right-0 z-50 px-6 py-4 md:px-12 flex justify-between items-center transition-all duration-300 ${
+        isScrolled
+          ? "bg-background-dark/80 backdrop-blur-xl border-b border-white/5 py-3"
+          : "bg-transparent py-6"
+      }`}
     >
-      <NavLink to="/" className="flex items-center gap-3 group">
-        <div className="relative">
-          <div className="w-4 h-4 bg-primary rounded-full group-hover:scale-125 transition-transform duration-500"></div>
-          <div className="absolute inset-0 bg-primary blur-md opacity-0 group-hover:opacity-50 transition-opacity"></div>
+      <NavLink to="/" className="flex items-center gap-2 group">
+        <div className="size-9 bg-primary rounded-xl flex items-center justify-center transform rotate-12 group-hover:rotate-0 transition-transform duration-500 shadow-lg shadow-primary/20">
+          <span className="material-symbols-outlined text-black text-xl font-black">
+            bolt
+          </span>
         </div>
-        <span className="font-black text-xl tracking-tighter text-white">
-          AI{" "}
-          <span className="text-primary italic font-serif font-normal">
+        <span className="font-black text-2xl tracking-tighter text-white">
+          AI
+          <span className="text-primary italic font-serif font-medium ml-1">
             Optimizer
           </span>
         </span>
       </NavLink>
-      <div className="hidden md:flex gap-10 text-gray-400 text-sm font-bold uppercase tracking-widest">
-        {isHomePage ? (
-          <>
-            <a href="#features" className="hover:text-white transition-colors">
-              Features
-            </a>
-            <a
-              href="#how-it-works"
-              className="hover:text-white transition-colors"
-            >
-              How it Works
-            </a>
-            <NavLink
-              to="/documentation"
-              className="hover:text-white transition-colors"
-            >
-              Docs
-            </NavLink>
-            <NavLink
-              to="/download"
-              className="hover:text-white transition-colors"
-            >
-              Download
-            </NavLink>
-          </>
-        ) : (
-          <>
-            <NavLink to="/" className="hover:text-white transition-colors">
-              Home
-            </NavLink>
-            <NavLink
-              to="/documentation"
-              className="hover:text-white transition-colors"
-            >
-              Docs
-            </NavLink>
-            <NavLink
-              to="/download"
-              className="hover:text-white transition-colors"
-            >
-              Download
-            </NavLink>
-          </>
-        )}
-      </div>
-      <div className="flex items-center gap-8">
-        {user ? (
-          <div className="flex items-center gap-5">
-            <span className="text-gray-500 text-xs font-black uppercase tracking-widest hidden sm:inline">
-              User:{" "}
-              <span className="text-white">{user.name.split(" ")[0]}</span>
-            </span>
-            <div className="flex items-center gap-1 bg-white/5 p-1 rounded-full border border-white/5">
+
+      {!isAuthPage && (
+        <div className="hidden lg:flex items-center gap-10 text-white/50 text-sm font-bold tracking-tight">
+          {isHomePage ? (
+            <>
+              <a
+                href="#features"
+                className="hover:text-white transition-colors"
+              >
+                Features
+              </a>
+              <a
+                href="#how-it-works"
+                className="hover:text-white transition-colors"
+              >
+                How it Works
+              </a>
+              <NavLink
+                to="/documentation"
+                className="hover:text-white transition-colors"
+              >
+                Documentation
+              </NavLink>
+              <NavLink
+                to="/download"
+                className="hover:text-white transition-colors"
+              >
+                Download
+              </NavLink>
+            </>
+          ) : (
+            <>
+              <NavLink to="/" className="hover:text-white transition-colors">
+                Home
+              </NavLink>
+              <NavLink
+                to="/about"
+                className="hover:text-white transition-colors"
+              >
+                About Us
+              </NavLink>
+              <NavLink
+                to="/documentation"
+                className="hover:text-white transition-colors"
+              >
+                Documentation
+              </NavLink>
+              <NavLink
+                to="/download"
+                className="hover:text-white transition-colors"
+              >
+                Download
+              </NavLink>
+            </>
+          )}
+        </div>
+      )}
+
+      {!isAuthPage && (
+        <div className="flex items-center gap-6">
+          {user ? (
+            <div className="flex items-center gap-4">
               <NavLink
                 to="/dashboard"
-                className="bg-white text-black px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest hover:bg-gray-200 transition-colors"
+                className="bg-primary text-black px-6 py-2.5 rounded-full text-sm font-black tracking-tight hover:scale-105 transition-all shadow-lg shadow-primary/20"
               >
                 Dashboard
               </NavLink>
               <button
                 onClick={handleLogout}
-                className="bg-primary size-8 rounded-full flex items-center justify-center hover:brightness-110 transition-all text-white"
-                title="Logout"
+                className="size-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white transition-all"
               >
-                <span className="material-symbols-outlined text-sm">
+                <span className="material-symbols-outlined text-xl">
                   logout
                 </span>
               </button>
             </div>
-          </div>
-        ) : (
-          <div className="flex items-center gap-8">
-            <NavLink
-              to="/login"
-              className="text-gray-400 text-xs font-black uppercase tracking-widest hover:text-white transition-colors"
-            >
-              Sign in
-            </NavLink>
-            <NavLink
-              to="/signup"
-              className="flex items-center bg-primary text-black rounded-full gap-2 overflow-hidden group hover:scale-105 transition-all"
-            >
-              <div className=" bg-white  px-3 py-2 rounded-full">
-                <span className="text-xs font-black uppercase tracking-widest">
-                  Register
-                </span>
-              </div>
-              <div className="flex items-center pr-2">
-                <span className="material-symbols-outlined text-white text-lg group-hover:translate-x-1 transition-transform">
-                  arrow_right_alt
-                </span>
-              </div>
-            </NavLink>
-          </div>
-        )}
-      </div>
+          ) : (
+            <>
+              <NavLink
+                to="/login"
+                className="text-white/50 hover:text-white text-sm font-bold hidden md:block transition-colors"
+              >
+                Sign in
+              </NavLink>
+              <NavLink
+                to="/signup"
+                className="bg-white text-black px-8 py-3 rounded-full text-sm font-black tracking-tight hover:scale-105 transition-all shadow-xl shadow-white/5"
+              >
+                Get Started
+              </NavLink>
+            </>
+          )}
+        </div>
+      )}
     </nav>
   );
 }

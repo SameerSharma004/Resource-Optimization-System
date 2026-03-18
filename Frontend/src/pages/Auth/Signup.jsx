@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Navbar from "../../components/Navbar/Navbar";
 const API = import.meta.env.VITE_API_URL;
 const Signup = () => {
   const navigate = useNavigate();
@@ -7,6 +8,7 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [terms, setTerms] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!terms) {
@@ -34,8 +36,9 @@ const Signup = () => {
   };
   return (
     <div className="bg-background-dark min-h-screen p-4 md:p-6 selection:bg-primary/30 selection:text-white flex flex-col">
-      <main className="flex-1 flex items-center justify-center py-20 relative">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl aspect-square bg-[radial-gradient(circle_at_center,rgba(255,59,59,0.05)_0%,transparent_70%)] pointer-events-none"></div>
+      <Navbar />
+      <main className="flex-1 flex items-center justify-center py-20 relative pt-32">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl aspect-square bg-[radial-gradient(circle_at_center,rgba(216,119,57,0.05)_0%,transparent_70%)] pointer-events-none"></div>
         <div className="w-full max-w-xl z-10">
           <div className="bg-white rounded-[40px] shadow-2xl overflow-hidden border border-black/5 p-10 md:p-16">
             <div className="text-center mb-10">
@@ -89,17 +92,28 @@ const Signup = () => {
                 <label className="text-xs font-black uppercase tracking-widest opacity-40 ml-1" htmlFor="password">
                   Password
                 </label>
-                <input
-                  className="w-full h-14 px-6 bg-gray-50 border border-black/5 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:border-primary text-background-dark font-bold placeholder:text-gray-400 outline-none transition-all"
-                  id="password"
-                  placeholder="Min. 8 characters"
-                  type="password"
-                  required
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                />
+                <div className="relative group/password">
+                  <input
+                    className="w-full h-14 px-6 pr-14 bg-gray-50 border border-black/5 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:border-primary text-background-dark font-bold placeholder:text-gray-400 outline-none transition-all"
+                    id="password"
+                    placeholder="Min. 8 characters"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 size-10 flex items-center justify-center text-gray-400 hover:text-primary transition-colors hover:bg-primary/5 rounded-xl"
+                  >
+                    <span className="material-symbols-outlined">
+                      {showPassword ? "visibility_off" : "visibility"}
+                    </span>
+                  </button>
+                </div>
               </div>
-              <div className="flex items-start gap-3 py-2 ml-1">
+              <div className="flex items-center gap-3 py-2 ml-1">
                 <input
                   className="size-5 mt-0.5 rounded-lg border-black/10 text-primary focus:ring-primary/30 cursor-pointer"
                   id="terms"

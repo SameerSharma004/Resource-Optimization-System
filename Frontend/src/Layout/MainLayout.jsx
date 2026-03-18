@@ -7,7 +7,7 @@ function MainLayout() {
   const location = useLocation();
   const isDashboard = location.pathname === "/dashboard";
   return (
-    <div className="dark bg-black text-white selection:bg-primary/30 min-h-screen flex flex-col">
+    <div className="dark bg-background-dark text-white selection:bg-primary/30 min-h-screen flex flex-col">
       {!isDashboard && (
         <Navbar />
       )}

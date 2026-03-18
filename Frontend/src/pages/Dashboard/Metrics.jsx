@@ -1,5 +1,55 @@
 import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Cpu,
+  Database,
+  HardDrive,
+  Layout,
+  Monitor,
+  Activity,
+  Terminal,
+  ShieldCheck,
+  ArrowUpRight,
+  ArrowDownLeft,
+} from "lucide-react";
+
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+const CoreCard = ({ id, utilization, index }) => (
+  <motion.div
+    initial={{ opacity: 0, scale: 0.9 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ delay: index * 0.05 }}
+    className="bg-card border border-border p-5 rounded-[24px] group hover:border-primary/50 transition-all duration-300 relative overflow-hidden"
+  >
+    <div
+      className={`absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity`}
+    />
+    <div className="flex justify-between items-center mb-4 relative z-10">
+      <span className="text-[10px] font-black text-muted-foreground/30 uppercase tracking-[0.2em]">
+        Core {id}
+      </span>
+      <span
+        className={`text-xs font-black tabular-nums ${utilization > 80 ? "text-rose-500" : "text-primary"}`}
+      >
+        {utilization.toFixed(1)}%
+      </span>
+    </div>
+    <div className="h-20 w-full flex items-end gap-[2px] relative z-10">
+      {Array.from({ length: 12 }).map((_, i) => (
+        <motion.div
+          key={i}
+          initial={{ height: 0 }}
+          animate={{
+            height: `${Math.max(10, Math.random() * utilization + 5)}%`,
+          }}
+          className={`flex-1 rounded-t-sm ${utilization > 80 ? "bg-rose-500/40" : "bg-primary/40"} group-hover:bg-primary/60 transition-colors`}
+        />
+      ))}
+    </div>
+  </motion.div>
+);
+
 const Metrics = () => {
   const [metrics, setMetrics] = useState({
     cpu: 0,
@@ -18,14 +68,13 @@ const Metrics = () => {
     disk_iops: [],
   });
   useEffect(() => {
-    const interval = setInterval(async () => {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const fetchMetrics = async () => {
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
       if (!token) return;
       try {
         const res = await fetch(`${API}/client-system`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (res.status === 401) {
           localStorage.removeItem("token");
@@ -55,246 +104,262 @@ const Metrics = () => {
       } catch (error) {
         console.error("Fetch error:", error);
       }
-    }, 2000);
+    };
+
+    fetchMetrics();
+    const interval = setInterval(fetchMetrics, 2000);
     return () => clearInterval(interval);
   }, []);
+
+
   return (
-    <>
-      <div className=" mx-auto space-y-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 text-primary font-bold text-sm tracking-wide uppercase">
-              <span className="material-symbols-outlined text-lg">
-                pulse_alert
-              </span>
-              Live Telemetry
+    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <h2 className="text-3xl font-black text-foreground tracking-tight mb-2">
+            Live{" "}
+            <span className="text-primary italic font-serif font-normal text-4xl">
+              Telemetry
+            </span>
+          </h2>
+          <p className="text-muted-foreground text-sm font-bold tracking-widest uppercase">
+            High Dynamic Range Diagnostics
+          </p>
+        </div>
+        <div className="flex items-center gap-4 bg-card border border-border rounded-2xl px-6 py-3">
+          <Activity className="text-primary animate-pulse" size={18} />
+          <span className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest leading-none">
+            Cluster Synchronized
+          </span>
+        </div>
+      </div>
+
+      <section>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-primary/10 text-primary border border-primary/20">
+              <Cpu size={18} />
             </div>
-            <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-white">
-              System Metrics
-            </h1>
-            <p className="text-slate-600 dark:text-slate-400">
-              High-fidelity performance monitoring and cluster health
-              diagnostics.
-            </p>
+            <h3 className="text-lg font-black text-foreground">
+              CPU Cluster Matrix
+            </h3>
+          </div>
+          <span className="text-[10px] font-black bg-primary/20 text-primary border border-primary/20 px-3 py-1 rounded-full uppercase tracking-widest">
+            {metrics.per_core.length} Cores Active
+          </span>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
+          {metrics.per_core.map((util, i) => (
+            <CoreCard key={i} id={i} utilization={util} index={i} />
+          ))}
+        </div>
+      </section>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <div className="lg:col-span-12">
+          <div className="bg-card backdrop-blur-xl border border-border rounded-[40px] p-10 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 blur-[100px] -mr-48 -mt-48" />
+
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12 relative z-10">
+              <div className="flex items-center gap-4">
+                <div className="size-14 rounded-3xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center">
+                  <Database size={28} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-foreground">
+                    Memory Infrastructure
+                  </h3>
+                  <p className="text-[10px] text-muted-foreground/30 uppercase font-black tracking-widest mt-1">
+                    Real-time mapping
+                  </p>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-[10px] text-muted-foreground/30 uppercase font-black tracking-widest mb-1">
+                  Total Capacity
+                </p>
+                <h4 className="text-3xl font-black text-foreground tracking-tighter tabular-nums">
+                  {metrics.mem_total.toFixed(1)} GB
+                </h4>
+              </div>
+            </div>
+
+            <div className="space-y-10 relative z-10">
+              <div className="space-y-4">
+                <div className="flex justify-between items-end mb-2">
+                  <span className="text-sm font-black text-muted-foreground/60">
+                    Utilization Gradient
+                  </span>
+                  <span className="text-sm font-black text-foreground">
+                    {metrics.ram.toFixed(1)}%
+                  </span>
+                </div>
+                <div className="h-4 bg-background border border-border rounded-full overflow-hidden p-[3px]">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${metrics.ram}%` }}
+                    className="h-full bg-linear-to-r from-primary to-purple-600 rounded-full shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all duration-700"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {[
+                  {
+                    label: "Used Memory",
+                    value: metrics.mem_used.toFixed(1) + " GB",
+                    color: "bg-primary",
+                  },
+                  {
+                    label: "Free Space",
+                    value: metrics.mem_free.toFixed(1) + " GB",
+                    color: "bg-muted",
+                  },
+                  {
+                    label: "System Status",
+                    value:
+                      metrics.ram > 85
+                        ? "Optimization Advised"
+                        : "Optimal Path",
+                    color: metrics.ram > 85 ? "bg-rose-500" : "bg-emerald-400",
+                  },
+                ].map((stat, i) => (
+                  <div
+                    key={i}
+                    className="bg-background border border-border p-6 rounded-[32px] hover:bg-muted/50 transition-colors"
+                  >
+                    <p className="text-[10px] font-black text-muted-foreground/30 uppercase tracking-[0.2em] mb-2">
+                      {stat.label}
+                    </p>
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`size-1.5 rounded-full ${stat.color}`}
+                      ></div>
+                      <p className="text-xl font-black text-foreground tabular-nums">
+                        {stat.value}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary">
-                memory
-              </span>
-              Per-Core CPU Distribution
-            </h2>
-            <span className="text-xs font-mono bg-blue-500/10 text-blue-500 px-2 py-1 rounded">
-              8 Cores Active
-            </span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {metrics.per_core &&
-              metrics.per_core.map((coreUtil, idx) => (
-                <div
-                  key={idx}
-                  className="bg-background-light dark:bg-background-dark border border-blue-500/20 rounded-xl p-4 flex flex-col gap-3"
-                >
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs font-bold uppercase text-slate-500">
-                      Core {idx}
-                    </span>
-                    <span
-                      className={`text-sm font-mono ${coreUtil > 80 ? "text-red-500" : coreUtil > 50 ? "text-amber-500" : "text-blue-500"}`}
-                    >
-                      {coreUtil.toFixed(1)}%
-                    </span>
-                  </div>
-                  <div className="h-24 w-full relative flex items-end gap-1">
-                    <div
-                      className={`absolute inset-0 bg-linear-to-t ${coreUtil > 80 ? "from-red-500/5" : coreUtil > 50 ? "from-amber-500/5" : "from-blue-500/5"} to-transparent rounded`}
-                    ></div>
-                    {Array.from({ length: 10 }).map((_, barIdx) => {
-                      let h =
-                        Math.random() * (coreUtil - coreUtil / 2) +
-                        coreUtil / 2;
-                      return (
-                        <div
-                          key={barIdx}
-                          className={`flex-1 ${coreUtil > 80 ? "bg-red-500/50" : coreUtil > 50 ? "bg-amber-500/50" : "bg-blue-500/50"} rounded-t-sm transition-all duration-300`}
-                          style={{ height: `${Math.max(5, h)}%` }}
-                        ></div>
-                      );
-                    })}
-                  </div>
+
+        <div className="lg:col-span-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="bg-card border border-border rounded-[40px] p-10">
+              <div className="flex items-center gap-4 mb-10">
+                <div className="size-12 rounded-2xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center">
+                  <HardDrive size={22} />
                 </div>
-              ))}
-          </div>
-        </section>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <section className="lg:col-span-2 space-y-4">
-            <div className="bg-background-light dark:bg-background-dark border border-primary/20 rounded-xl p-6">
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-xl font-bold flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary">
-                    data_usage
-                  </span>
-                  Memory Infrastructure
-                </h2>
-                <div className="text-right">
-                  <p className="text-2xl font-black text-slate-900 dark:text-white">
-                    {metrics.mem_total.toFixed(1)} GB Total
-                  </p>
-                  <p className="text-xs text-primary font-bold">
-                    {metrics.mem_free.toFixed(1)} GB AVAILABLE
-                  </p>
-                </div>
+                <h3 className="text-xl font-black text-foreground">
+                  Disk Throughput
+                </h3>
               </div>
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <div className="flex h-10 w-full rounded-lg overflow-hidden border border-primary/10">
-                    <div
-                      className="bg-primary h-full transition-all duration-300"
-                      style={{ width: `${metrics.ram}%` }}
-                      title="Used"
-                    ></div>
-                    <div
-                      className="bg-slate-200 dark:bg-slate-800 h-full transition-all duration-300"
-                      style={{ width: `${100 - metrics.ram}%` }}
-                      title="Free"
-                    ></div>
-                  </div>
-                  <div className="flex flex-wrap gap-4 text-xs font-medium">
-                    <div className="flex items-center gap-1.5">
-                      <span className="size-2 rounded-full bg-primary"></span>
-                      Used ({metrics.mem_used.toFixed(1)} GB)
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="size-2 rounded-full bg-slate-400"></span>
-                      Free ({metrics.mem_free.toFixed(1)} GB)
-                    </div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-4 rounded-lg bg-slate-100 dark:bg-white/5 border border-primary/10">
-                    <p className="text-xs font-bold text-slate-500 uppercase mb-1">
-                      Active Processes
-                    </p>
-                    <p className="text-lg font-bold text-slate-900 dark:text-slate-100">
-                      {metrics.top_processes ? metrics.top_processes.length : 0}{" "}
-                      processes
-                    </p>
-                  </div>
-                  <div className="p-4 rounded-lg bg-slate-100 dark:bg-white/5 border border-primary/10">
-                    <p className="text-xs font-bold text-slate-500 uppercase mb-1">
-                      Status
-                    </p>
-                    <p className="text-lg font-bold text-slate-900 dark:text-slate-100">
-                      {metrics.ram > 85 ? "Warning" : "Healthy"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section className="space-y-4">
-            <div className="bg-background-light dark:bg-background-dark border border-primary/20 rounded-xl p-6 h-full">
-              <h2 className="text-xl font-bold flex items-center gap-2 mb-6">
-                <span className="material-symbols-outlined text-primary">
-                  storage
-                </span>
-                Disk Throughput
-              </h2>
+
               <div className="space-y-8">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 bg-emerald-500/10 text-emerald-500 rounded-lg">
-                      <span className="material-symbols-outlined">
-                        download
-                      </span>
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-500 uppercase">
-                        Read Speed
-                      </p>
-                      <p className="text-2xl font-black text-slate-900 dark:text-white">
-                        {metrics.disk_read.toFixed(1)} MB/s
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    {metrics.disk_read > 0 ? (
-                      <span className="text-emerald-500 text-sm font-bold flex items-center gap-1">
-                        <span className="material-symbols-outlined text-xs">
-                          arrow_upward
-                        </span>{" "}
-                        Active
-                      </span>
-                    ) : (
-                      <span className="text-slate-400 text-sm font-bold">
-                        Idle
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 bg-primary/10 text-primary rounded-lg">
-                      <span className="material-symbols-outlined">upload</span>
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-500 uppercase">
-                        Write Speed
-                      </p>
-                      <p className="text-2xl font-black text-slate-900 dark:text-white">
-                        {metrics.disk_write.toFixed(1)} MB/s
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    {metrics.disk_write > 0 ? (
-                      <span className="text-primary text-sm font-bold flex items-center gap-1">
-                        <span className="material-symbols-outlined text-xs">
-                          arrow_upward
-                        </span>{" "}
-                        Active
-                      </span>
-                    ) : (
-                      <span className="text-slate-400 text-sm font-bold">
-                        Idle
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="pt-6 border-t border-primary/20">
-                  <p className="text-xs font-bold text-slate-500 uppercase mb-4">
-                    Active Disk IOPS
-                  </p>
-                  <div className="space-y-3">
-                    {metrics.disk_iops && metrics.disk_iops.length > 0 ? (
-                      metrics.disk_iops.map((disk, idx) => (
-                        <div
-                          key={idx}
-                          className="flex items-center justify-between text-sm"
-                        >
-                          <span className="text-slate-500 dark:text-slate-400 font-medium">
-                            {disk.device.toUpperCase()}
+                {[
+                  {
+                    label: "Neural Read Speed",
+                    value: metrics.disk_read,
+                    icon: ArrowDownLeft,
+                    color: "text-emerald-400",
+                    bg: "bg-emerald-400/10",
+                  },
+                  {
+                    label: "Neural Write Speed",
+                    value: metrics.disk_write,
+                    icon: ArrowUpRight,
+                    color: "text-primary",
+                    bg: "bg-primary/10",
+                  },
+                ].map((io, i) => (
+                  <div key={i} className="flex items-center justify-between">
+                    <div className="flex items-center gap-5">
+                      <div
+                        className={`size-12 rounded-2xl ${io.bg} ${io.color} border border-border flex items-center justify-center`}
+                      >
+                        <span className="material-symbols-outlined">
+                          {i === 0 ? "download" : "upload"}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-black text-muted-foreground/30 uppercase tracking-widest">
+                          {io.label}
+                        </p>
+                        <p className="text-2xl font-black text-foreground tabular-nums">
+                          {io.value.toFixed(1)}{" "}
+                          <span className="text-[10px] text-muted-foreground/30 font-black">
+                            MB/s
                           </span>
-                          <span className="font-mono text-primary font-bold">
-                            {disk.iops.toLocaleString()} IOPS
-                          </span>
-                        </div>
-                      ))
+                        </p>
+                      </div>
+                    </div>
+                    {io.value > 0 ? (
+                      <div
+                        className={`px-2 py-1 rounded-lg ${io.bg} ${io.color} text-[10px] font-black uppercase tracking-widest`}
+                      >
+                        Active
+                      </div>
                     ) : (
-                      <div className="text-sm text-slate-400 italic">
-                        No significant disk activity
+                      <div className="text-[10px] font-black text-muted-foreground/10 uppercase tracking-widest">
+                        Idle
                       </div>
                     )}
                   </div>
-                </div>
+                ))}
               </div>
             </div>
-          </section>
+
+            <div className="bg-card border border-border rounded-[40px] p-10">
+              <div className="flex items-center gap-4 mb-10">
+                <div className="size-12 rounded-2xl bg-amber-400/10 text-amber-400 border border-amber-400/20 flex items-center justify-center">
+                  <Monitor size={22} />
+                </div>
+                <h3 className="text-xl font-black text-foreground">
+                  Active Node I/O
+                </h3>
+              </div>
+
+              <div className="space-y-4">
+                {metrics.disk_iops && metrics.disk_iops.length > 0 ? (
+                  metrics.disk_iops.map((disk, idx) => (
+                    <div
+                      key={idx}
+                      className="bg-background border border-border p-4 rounded-2xl flex justify-between items-center group hover:border-primary/30 transition-all"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="size-8 rounded-lg bg-muted border border-border flex items-center justify-center text-muted-foreground/40 group-hover:text-primary group-hover:bg-primary/10 transition-colors">
+                          <Database size={14} />
+                        </div>
+                        <span className="text-[10px] font-black text-muted-foreground/40 uppercase tracking-widest tabular-nums">
+                          {disk.device}
+                        </span>
+                      </div>
+                      <span className="text-sm font-black text-foreground tabular-nums">
+                        {disk.iops.toLocaleString()}{" "}
+                        <span className="text-[8px] text-muted-foreground/20 uppercase">
+                          IOPS
+                        </span>
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-10 opacity-20">
+                    <HardDrive size={32} className="mb-4" />
+                    <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
+                      Awaiting I/O Events
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
+
 export default Metrics;

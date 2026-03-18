@@ -44,100 +44,145 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --color-background-light: #f6f6f8;
-  --color-background-dark: #11131A;
-  --color-slate-850: #1a1c25;
+  --color-background-light: #FFDBFD;
+  --color-background-dark: #0A0B1A;
+  --color-slate-850: #14162B;
   --font-display: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 }
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: #11131A;
-  --card: oklch(1 0 0);
-  --card-foreground: #11131A;
-  --popover: oklch(1 0 0);
-  --popover-foreground: #11131A;
-  --primary: #FF3B3B;
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: #11131A;
-  --sidebar-primary: #FF3B3B;
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: #fdfbff;
+  --foreground: #0A0B1A;
+  --card: #ffffff;
+  --card-foreground: #0A0B1A;
+  --popover: #ffffff;
+  --popover-foreground: #0A0B1A;
+  --primary: #6367FF;
+  --primary-foreground: #ffffff;
+  --secondary: #8494FF;
+  --secondary-foreground: #ffffff;
+  --muted: #f4f5f9;
+  --muted-foreground: #64748b;
+  --accent: #C9BEFF;
+  --accent-foreground: #0A0B1A;
+  --destructive: #ef4444;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #6367FF;
+  --chart-1: #6367FF;
+  --chart-2: #8494FF;
+  --chart-3: #C9BEFF;
+  --chart-4: #FFDBFD;
+  --chart-5: #3b82f6;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0A0B1A;
+  --sidebar-primary: #6367FF;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #0A0B1A;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #6367FF;
 }
 .dark {
-  --background: #11131A;
-  --foreground: oklch(0.985 0 0);
-  --card: #151720;
-  --card-foreground: oklch(0.985 0 0);
-  --popover: #151720;
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: #FF3B3B;
-  --primary-foreground: #11131A;
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #0A0B1A;
+  --foreground: #f8fafc;
+  --card: #111326;
+  --card-foreground: #f8fafc;
+  --popover: #111326;
+  --popover-foreground: #f8fafc;
+  --primary: #6367FF;
+  --primary-foreground: #ffffff;
+  --secondary: #8494FF;
+  --secondary-foreground: #ffffff;
+  --muted: #1a1c31;
+  --muted-foreground: #94a3b8;
+  --accent: #C9BEFF;
+  --accent-foreground: #ffffff;
+  --destructive: #7f1d1d;
+  --border: rgba(99, 103, 255, 0.2);
+  --input: rgba(99, 103, 255, 0.2);
+  --ring: #6367FF;
+  --chart-1: #6367FF;
+  --chart-2: #8494FF;
+  --chart-3: #C9BEFF;
+  --chart-4: #FFDBFD;
+  --chart-5: #60a5fa;
+  --sidebar: #0A0B1A;
+  --sidebar-foreground: #f8fafc;
+  --sidebar-primary: #6367FF;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1a1c31;
+  --sidebar-accent-foreground: #f8fafc;
+  --sidebar-border: rgba(99, 103, 255, 0.2);
+  --sidebar-ring: #6367FF;
 }
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply neural-grid bg-background selection:bg-primary/30 text-foreground transition-colors duration-300;
+    overflow-x: hidden;
+    min-height: 100vh;
   }
 }
-@layer utilities {
-  .grid-bg {
-    background-image: radial-gradient(circle at 2px 2px, rgba(255, 59, 59, 0.05) 1px, transparent 0);
-    background-size: 24px 24px;
-  }
-  .grid-bg-lg {
-    background-image: radial-gradient(circle at 2px 2px, rgba(255, 59, 59, 0.05) 1px, transparent 0);
-    background-size: 32px 32px;
-  }
-  .glow-effect {
-    box-shadow: 0 0 40px -10px rgba(255, 59, 59, 0.3);
-  }
-  .gradient-glow {
-    background: radial-gradient(circle at 50% 50%, rgba(255, 59, 59, 0.15) 0%, transparent 70%);
-  }
+@utility grid-bg {
+  background-image: radial-gradient(circle at 2px 2px, rgba(99, 103, 255, 0.05) 1px, transparent 0);
+  background-size: 24px 24px;
 }
+@utility grid-bg-lg {
+  background-image: radial-gradient(circle at 2px 2px, rgba(99, 103, 255, 0.05) 1px, transparent 0);
+  background-size: 32px 32px;
+}
+@utility glow-effect {
+  box-shadow: 0 0 40px -10px rgba(99, 103, 255, 0.3);
+}
+@utility gradient-glow {
+  background: radial-gradient(circle at 50% 50%, rgba(99, 103, 255, 0.15) 0%, transparent 70%);
+}
+@utility perspective-1000 {
+  perspective: 1000px;
+}
+@utility animate-spin-slow {
+  animation: spin 20s linear infinite;
+}
+@utility glass {
+  @apply bg-white/5 backdrop-blur-xl border border-white/10;
+}
+@utility glass-dark {
+  @apply bg-black/20 backdrop-blur-2xl border border-white/5;
+}
+@utility neural-grid {
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(99, 103, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(99, 103, 255, 0.05) 1px, transparent 1px);
+}
+
+
+/* Lenis Smooth Scroll Fixes */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+
+
