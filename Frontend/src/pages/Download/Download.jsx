@@ -19,24 +19,18 @@ const Download = () => {
             insights.
           </p>
         </div>
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {[
             {
               os: "Windows",
               desc: "Windows 10, 11 (64-bit)",
               icon: "grid_view",
               ext: ".exe",
-              link: `${API}/download/ai-optimizer-agent-1.0.exe`,
+              link: `${API}/download/resource-optimization-agent-1.0.1.exe`,
               color: "text-blue-400",
+              size:"31 MB"
             },
-            {
-              os: "MacOS",
-              desc: "Apple Silicon & Intel",
-              icon: "desktop_mac",
-              ext: ".app",
-              link: "#",
-              color: "text-white",
-            },
+            
             {
               os: "Linux",
               desc: "Debian, Ubuntu (64-bit)",
@@ -44,6 +38,7 @@ const Download = () => {
               ext: ".deb",
               link: `${API}/download/resource-optimization-agent-1.0.1.deb`,
               color: "text-[#FF3B3B]",
+              size:"16 MB"
             },
           ].map((item, idx) => (
             <div
@@ -78,8 +73,8 @@ const Download = () => {
                 </div>
               </a>
               <div className="mt-8 pt-8 border-t border-black/5 w-full flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
-                <span>v1.0.4.stable</span>
-                <span>~ 16 MB</span>
+                <span>v1.0.1.stable</span>
+                <span>{item.size}</span>
               </div>
             </div>
           ))}

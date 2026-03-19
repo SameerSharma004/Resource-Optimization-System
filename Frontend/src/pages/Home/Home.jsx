@@ -9,6 +9,63 @@ import {
   useScrollFadeUp,
   useStaggerReveal,
 } from "../../lib/useAnimations";
+import TestimonialSection from "../../components/TestimonialSection/TestimonialSection";
+
+const StackedCard = ({ i, card, smoothStack, isTablet }) => {
+  const xRange = isTablet ? [i * 40, (i - 1) * 150] : [i * 80, (i - 1) * 410];
+  const yRange = isTablet ? [i * 80, 400] : [i * 140, 520];
+  const zRange = [i * -350, 0];
+
+  const xPos = useTransform(smoothStack, [0, 1], xRange);
+  const yPos = useTransform(smoothStack, [0, 1], yRange);
+  const zPos = useTransform(smoothStack, [0, 1], zRange);
+  const rx = useTransform(smoothStack, [0, 1], [55, 0]);
+  const rz = useTransform(smoothStack, [0, 1], [-45, 0]);
+  const scaleVal = useTransform(smoothStack, [0, 1], [1, 0.75]);
+
+  return (
+    <motion.div
+      style={{
+        x: xPos,
+        y: yPos,
+        z: zPos,
+        rotateX: rx,
+        rotateZ: rz,
+        scale: scaleVal,
+        transformStyle: "preserve-3d",
+      }}
+      className={`absolute inset-0 bg-linear-to-br ${card.color} rounded-[24px] md:rounded-[40px] shadow-[0_30px_60px_rgba(0,0,0,0.3)] md:shadow-[0_50px_100px_rgba(0,0,0,0.3)] p-6 md:p-10 flex flex-col justify-between border border-white/20 backdrop-blur-xl cursor-default overflow-hidden`}
+    >
+      <div className="absolute inset-0 bg-white/5 transition-opacity"></div>
+      <div
+        className="relative z-10 flex justify-between items-start"
+        style={{ transform: "translateZ(30px)" }}
+      >
+        <div className="text-white font-black text-[10px] uppercase tracking-widest">
+          Feature 0{i + 1}
+        </div>
+        <span className="material-symbols-outlined text-white">
+          arrow_outward
+        </span>
+      </div>
+      <div
+        className="relative z-10 mt-auto"
+        style={{ transform: "translateZ(50px)" }}
+      >
+        <h3 className="text-2xl sm:text-3xl md:text-5xl font-black text-black leading-[0.9] mb-4 md:mb-6 transition-all">
+          {card.label.split(" ").map((word, index) => (
+            <React.Fragment key={index}>
+              {word} <br />
+            </React.Fragment>
+          ))}
+        </h3>
+        <p className="text-xs sm:text-sm md:text-base opacity-80 mb-4 md:mb-6 text-black/80 font-bold leading-relaxed transition-all duration-500 line-clamp-2 md:line-clamp-3">
+          {card.desc}
+        </p>
+      </div>
+    </motion.div>
+  );
+};
 
 const Home = () => {
   const howItWorksRef = useRef(null);
@@ -126,18 +183,13 @@ const Home = () => {
                       d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"
                       fill="transparent"
                     />
-                    <text className="text-[10px] font-black uppercase tracking-[0.2em] fill-white/40">
+                    <text className="text-[11px] font-black uppercase tracking-[0.2em] fill-white/40">
                       <textPath xlinkHref="#circlePath">
-                        DOWNLOAD NOW • DOWNLOAD NOW •
+                        OPTIMIZE NOW • OPTIMIZE NOW •
                       </textPath>
                     </text>
                   </svg>
                 </div>
-                <NavLink to="/download" className={"z-10"}>
-                  <span className="material-symbols-outlined  text-primary text-3xl group-hover:translate-y-2 transition-transform">
-                    arrow_downward
-                  </span>
-                </NavLink>
               </motion.div>
             </div>
 
@@ -194,62 +246,15 @@ const Home = () => {
                   label: "Predictive Control",
                   desc: "ML-based load forecasting that dynamically manages resources across your infrastructure.",
                 },
-              ].map((card, i) => {
-                const xRange = isTablet ? [i * 40, (i - 1) * 150] : [i * 80, (i - 1) * 410];
-                const yRange = isTablet ? [i * 80, 400] : [i * 140, 520];
-                const zRange = [i * -350, 0];
-
-                const xPos = useTransform(smoothStack, [0, 1], xRange);
-                const yPos = useTransform(smoothStack, [0, 1], yRange);
-                const zPos = useTransform(smoothStack, [0, 1], zRange);
-                const rx = useTransform(smoothStack, [0, 1], [55, 0]);
-                const rz = useTransform(smoothStack, [0, 1], [-45, 0]);
-                const scaleVal = useTransform(smoothStack, [0, 1], [1, 0.75]);
-
-                return (
-                  <motion.div
-                    key={i}
-                    style={{
-                      x: xPos,
-                      y: yPos,
-                      z: zPos,
-                      rotateX: rx,
-                      rotateZ: rz,
-                      scale: scaleVal,
-                      transformStyle: "preserve-3d",
-                    }}
-                    className={`absolute inset-0 bg-linear-to-br ${card.color} rounded-[24px] md:rounded-[40px] shadow-[0_30px_60px_rgba(0,0,0,0.3)] md:shadow-[0_50px_100px_rgba(0,0,0,0.3)] p-6 md:p-10 flex flex-col justify-between border border-white/20 backdrop-blur-xl cursor-default overflow-hidden`}
-                  >
-                    <div className="absolute inset-0 bg-white/5 transition-opacity"></div>
-                    <div
-                      className="relative z-10 flex justify-between items-start"
-                      style={{ transform: "translateZ(30px)" }}
-                    >
-                      <div className="text-white font-black text-[10px] uppercase tracking-widest">
-                        Feature 0{i + 1}
-                      </div>
-                      <span className="material-symbols-outlined text-white">
-                        arrow_outward
-                      </span>
-                    </div>
-                    <div
-                      className="relative z-10 mt-auto"
-                      style={{ transform: "translateZ(50px)" }}
-                    >
-                      <h3 className="text-2xl sm:text-3xl md:text-5xl font-black text-black leading-[0.9] mb-4 md:mb-6 transition-all">
-                        {card.label.split(" ").map((word, index) => (
-                          <React.Fragment key={index}>
-                            {word} <br />
-                          </React.Fragment>
-                        ))}
-                      </h3>
-                      <p className="text-xs sm:text-sm md:text-base opacity-80 mb-4 md:mb-6 text-black/80 font-bold leading-relaxed transition-all duration-500 line-clamp-2 md:line-clamp-3">
-                        {card.desc}
-                      </p>
-                    </div>
-                  </motion.div>
-                );
-              })}
+              ].map((card, i) => (
+                <StackedCard
+                  key={i}
+                  i={i}
+                  card={card}
+                  smoothStack={smoothStack}
+                  isTablet={isTablet}
+                />
+              ))}
             </div>
           </div>
         )}
@@ -397,32 +402,32 @@ const Home = () => {
             </Link>
           </div>
           <div className="relative pt-4">
-            <div className="absolute left-[19px] top-[20px] bottom-[115px] w-[2px] bg-background-dark/10 hidden sm:block"></div>
+            <div className="absolute left-[19px] top-[20px] bottom-[100px] w-[2px] bg-background-dark/10 hidden sm:block"></div>
             <motion.div
               style={{ height: timelineHeight, top: "20px" }}
-              className="absolute left-[19px] w-[2px] bg-primary origin-top shadow-[0_0_15px_rgba(99,103,255,0.5)] max-h-[calc(100%-135px)] hidden sm:block"
+              className="absolute left-[19px] w-[2px] bg-primary origin-top shadow-[0_0_15px_rgba(99,103,255,0.5)] max-h-[calc(100%-100px)] hidden sm:block"
             />
             <div className="space-y-16 md:space-y-24 relative">
               {[
                 {
                   step: 1,
-                  title: "Agent Deployment",
-                  desc: "Install our lightweight Python-based agent on your local or remote systems. It securely collects hardware telemetry including CPU thermals, memory allocation, and disk I/O throughput.",
+                  title: "Agent Collects Data",
+                  desc: "Install our small agent on your computer. It securely gathers system information like CPU usage, RAM levels, and hardware performance in real-time.",
                 },
                 {
                   step: 2,
-                  title: "Neural Processing",
-                  desc: "Data is streamed to our centralized engine where the LSTM (Long Short-Term Memory) models process historical trends to identify performance anomalies.",
+                  title: "Streaming to Cloud",
+                  desc: "The collected data is instantly sent to our main system for processing, ensuring your monitoring is always live and up-to-date.",
                 },
                 {
                   step: 3,
-                  title: "Optimization Logic",
-                  desc: "Receive proactive alerts and AI-driven recommendations via the high-fidelity dashboard. Reallocate resources dynamically or manage runaway processes.",
+                  title: "Neural AI Processing",
+                  desc: "Our neural engine uses LSTM models to analyze your data patterns, detecting any unusual performance or resource leaks automatically.",
                 },
                 {
                   step: 4,
-                  title: "Enterprise Scaling",
-                  desc: "Deploy across massive server clusters with ease. Our architecture supports horizontal scaling, allowing you to manage thousands of nodes with ultra-low latency.",
+                  title: "Live Dashboard View",
+                  desc: "See everything on your high-fidelity dashboard. Track live metrics, receive AI insights, and manage your system directly from the web.",
                 },
               ].map((item) => (
                 <div key={item.step} className="relative flex gap-6 md:gap-10">
@@ -443,63 +448,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section className="py-24 px-6 rounded-4xl bg-white md:bg-black">
-        <div className="max-w-7xl mx-auto" ref={teamRef}>
-          <div className="text-center mb-16" ref={teamHeaderRef}>
-            <h2 className="text-3xl font-bold text-background-dark md:text-white mb-4">
-              Meet the Project Team
-            </h2>
-            <p className="text-gray-500">
-              The minds behind the optimization engine.
-            </p>
-          </div>
-          <div className="flex flex-wrap justify-center gap-8 md:gap-12">
-            {[
-              {
-                name: "Sachit Kohli",
-                role: "Backend Developer",
-                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCOhkfB1P3rwFHFuGh0Hodcwrg04-QEYQgyuaO0uAaN1fueNwgiehpvuLKzJRM-ZgcmWcGwwoDKZpRFXldZnEJX7w301Udrqy8kr68gxMTUwoqJiHtNJWXOWEsNUPFt0UK9XJFe6-UPSIc5jZPKaE0vksVOkkuYIRrPGuF3AaDwG5bZ7l4TsABHOBMgZfJRV9uKfiS8f_EeYBo31ErY3hVmm5yci3vyYgPw5o-GKQi_MN0H4OCE2cwYOQfsPc6fj_VBI-JdmmQeFmc",
-              },
-              {
-                name: "Ravi Kumar",
-                role: "Backend Developer",
-                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCx484pQBLg43fpA4lRKxPNgv9_KqI4yziNwnGl49n8WTKUbiOhZZ0Zn9I9JPdlYlz9dpvxrZMbtyrTe3t259MqCF_h3uqu6sqEVhGEOEeaZfv58VcQN3IGo4PXKKWGmgwDNZpaZQpaPFP6Xz8vb8qYhHqnvq645uyczmy5rNxeUt9ljOxVpEjvtFCYzzL4wG0EZlbnMNnOvMmQusrydM_CAlgkJEbt9_m_PWOthdrW-irB6ffbNy_hsYnSMPPUfkyRpALJr-NTFFA",
-              },
-              {
-                name: "Sameer Sharma",
-                role: "Frontend Developer",
-                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCx484pQBLg43fpA4lRKxPNgv9_KqI4yziNwnGl49n8WTKUbiOhZZ0Zn9I9JPdlYlz9dpvxrZMbtyrTe3t259MqCF_h3uqu6sqEVhGEOEeaZfv58VcQN3IGo4PXKKWGmgwDNZpaZQpaPFP6Xz8vb8qYhHqnvq645uyczmy5rNxeUt9ljOxVpEjvtFCYzzL4wG0EZlbnMNnOvMmQusrydM_CAlgkJEbt9_m_PWOthdrW-irB6ffbNy_hsYnSMPPUfkyRpALJr-NTFFA",
-              },
-              {
-                name: "Sagar Saini",
-                role: "Frontend Developer",
-                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAUgndHChHgZ-QYUVHWzfl4WR3QwPy0HL161mIPHGuIAe_pIdvqOd72Y_KDkLESMQdM-1ykISlZN70kHS2Hish2ZSIlcGjLCsmnW9z2VUWMWlDfRbJ9UAYuHZaFkP4Uoz7iDyxAVTfgPWnSWmI2fq-TZc9UlhuRBa4fUoLGXezVA0vAGt2BuCm0BT0eKMfgh6mzsG5QLbRXaibiGG483U9benX9R31Q3EuUDKwnH-I-eQfywR1emn6zIOLF3Q7EiBD1i7w0iTU_7Yw",
-              },
-              {
-                name: "Sagar Bhati",
-                role: "LSTM Model Developer",
-                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBlwFvYiI_3lRUozp6fFAimHtRR3aiyTcP8HTYTgMXZg7rxRoSaqPk2MftnvuUuSLPFWY-j4HsQe3vy1qhqYUy_4r5F68y9Cpol1UOjrY_BxUXTeoTa-YZrXQIXP71XIFkoWypeQZQbST9OsdfmZmaTIlO2zft_0fjBdtSj1TFENmXNjLpSGF9LFLD_f3YVvKcgrBxxjX-nTzgMZpQvyPfiVMQUk3Jm27jL26-N-pkua7Rcafuj2nvUFifwWTSUk8RFmx68qsOIVfc",
-              },
-            ].map((p, i) => (
-              <div key={i} className="text-center group team-card">
-                <div className="size-20 md:size-24 bg-[#1a1c25] rounded-full mx-auto overflow-hidden border-2 border-white/10 group-hover:border-primary transition-colors duration-300">
-                  <img
-                    src={p.img}
-                    alt={p.name}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-110"
-                  />
-                </div>
-                <div className="mt-4">
-                  <div className="text-background-dark md:text-white font-bold">{p.name}</div>
-                  <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">
-                    {p.role}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TestimonialSection />
       <Footer />
     </div>
   );

@@ -335,6 +335,16 @@ def collect_system_data():
     vm = psutil.virtual_memory()
     net_io = psutil.net_io_counters()
     disk_io = psutil.disk_io_counters()
+    
+    # Granular RAM components
+    ram_components = {
+        "active": round(getattr(vm, 'active', vm.used) / (1024**3), 2),
+        "inactive": round(getattr(vm, 'inactive', 0) / (1024**3), 2),
+        "cached": round(getattr(vm, 'cached', 0) / (1024**3), 2),
+        "free": round(vm.available / (1024**3), 2),
+        "total": round(vm.total / (1024**3), 2)
+    }
+
     return {
         "cpu_usage": psutil.cpu_percent(interval=1),
         "cpu_cores": psutil.cpu_percent(interval=None, percpu=True),
@@ -342,6 +352,7 @@ def collect_system_data():
         "memory_total_gb": round(vm.total / (1024**3), 2),
         "memory_used_gb": round(vm.used / (1024**3), 2),
         "memory_free_gb": round(vm.free / (1024**3), 2),
+        "ram_components": ram_components,
         "network_sent_bytes": net_io.bytes_sent,
         "network_recv_bytes": net_io.bytes_recv,
         "disk_read_bytes": disk_io.read_bytes if disk_io else 0,

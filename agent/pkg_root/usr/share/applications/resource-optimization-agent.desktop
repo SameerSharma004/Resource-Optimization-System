@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Resource Optimizer Agent
-Comment=AI-Powered System Resource Monitor
-Exec=/usr/bin/resource-optimization-agent
-Icon=/usr/share/pixmaps/agent_icon.png
-Type=Application
-Terminal=false
-Categories=Utility;System;
-Keywords=monitoring;performance;optimization;
