@@ -42,7 +42,7 @@ const Download = () => {
               desc: "Debian, Ubuntu (64-bit)",
               icon: "terminal",
               ext: ".deb",
-              link: `${API}/download/ai-optimizer-agent-1.0.deb`,
+              link: `${API}/download/resource-optimization-agent.deb`,
               color: "text-[#FF3B3B]",
             },
           ].map((item, idx) => (
