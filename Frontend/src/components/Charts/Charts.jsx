@@ -26,7 +26,7 @@ function Charts({Type, Attribute1, Attribute2, history}) {
   const tooltipText = isDark ? "#f8fafc" : "#0A0B1A";
   const gridColor = isDark ? "rgba(99, 103, 255, 0.1)" : "rgba(99, 103, 255, 0.05)";
   const primaryColor = "#6367FF";
-  const secondaryColor = "#8494FF";
+  const secondaryColor = "#ad46ff";
 
   return (
     <>

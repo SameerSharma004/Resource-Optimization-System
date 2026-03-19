@@ -113,7 +113,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
+    <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold text-foreground tracking-tight mb-2">
@@ -168,7 +168,7 @@ const Settings = () => {
                 </button>
                 <button
                   onClick={() => setShowDeleteConfirm(true)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-destructive/10 hover:bg-destructive hover:text-destructive-foreground text-red-500 border border-destructive/20 transition-all text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-destructive/10 hover:border-red-600 text-red-500  hover:text-red-600 border border-destructive/20 transition-all text-sm font-medium"
                 >
                   <Trash2 size={16} />
                   Delete Account

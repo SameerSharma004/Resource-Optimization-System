@@ -66,20 +66,7 @@ const Network = () => {
           </p>
         </div>
 
-        <div className="flex bg-card border border-border rounded-lg p-3 gap-5">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-            <span className="text-sm font-medium text-muted-foreground">
-              Stable
-            </span>
-          </div>
-          <div className="flex items-center gap-2 border-l border-border pl-5">
-            <Wifi size={16} className="text-primary" />
-            <span className="text-sm font-medium text-muted-foreground">
-              Local Node
-            </span>
-          </div>
-        </div>
+        
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -127,23 +114,20 @@ const Network = () => {
             </div>
 
             <div className="h-[120px] w-full flex items-end gap-1.5 p-1 mt-auto">
-              {metrics.history.slice(-20).map((point, idx) => (
+              {metrics.history.length > 0 ? metrics.history.slice(-25).map((point, idx) => (
                 <motion.div
                   key={idx}
                   initial={{ scaleY: 0 }}
                   animate={{ scaleY: 1 }}
-                  className={`flex-1 rounded-t-sm bg-${item.color}/30 hover:bg-${item.color}/50 transition-all`}
+                  className={`flex-1 rounded-t-sm transition-all ${item.color === 'primary' ? 'bg-primary/30 hover:bg-primary/50' : 'bg-secondary/30 hover:bg-secondary/50'}`}
                   style={{
-                    height: `${Math.max(5, ((item.color === "primary" ? point.net_down : point.net_up) / 20) * 100)}%`,
+                    height: `${Math.max(5, ((item.color === "primary" ? (Number(point.net_download_mbps) || 0) : (Number(point.net_upload_mbps) || 0)) / 20) * 100)}%`,
                     transformOrigin: "bottom",
                   }}
                 />
-              ))}
-              {metrics.history.length === 0 && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <p className="text-sm text-muted-foreground">
-                    Getting info...
-                  </p>
+              )) : (
+                <div className="w-full h-full flex items-center justify-center opacity-20">
+                  <Activity size={32} className="animate-pulse" />
                 </div>
               )}
             </div>
@@ -153,7 +137,7 @@ const Network = () => {
                 {item.trend}
               </span>
               <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full bg-${item.color}`}></div>
+                <div className={`w-2 h-2 rounded-full ${item.color === 'primary' ? 'bg-primary' : 'bg-secondary'}`}></div>
                 <span className="text-sm text-muted-foreground">Active</span>
               </div>
             </div>

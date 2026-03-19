@@ -249,7 +249,7 @@ const Insights = () => {
                                 : "Critical"}
                           </span>
                         </div>
-                        <p className="text-base text-foreground leading-relaxed font-serif">
+                        <p className="text-sm md:text-base text-foreground/90 leading-relaxed font-sans font-medium tracking-tight">
                           {rec}
                         </p>
                       </div>
