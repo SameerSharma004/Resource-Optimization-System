@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const navItems = [
   { path: "/dashboard", label: "Dashboard", icon: "dashboard" },
@@ -19,16 +19,14 @@ function Header() {
     return () => clearInterval(timer);
   }, []);
 
-  const activeLabel = navItems.find(i => i.path === location.pathname)?.label || 'MANAGEMENT';
+  const activeLabel =
+    navItems.find((i) => i.path === location.pathname)?.label || "MANAGEMENT";
 
   return (
     <header className="h-20 flex items-center justify-between px-10 border-b border-border bg-background/80 backdrop-blur-md z-20 w-full sticky top-0 transition-colors duration-300">
       <div className="flex items-center gap-8">
         <div className="space-y-0.5">
-          <p className="text-[10px] font-black text-primary tracking-[0.3em] uppercase">
-            Neural Overdrive
-          </p>
-          <h1 className="text-2xl font-black text-foreground tracking-tighter">
+          <h1 className="text-xl font-semibold text-foreground tracking-tight">
             {activeLabel}
           </h1>
         </div>
@@ -36,12 +34,24 @@ function Header() {
 
       <div className="flex items-center gap-6">
         <div className="hidden md:flex flex-col items-end pr-6">
-          <p className="text-[10px] font-black text-muted-foreground tracking-widest uppercase">
+          <p className="text-xs font-medium text-muted-foreground tracking-wider uppercase">
             System Time
           </p>
-          <p className="text-sm font-black text-foreground tabular-nums">
-            {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+          <p className="text-sm font-medium text-foreground tabular-nums">
+            {currentTime.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            })}
           </p>
+        </div>
+        <div>
+          <Link
+            to="/"
+            className="bg-primary text-black px-6 py-2.5 rounded-full text-sm tracking-tight hover:scale-105 transition-all shadow-lg shadow-primary/20"
+          >
+            Home
+          </Link>
         </div>
       </div>
     </header>

@@ -17,7 +17,7 @@ function Footer() {
       <div className="absolute left-1/2 -translate-x-1/2 -top-32 w-[800px] max-w-[90%] z-20">
         <div className="bg-white rounded-[28px] shadow-2xl p-12 text-center border border-black/5">
           <h2 className="text-4xl font-black leading-tight tracking-tight text-background-dark">
-            Revolutionize your system <br />
+            Improve your system <br />
             with neural <span className="text-primary italic font-serif font-normal lowercase">optimization</span>
           </h2>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -49,10 +49,10 @@ function Footer() {
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-3 font-black text-2xl tracking-tighter text-background-dark">
             <div className="w-5 h-5 bg-background-dark rounded-full"></div>
-            AI Optimizer
+            Serial Resource Optimizer
           </div>
           <p className="max-w-[200px] text-sm font-medium text-background-dark/60 leading-relaxed">
-            Revolutionizing system performance with kernel-level AI.
+            Improving system performance with kernel-level AI.
           </p>
         </div>
         <div className="flex flex-wrap gap-16 md:gap-32 text-sm text-background-dark">
@@ -69,13 +69,6 @@ function Footer() {
             <ul className="space-y-3 font-bold">
               <li><Link to="/login" className="hover:opacity-60 transition-opacity">Sign in</Link></li>
               <li><Link to="/signup" className="hover:opacity-60 transition-opacity">Register</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-black text-xs uppercase tracking-widest mb-6 opacity-40">SOCIAL</h4>
-            <ul className="space-y-3 font-bold">
-              <li><a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:opacity-60 transition-opacity">X (Twitter)</a></li>
-              <li><a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:opacity-60 transition-opacity">LinkedIn</a></li>
             </ul>
           </div>
         </div>

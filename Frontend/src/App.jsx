@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
-import About from "./pages/About/About";
 import Login from "./pages/Auth/Login";
 import Signup from "./pages/Auth/Signup";
 import MainLayout from "./Layout/MainLayout";
@@ -38,7 +37,6 @@ const App = () => {
           <Route path="settings" element={<Settings />} />
         </Route>
         <Route element={<MainLayout />}>
-          <Route path="/about" element={<About />} />
           <Route path="/documentation" element={<Documentation />} />
           <Route path="/download" element={<Download />} />
         </Route>

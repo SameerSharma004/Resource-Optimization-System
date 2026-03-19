@@ -5,7 +5,8 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
-    const storedUser = localStorage.getItem("user") || sessionStorage.getItem("user");
+    const storedUser =
+      localStorage.getItem("user") || sessionStorage.getItem("user");
     if (storedUser && storedUser !== "undefined") {
       try {
         setUser(JSON.parse(storedUser));
@@ -33,7 +34,8 @@ export default function Navbar() {
     navigate("/");
   };
   const isHomePage = location.pathname === "/";
-  const isAuthPage = location.pathname === "/login" || location.pathname === "/signup";
+  const isAuthPage =
+    location.pathname === "/login" || location.pathname === "/signup";
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 px-6 py-4 md:px-12 flex justify-between items-center transition-all duration-300 ${
@@ -42,14 +44,9 @@ export default function Navbar() {
           : "bg-transparent py-6"
       }`}
     >
-      <NavLink to="/" className="flex items-center gap-2 group">
-        <div className="size-9 bg-primary rounded-xl flex items-center justify-center transform rotate-12 group-hover:rotate-0 transition-transform duration-500 shadow-lg shadow-primary/20">
-          <span className="material-symbols-outlined text-black text-xl font-black">
-            bolt
-          </span>
-        </div>
-        <span className="font-black text-2xl tracking-tighter text-white">
-          AI
+      <NavLink to="/" className="flex items-center gap-2 group"> 
+        <span className="font- text-2xl tracking-tighter text-white">
+          Serial Resource
           <span className="text-primary italic font-serif font-medium ml-1">
             Optimizer
           </span>
@@ -89,12 +86,6 @@ export default function Navbar() {
             <>
               <NavLink to="/" className="hover:text-white transition-colors">
                 Home
-              </NavLink>
-              <NavLink
-                to="/about"
-                className="hover:text-white transition-colors"
-              >
-                About Us
               </NavLink>
               <NavLink
                 to="/documentation"

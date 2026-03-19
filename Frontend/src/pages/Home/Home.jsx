@@ -1,14 +1,13 @@
 import React, { useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
+import Dashboard from "../../assets/dashboard.png";
 import {
   useHeroEntrance,
   useScrollFadeUp,
   useStaggerReveal,
-  useCountUp,
-  useParallax,
 } from "../../lib/useAnimations";
 const Home = () => {
   const howItWorksRef = useRef(null);
@@ -54,13 +53,10 @@ const Home = () => {
 
   const smoothStack = useSpring(stackScroll, { stiffness: 100, damping: 30 });
 
-  const stackYOut = useTransform(smoothStack, [0, 1], [0, 600]);
-  const stackScaleOut = useTransform(smoothStack, [0, 1], [1, 0.9]);
-
   return (
-    <div className="bg-background-dark min-h-screen selection:bg-primary/30 selection:text-white">
+    <div className="bg-black min-h-screen selection:bg-primary/30 selection:text-white">
       <Navbar />
-      <section 
+      <section
         ref={heroSectionRef}
         className="relative min-h-screen pt-32 pb-20 px-6 md:px-12 flex flex-col justify-between z-20"
       >
@@ -120,14 +116,16 @@ const Home = () => {
                     />
                     <text className="text-[10px] font-black uppercase tracking-[0.2em] fill-white/40">
                       <textPath xlinkHref="#circlePath">
-                        EXPLORE MORE • EXPLORE MORE •
+                        DOWNLOAD NOW • DOWNLOAD NOW •
                       </textPath>
                     </text>
                   </svg>
                 </div>
-                <span className="material-symbols-outlined text-primary text-3xl group-hover:translate-y-2 transition-transform">
-                  arrow_downward
-                </span>
+                <NavLink to="/download" className={"z-10"}>
+                  <span className="material-symbols-outlined  text-primary text-3xl group-hover:translate-y-2 transition-transform">
+                    arrow_downward
+                  </span>
+                </NavLink>
               </motion.div>
             </div>
 
@@ -149,7 +147,10 @@ const Home = () => {
                   >
                     Start for free
                   </Link>
-                  <Link to="/download" className="rounded-full  px-10 py-5 bg-white/5 border border-white/10 flex items-center justify-center group hover:bg-white/10 transition-colors">
+                  <Link
+                    to="/download"
+                    className="rounded-full  px-10 py-5 bg-white/5 border border-white/10 flex items-center justify-center group hover:bg-white/10 transition-colors"
+                  >
                     <span className="text-white text-lg fill-1 group-hover:scale-110 transition-transform">
                       Download agent
                     </span>
@@ -181,7 +182,6 @@ const Home = () => {
                 desc: "ML-based load forecasting that dynamically manages resources across your infrastructure.",
               },
             ].map((card, i) => {
-              
               const xPos = useTransform(
                 smoothStack,
                 [0, 1],
@@ -212,10 +212,10 @@ const Home = () => {
                     className="relative z-10 flex justify-between items-start"
                     style={{ transform: "translateZ(40px)" }}
                   >
-                    <div className="text-white/60 font-black text-xs uppercase tracking-widest">
+                    <div className="text-white/100 font-black text-xs uppercase tracking-widest">
                       Feature 0{i + 1}
                     </div>
-                    <span className="material-symbols-outlined text-white/40">
+                    <span className="material-symbols-outlined text-white/100">
                       arrow_outward
                     </span>
                   </div>
@@ -233,12 +233,6 @@ const Home = () => {
                     <p className="opacity-80 mb-6 text-black/80 font-bold leading-relaxed transition-all duration-500 line-clamp-3">
                       {card.desc}
                     </p>
-                    <div className="text-black/40 text-sm font-bold flex items-center gap-2 transition-all">
-                      Explore Feature{" "}
-                      <span className="material-symbols-outlined text-sm">
-                        east
-                      </span>
-                    </div>
                   </div>
                 </motion.div>
               );
@@ -252,13 +246,16 @@ const Home = () => {
       >
         <div className="max-w-7xl pt-80 mx-auto" ref={featuresRef}>
           <div className="text-center mb-20">
-            
             <h2 className="text-5xl md:text-7xl font-black text-background-dark mb-6 leading-tight">
-              Precision <span className="text-primary italic font-serif font-normal text-6xl md:text-8xl">Optimization</span>
+              Precision{" "}
+              <span className="text-primary italic font-serif font-normal text-6xl md:text-8xl">
+                Optimization
+              </span>
             </h2>
             <p className="max-w-2xl mx-auto text-gray-500 text-xl font-medium">
-              We've replaced traditional monitoring with neural-driven forecasting. 
-              Our system identifies leaks and bottlenecks before they impact your performance.
+              We've replaced traditional monitoring with neural-driven
+              forecasting. Our system identifies leaks and bottlenecks before
+              they impact your performance.
             </p>
           </div>
 
@@ -267,25 +264,21 @@ const Home = () => {
               {
                 label: "Resource Recovery",
                 val: "32%",
-                desc: "Average reduction in idle CPU and memory consumption.",
                 icon: "bolt",
               },
               {
                 label: "Neural Precision",
-                val: "99.4%",
-                desc: "LSTM-based prediction accuracy for system anomalies.",
+                val: "97.4%",
                 icon: "psychology",
               },
               {
                 label: "Response Speed",
-                val: "40ms",
-                desc: "Decrease in application latency through dynamic throttling.",
+                val: "3s",
                 icon: "speed",
               },
               {
                 label: "Fault Shield",
                 val: "100%",
-                desc: "Automated isolation of runaway process threads.",
                 icon: "security",
               },
             ].map((stat, i) => (
@@ -304,67 +297,14 @@ const Home = () => {
                 <div className="text-4xl font-black text-background-dark mb-4 group-hover:scale-110 transition-transform">
                   {stat.val}
                 </div>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  {stat.desc}
-                </p>
               </div>
             ))}
-          </div>
-
-          <div className="mt-20 p-1 bg-linear-to-r from-primary/20 via-primary to-primary/20 rounded-[40px] shadow-2xl overflow-hidden">
-            <div className="bg-background-dark rounded-[38px] p-8 md:p-12 overflow-hidden relative">
-              <div className="grid lg:grid-cols-2 gap-12 items-center">
-                <div className="relative z-10">
-                  <h3 className="text-3xl font-black text-white mb-6 uppercase tracking-tight leading-tight">
-                    Smart Infrastructure <br />
-                    Management
-                  </h3>
-                  <p className="text-gray-400 mb-10 text-lg leading-relaxed">
-                    Deploy the agent in seconds and let our AI handle the heavy lifting. 
-                    The more data it processes, the more efficient your infrastructure becomes.
-                  </p>
-                  <Link
-                    to="/dashboard"
-                    className="inline-flex items-center gap-4 bg-primary text-black px-10 py-5 rounded-full font-black text-lg hover:scale-105 transition-transform"
-                  >
-                    Launch Core Engine
-                    <span className="material-symbols-outlined font-black">
-                      arrow_forward
-                    </span>
-                  </Link>
-                </div>
-                <div className="relative h-64 lg:h-80 bg-white/5 rounded-3xl border border-white/10 overflow-hidden group">
-                  <div className="absolute inset-0 p-6 font-mono text-[10px] md:text-xs text-primary/80">
-                    <div className="animate-pulse mb-4 opacity-50 flex items-center gap-2">
-                      <span className="size-2 rounded-full bg-primary"></span>
-                      LSTM_FORECASTING_ACTIVE
-                    </div>
-                    {[
-                      { t: "09:41:02", m: "ENGINE_SCAN: 32 Cores analyzed. [STABLE]", c: "text-white/40" },
-                      { t: "09:41:05", m: "LSTM_ENGINE: Predicting load spike in T-4min.", c: "text-white/40" },
-                      { t: "09:41:08", m: "ANOMALY: PID 1241 using excessive buffers.", c: "text-red-400" },
-                      { t: "09:41:10", m: "ACTION: Applying predictive throttling...", c: "text-yellow-400" },
-                      { t: "09:41:12", m: "SYSTEM_RECOVERY: Efficiency boosted by 14.2%.", c: "text-green-400 font-bold" },
-                      { t: "09:41:15", m: "METRIC: Thermal load reduced by 3.1°C.", c: "text-primary" }
-                    ].map((log, i) => (
-                      <div key={i} className={`mb-2 ${log.c}`}>
-                        <span className="opacity-30 mr-2">[{log.t}]</span>
-                        {log.m}
-                      </div>
-                    ))}
-                    <div className="absolute bottom-6 right-6 opacity-10">
-                      <span className="material-symbols-outlined text-9xl">analytics</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
       <section
         ref={dashboardRef}
-        className="py-32 px-6 bg-background-dark overflow-hidden flex flex-col items-center"
+        className="py-32 px-6 bg-black overflow-hidden flex flex-col items-center"
       >
         <motion.div
           style={{
@@ -388,7 +328,7 @@ const Home = () => {
             className="relative rounded-[32px] overflow-hidden border border-white/10"
           >
             <img
-              src="/src/assets/dashboard.png"
+              src={Dashboard}
               alt="System Optimization Dashboard"
               className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.02]"
             />
@@ -400,7 +340,7 @@ const Home = () => {
             initial={{ x: 100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="absolute top-1/2 -right-2 hidden lg:block bg-primary p-6 rounded-3xl shadow-2xl max-w-[200px] border border-white/20"
+            className="absolute top-1/2 right-1 hidden lg:block bg-primary p-6 rounded-3xl shadow-2xl max-w-[200px] border border-white/20"
           >
             <span className="material-symbols-outlined text-black text-4xl mb-4 text-center block">
               analytics
@@ -414,11 +354,10 @@ const Home = () => {
           </motion.div>
         </motion.div>
         <div className="max-w-7xl mx-auto w-full">
-          <div className="mt-20 grid md:grid-cols-3 gap-12 text-center">
+          <div className="mt-20 grid md:grid-cols-2 gap-12 text-center">
             {[
-              { label: "Design Language", val: "Bento Grid" },
-              { label: "Real-time Update", val: "0.5s Latency" },
-              { label: "AI Backend", val: "LSTM Neural" },
+              { label: "Real-time Update", val: "3s Latency" },
+              { label: "AI Backend", val: "LSTM Model" },
             ].map((stat, i) => (
               <div key={i}>
                 <div className="text-gray-500 text-xs font-black uppercase tracking-[0.3em] mb-3">
@@ -438,7 +377,6 @@ const Home = () => {
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(circle_at_center,rgba(99,103,255,0.08)_0%,transparent_70%)] pointer-events-none"></div>
         <div className="grid lg:grid-cols-2 gap-16 md:gap-24 max-w-7xl mx-auto">
           <div className="sticky top-32 h-fit">
-            
             <h2
               ref={howHeaderRef}
               className="text-5xl md:text-7xl font-black mb-8 leading-[0.9] tracking-tight"
@@ -506,7 +444,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section className="py-24 px-6 bg-background-dark">
+      <section className="py-24 px-6 bg-black">
         <div className="max-w-7xl mx-auto" ref={teamRef}>
           <div className="text-center mb-16" ref={teamHeaderRef}>
             <h2 className="text-3xl font-bold text-white mb-4">

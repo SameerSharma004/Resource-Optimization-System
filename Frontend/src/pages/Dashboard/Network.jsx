@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, ArrowDownLeft, Wifi, Share2, Globe, Activity, Database } from "lucide-react";
+import {
+  ArrowUpRight,
+  ArrowDownLeft,
+  Wifi,
+  Share2,
+  Globe,
+  Activity,
+  Database,
+} from "lucide-react";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -12,7 +20,8 @@ const Network = () => {
   });
   useEffect(() => {
     const fetchNetwork = async () => {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
       if (!token) return;
       try {
         const res = await fetch(`${API}/client-system`, {
@@ -42,33 +51,32 @@ const Network = () => {
     return () => clearInterval(interval);
   }, []);
 
-
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h2 className="text-3xl font-black text-foreground tracking-tight mb-2">
-            Flow{" "}
+          <h2 className="text-3xl font-bold text-foreground tracking-tight mb-2">
+            Network{" "}
             <span className="text-primary italic font-serif font-normal text-4xl">
-              Analysis
+              Usage
             </span>
           </h2>
-          <p className="text-muted-foreground text-sm font-bold tracking-widest uppercase">
-            Network Flux Monitoring
+          <p className="text-sm text-muted-foreground">
+            Real-time Traffic Monitoring
           </p>
         </div>
 
-        <div className="flex bg-card backdrop-blur-xl border border-border rounded-2xl p-4 gap-6">
-          <div className="flex items-center gap-3">
-            <div className="size-2 rounded-full bg-emerald-400 animate-pulse"></div>
-            <span className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest">
-              Connection Stable
+        <div className="flex bg-card border border-border rounded-lg p-3 gap-5">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+            <span className="text-sm font-medium text-muted-foreground">
+              Stable
             </span>
           </div>
-          <div className="flex items-center gap-3 border-l border-border pl-6">
-            <Wifi size={14} className="text-primary" />
-            <span className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest">
-              Local Node v4
+          <div className="flex items-center gap-2 border-l border-border pl-5">
+            <Wifi size={16} className="text-primary" />
+            <span className="text-sm font-medium text-muted-foreground">
+              Local Node
             </span>
           </div>
         </div>
@@ -77,86 +85,76 @@ const Network = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {[
           {
-            label: "Downlink Transfer",
+            label: "Download Speed",
             value: metrics.net_down.toFixed(2),
             unit: "MB/s",
             icon: ArrowDownLeft,
             color: "primary",
-            trend: "Receiving Cluster",
+            trend: "Incoming Traffic",
           },
           {
-            label: "Uplink Transfer",
+            label: "Upload Speed",
             value: metrics.net_up.toFixed(2),
             unit: "MB/s",
             icon: ArrowUpRight,
             color: "purple-500",
-            trend: "Broadcasting Data",
+            trend: "Outgoing Traffic",
           },
         ].map((item, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, x: i === 0 ? -20 : 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="group relative overflow-hidden bg-card backdrop-blur-xl border border-border p-8 rounded-[40px] hover:border-primary/30 transition-all duration-500"
+            className="bg-card border border-border p-6 rounded-xl hover:bg-muted/50 transition-colors flex flex-col"
           >
-            <div
-              className={`absolute top-0 right-0 w-64 h-64 bg-${item.color}/5 blur-[80px] -mr-32 -mt-32 pointer-events-none group-hover:bg-${item.color}/10 transition-all`}
-            ></div>
-
-            <div className="flex justify-between items-start relative z-10 mb-8">
-              <div
-                className={`p-4 rounded-2xl bg-${item.color}/10 text-${item.color} border border-${item.color}/20 flex items-center justify-center`}
-              >
-                <item.icon size={28} />
-              </div>
-              <div className="text-right">
-                <p className="text-[10px] font-black text-muted-foreground/40 uppercase tracking-[0.2em] mb-1">
-                  {item.label}
-                </p>
-                <div className="flex items-baseline gap-2 justify-end">
-                  <h3 className="text-4xl font-black text-foreground tracking-tighter tabular-nums">
+            <div className="flex justify-between items-start mb-6">
+              <div className="text-muted-foreground">
+                <p className="text-sm font-medium mb-1">{item.label}</p>
+                <div className="flex items-baseline gap-1">
+                  <h3 className="text-3xl font-semibold text-foreground tabular-nums">
                     {item.value}
                   </h3>
-                  <span className="text-sm font-bold text-muted-foreground/40 uppercase tracking-widest leading-none">
+                  <span className="text-sm font-medium text-muted-foreground">
                     {item.unit}
                   </span>
                 </div>
               </div>
+              <div
+                className={`p-3 rounded-lg bg-${item.color}/10 text-${item.color}`}
+              >
+                <item.icon size={24} />
+              </div>
             </div>
 
-            <div className="h-[200px] w-full flex items-end gap-2 p-1 relative z-10">
+            <div className="h-[120px] w-full flex items-end gap-1.5 p-1 mt-auto">
               {metrics.history.slice(-20).map((point, idx) => (
                 <motion.div
                   key={idx}
                   initial={{ scaleY: 0 }}
                   animate={{ scaleY: 1 }}
-                  className={`flex-1 rounded-t-lg bg-${item.color}/40 group-hover:bg-${item.color}/60 transition-all`}
+                  className={`flex-1 rounded-t-sm bg-${item.color}/30 hover:bg-${item.color}/50 transition-all`}
                   style={{
-                    height: `${Math.max(10, ((item.color === "primary" ? point.net_down : point.net_up) / 20) * 100)}%`,
+                    height: `${Math.max(5, ((item.color === "primary" ? point.net_down : point.net_up) / 20) * 100)}%`,
                     transformOrigin: "bottom",
                   }}
                 />
               ))}
               {metrics.history.length === 0 && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <p className="text-[10px] font-black text-muted-foreground/10 uppercase tracking-[0.3em]">
-                    Calibrating flow...
+                  <p className="text-sm text-muted-foreground">
+                    Getting info...
                   </p>
                 </div>
               )}
             </div>
 
-            <div className="mt-8 flex items-center justify-between relative z-10">
-              <span className="text-[10px] font-black text-muted-foreground/20 uppercase tracking-widest">
+            <div className="mt-6 flex items-center justify-between">
+              <span className="text-sm text-muted-foreground">
                 {item.trend}
               </span>
-              <div className="flex items-center gap-1">
-                <div
-                  className={`size-1.5 rounded-full bg-${item.color} animate-pulse`}
-                ></div>
-                <span className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest">
-                  Neural Link Active
-                </span>
+              <div className="flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full bg-${item.color}`}></div>
+                <span className="text-sm text-muted-foreground">Active</span>
               </div>
             </div>
           </motion.div>
@@ -167,39 +165,39 @@ const Network = () => {
         {[
           {
             icon: Database,
-            label: "Data Packets",
+            label: "Total Data",
             value: "42.8k",
-            sub: "Processed",
+            sub: "Packets",
           },
           {
             icon: Globe,
-            label: "Geo Clusters",
+            label: "Location",
             value: "Local",
-            sub: "Optimized",
+            sub: "Node",
           },
           {
             icon: Share2,
-            label: "Neural Relay",
+            label: "Status",
             value: "Active",
-            sub: "Low Latency",
+            sub: "Connected",
           },
         ].map((stat, i) => (
           <div
             key={i}
-            className="bg-card border border-border p-6 rounded-[32px] flex items-center gap-5"
+            className="bg-card border border-border p-5 rounded-xl flex items-center gap-4 hover:bg-muted/50 transition-colors"
           >
-            <div className="size-12 rounded-2xl bg-muted flex items-center justify-center text-muted-foreground border border-border">
+            <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center text-muted-foreground">
               <stat.icon size={20} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-muted-foreground/20 uppercase tracking-widest mb-1">
+              <p className="text-sm font-medium text-muted-foreground">
                 {stat.label}
               </p>
-              <div className="flex items-baseline gap-2">
-                <span className="text-xl font-black text-foreground">
+              <div className="flex items-baseline gap-1">
+                <span className="text-lg font-semibold text-foreground">
                   {stat.value}
                 </span>
-                <span className="text-[8px] font-black text-muted-foreground/30 uppercase tracking-widest">
+                <span className="text-xs text-muted-foreground">
                   {stat.sub}
                 </span>
               </div>

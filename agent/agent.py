@@ -5,10 +5,10 @@ import requests
 import time
 import threading
 import logging
-# LOGIN_URL = "https://ai-powered-resource-optimization-system.onrender.com/login"
-# BACKEND_URL = "https://ai-powered-resource-optimization-system.onrender.com/analyze"
-LOGIN_URL = "http://localhost:5000/login"
-BACKEND_URL = "http://localhost:5000/analyze"
+LOGIN_URL = "https://ai-powered-resource-optimization-system.onrender.com/login"
+BACKEND_URL = "https://ai-powered-resource-optimization-system.onrender.com/analyze"
+# LOGIN_URL = "http://localhost:5000/login"
+# BACKEND_URL = "http://localhost:5000/analyze"
 TOKEN = None
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
