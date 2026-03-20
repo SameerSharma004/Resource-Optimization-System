@@ -4,6 +4,7 @@ import SagarBhati from "../../assets/sagarbhati.jpeg";
 import SagarSaini from "../../assets/sagarsaini.jpeg";
 import SachitKohli from "../../assets/sachitkohli.jpeg";
 import SameerSharma from "../../assets/sameersharma.jpeg";
+import RaviKumar from '../../assets/ravikumar.png'
 
 const TESTIMONIALS = [
   {
@@ -39,7 +40,7 @@ const TESTIMONIALS = [
     role: "Backend Supporter",
     workDetails: "Optimized complex database schemas and telemetry flux protocols. Implemented the horizontal scaling strategy for massive server cluster deployments.",
     highlights: ["DB Optimization", "Telemetry Flux", "Scalability"],
-    img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&h=200&auto=format&fit=crop",
+    img: RaviKumar,
   },
 ];
 
